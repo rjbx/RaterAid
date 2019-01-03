@@ -1,12 +1,11 @@
-package com.github.rjbx.calibratedweights;
+package com.github.rjbx.rateraid;
 
 import android.content.Context;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import android.widget.Button;
 
 import com.github.rjbx.calibrater.Calibrater;
-import com.github.rjbx.rateraid.Rateraid;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 
-@android.support.test.filters.LargeTest
+@androidx.test.filters.LargeTest
 @RunWith(AndroidJUnit4.class)
 public class RateraidInstrumentedTest {
 
@@ -26,7 +25,7 @@ public class RateraidInstrumentedTest {
 
     @Before
     public void setUp() {
-        mContext = InstrumentationRegistry.getContext();
+        mContext = InstrumentationRegistry.getInstrumentation().getContext();
         mIncrementButton = new Button(mContext);
         mDecrementButton = new Button(mContext);
     }
