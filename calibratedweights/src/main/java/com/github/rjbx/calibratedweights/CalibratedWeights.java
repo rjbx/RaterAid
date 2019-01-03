@@ -9,8 +9,6 @@ import com.github.rjbx.proportions.Proportions;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import timber.log.Timber;
-
 public class CalibratedWeights {
 
     private Float[] mProportions;
@@ -62,8 +60,7 @@ public class CalibratedWeights {
                             View.OnClickListener clickListener = mCalibratedWeights.getClickListener();
                             if (clickListener != null) clickListener.onClick(valueEditor);
                         } catch (ParseException e) {
-                            Timber.e(e);
-                            return false;
+                            throw new NumberFormatException();
                         }
                         return true;
                     default:
