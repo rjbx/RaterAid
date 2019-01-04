@@ -21,7 +21,7 @@ public class RateraidInstrumentedTest {
     private Button mDecrementButton;
     private Context mContext;
     private long mCount;
-    private Rateraid.Builder mWeightsBuilder;
+    private Rateraid.Builder mBuilder;
 
     @Before
     public void setUp() {
@@ -34,11 +34,11 @@ public class RateraidInstrumentedTest {
     public void testAddButtonSetClickListenerCallback() {
         Float[] percentages = { .25f, .25f, .25f, .25f };
         for (float magnitude = 0.01f; magnitude < 0.1f; magnitude += 0.01f) {
-            mWeightsBuilder = Rateraid.with(percentages, magnitude);
+            mBuilder = Rateraid.with(percentages, magnitude);
             for (int index = 0; index < 4; index++) {
 
-                mWeightsBuilder.addButtonSet(mIncrementButton, mDecrementButton, index);
-                mWeightsBuilder.build();
+                mBuilder.addButtonSet(mIncrementButton, mDecrementButton, index);
+                mBuilder.build();
                 float sum;
 
                 mIncrementButton.performClick();
@@ -107,11 +107,11 @@ public class RateraidInstrumentedTest {
     public void testSetClickListenerUserDefinedCallback() {
         Float[] percentages = { .25f, .25f, .25f, .25f };
         for (float magnitude = 0.01f; magnitude < 0.1f; magnitude += 0.01f) {
-            mWeightsBuilder = Rateraid.with(percentages, magnitude);
+            mBuilder = Rateraid.with(percentages, magnitude);
             for (int index = 0; index < 4; index++) {
 
-                mWeightsBuilder.addButtonSet(mIncrementButton, mDecrementButton, index);
-                mWeightsBuilder.build().setOnClickListener(clickedView -> mCount++);
+                mBuilder.addButtonSet(mIncrementButton, mDecrementButton, index);
+                mBuilder.build().setOnClickListener(clickedView -> mCount++);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();

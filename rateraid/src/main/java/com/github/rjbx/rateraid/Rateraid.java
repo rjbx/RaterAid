@@ -11,9 +11,9 @@ import java.text.ParseException;
 
 public class Rateraid {
 
-    private Float[] mpercentages;
-    private Float[] getpercentages() { return mpercentages; }
-    private void setpercentages(Float[] percentages) { this.mpercentages = percentages; }
+    private Float[] mPercentages;
+    private Float[] getPercentages() { return mPercentages; }
+    private void setPercentages(Float[] percentages) { this.mPercentages = percentages; }
 
     private View.OnClickListener mClickListener;
     private View.OnClickListener getClickListener() { return mClickListener; }
@@ -26,22 +26,22 @@ public class Rateraid {
     public static class Builder {
 
         Rateraid mRateraid;
-        Float[] mpercentages;
+        Float[] mPercentages;
         float mMagnitude;
 
         Builder(Float[] percentages, float magnitude) {
-            mpercentages = percentages;
+            mPercentages = percentages;
             mMagnitude = magnitude;
         }
 
         public Rateraid.Builder addButtonSet(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
-                Calibrater.shiftRatings(mpercentages, index, mMagnitude);
+                Calibrater.shiftRatings(mPercentages, index, mMagnitude);
                 View.OnClickListener clickListener = mRateraid.getClickListener();
                 if (clickListener != null) clickListener.onClick(incrementButton);
             });
             decrementButton.setOnClickListener(clickedView -> {
-                Calibrater.shiftRatings(mpercentages, index, -mMagnitude);
+                Calibrater.shiftRatings(mPercentages, index, -mMagnitude);
                 View.OnClickListener clickListener = mRateraid.getClickListener();
                 if (clickListener != null) clickListener.onClick(decrementButton);
             });
@@ -55,8 +55,8 @@ public class Rateraid {
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
                             float percentage = percentFormatter.parse(onEditorActionView.getText().toString()).floatValue();
-                            float magnitude = percentage - mpercentages[index];
-                            Calibrater.shiftRatings(mpercentages, index, magnitude);
+                            float magnitude = percentage - mPercentages[index];
+                            Calibrater.shiftRatings(mPercentages, index, magnitude);
                             View.OnClickListener clickListener = mRateraid.getClickListener();
                             if (clickListener != null) clickListener.onClick(valueEditor);
                         } catch (ParseException e) {
@@ -72,7 +72,7 @@ public class Rateraid {
 
         public Rateraid build() {
             mRateraid = new Rateraid();
-            mRateraid.setpercentages(mpercentages);
+            mRateraid.setPercentages(mPercentages);
             return mRateraid;
         }
     }
