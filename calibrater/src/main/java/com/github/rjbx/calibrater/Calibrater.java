@@ -53,12 +53,24 @@ public class Calibrater {
      * @param percentages {@link Float} array elements to be calibrated if not proportionate
      * @return true if percentage was calibrated and false otherwise
      */
-    public static boolean resetRatings(Float[] percentages, boolean forceReset) {
+    public static boolean resetRatings(Float[] percentages, Boolean forceReset) {
         float sum = 0f;
         for (Float percentage : percentages) sum += percentage;
         if (sum > 1.001f || sum < 0.999f || forceReset) { // elements are not proportionate
             for (int i = 0; i < percentages.length; i++) percentages[i] = (1f / percentages.length);
             return true;
         } else return false;
+    }
+
+    public static boolean shiftRatings(float[] percentages, int adjustedIndex, float magnitude) {
+        Float[] boxedPercentages = new Float[percentages.length];
+        int i = 0; for (float percentage : percentages)  boxedPercentages[i++] = percentage;
+        return shiftRatings(boxedPercentages, adjustedIndex, magnitude);
+    }
+
+    public static boolean resetRatings(float[] percentages, boolean forceReset) {
+        Float[] boxedPercentages = new Float[percentages.length];
+        int i = 0; for (float percentage : percentages)  boxedPercentages[i++] = percentage;
+        return resetRatings(boxedPercentages, forceReset);
     }
 }

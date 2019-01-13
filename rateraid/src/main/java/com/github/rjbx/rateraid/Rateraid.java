@@ -29,6 +29,18 @@ public class Rateraid {
         return new Rateraid.Builder(percentages, magnitude, clickListener);
     }
 
+    public static Rateraid.Builder with(float[] percentages, float magnitude) {
+        Float[] boxedPercentages = new Float[percentages.length];
+        int i = 0; for (float percentage : percentages)  boxedPercentages[i++] = percentage;
+        return new Rateraid.Builder(boxedPercentages, magnitude, null);
+    }
+
+    public static Rateraid.Builder with(float[] percentages, float magnitude, View.OnClickListener clickListener) {
+        Float[] boxedPercentages = new Float[percentages.length];
+        int i = 0; for (float percentage : percentages)  boxedPercentages[i++] = percentage;
+        return new Rateraid.Builder(boxedPercentages, magnitude, clickListener);
+    }
+
     public static class Builder {
 
         Rateraid mRateraid;

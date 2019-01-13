@@ -1,6 +1,6 @@
 -classpath '/home/bx/Documents/Rateraid/calibrater/build/classes/java/main:/home/bx/Documents/Rateraid/calibrater/build/resources/main'
 -d '/home/bx/Documents/Rateraid/calibrater/build/docs/javadoc'
--doctitle 'calibrater 0.1.0 API'
+-doctitle 'calibrater 0.1.4 API'
 -quiet 
--windowtitle 'calibrater 0.1.0 API'
+-windowtitle 'calibrater 0.1.4 API'
 '/home/bx/Documents/Rateraid/calibrater/src/main/java/com/github/rjbx/calibrater/Calibrater.java'
