@@ -13,42 +13,42 @@ import androidx.annotation.Nullable;
 
 public class Rateraid {
 
-    private Float[] mPercentages;
-    private Float[] getPercentages() { return mPercentages; }
-    private void setPercentages(Float[] percentages) { this.mPercentages = percentages; }
+    private Double[] mPercentages;
+    private Double[] getPercentages() { return mPercentages; }
+    private void setPercentages(Double[] percentages) { this.mPercentages = percentages; }
 
     private View.OnClickListener mClickListener;
     private View.OnClickListener getClickListener() { return mClickListener; }
     public void setOnClickListener(View.OnClickListener clickListener) { mClickListener = clickListener; }
 
-    public static Rateraid.Builder with(Float[] percentages, Float magnitude) {
+    public static Rateraid.Builder with(Double[] percentages, Double magnitude) {
         return new Rateraid.Builder(percentages, magnitude, null);
     }
 
-    public static Rateraid.Builder with(Float[] percentages, Float magnitude, View.OnClickListener clickListener) {
+    public static Rateraid.Builder with(Double[] percentages, Double magnitude, View.OnClickListener clickListener) {
         return new Rateraid.Builder(percentages, magnitude, clickListener);
     }
 
-    public static Rateraid.Builder with(float[] percentages, float magnitude) {
-        Float[] boxedPercentages = new Float[percentages.length];
-        int i = 0; for (float percentage : percentages)  boxedPercentages[i++] = percentage;
+    public static Rateraid.Builder with(double[] percentages, double magnitude) {
+        Double[] boxedPercentages = new Double[percentages.length];
+        int i = 0; for (double percentage : percentages)  boxedPercentages[i++] = percentage;
         return new Rateraid.Builder(boxedPercentages, magnitude, null);
     }
 
-    public static Rateraid.Builder with(float[] percentages, float magnitude, View.OnClickListener clickListener) {
-        Float[] boxedPercentages = new Float[percentages.length];
-        int i = 0; for (float percentage : percentages)  boxedPercentages[i++] = percentage;
+    public static Rateraid.Builder with(double[] percentages, double magnitude, View.OnClickListener clickListener) {
+        Double[] boxedPercentages = new Double[percentages.length];
+        int i = 0; for (double percentage : percentages)  boxedPercentages[i++] = percentage;
         return new Rateraid.Builder(boxedPercentages, magnitude, clickListener);
     }
 
     public static class Builder {
 
         Rateraid mRateraid;
-        Float[] mPercentages;
-        Float mMagnitude;
+        Double[] mPercentages;
+        Double mMagnitude;
         View.OnClickListener mClickListener;
 
-        Builder(Float[] percentages, Float magnitude, @Nullable View.OnClickListener clickListener) {
+        Builder(Double[] percentages, Double magnitude, @Nullable View.OnClickListener clickListener) {
             mPercentages = percentages;
             mMagnitude = magnitude;
             mClickListener = clickListener;
@@ -72,8 +72,8 @@ public class Rateraid {
                     case EditorInfo.IME_ACTION_DONE:
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
-                            float percentage = percentFormatter.parse(onEditorActionView.getText().toString()).floatValue();
-                            float magnitude = percentage - mPercentages[index];
+                            double percentage = percentFormatter.parse(onEditorActionView.getText().toString()).doubleValue();
+                            double magnitude = percentage - mPercentages[index];
                             Calibrater.shiftRatings(mPercentages, index, magnitude);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
                         } catch (ParseException e) {
