@@ -72,7 +72,10 @@ public class Rateraid {
                     case EditorInfo.IME_ACTION_DONE:
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
-                            double percentage = percentFormatter.parse(onEditorActionView.getText().toString()).doubleValue();
+                            double percentage;
+                            String viewText = onEditorActionView.getText().toString();
+                            if (viewText.contains("%")) percentage = percentFormatter.parse(viewText).floatValue();
+                            else percentage = Float.parseFloat(viewText);
                             double magnitude = percentage - mPercentages[index];
                             Calibrater.shiftRatings(mPercentages, index, magnitude);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
