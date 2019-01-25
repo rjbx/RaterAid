@@ -12,7 +12,7 @@ ext {
     siteUrl = 'https://github.com/rjbx/rateraid'
     gitUrl = 'https://github.com/rjbx/rateraid.git'
 
-    libraryVersion = '0.2.5'
+    libraryVersion = '0.3.0'
 
     developerId = 'rjbx'
     developerName = 'Bob Basmaji'
@@ -28,7 +28,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
+        versionCode 5
         versionName libraryVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
