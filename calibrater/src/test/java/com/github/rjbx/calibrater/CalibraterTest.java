@@ -220,8 +220,8 @@ public class CalibraterTest {
 
         assertShiftThrows(IllegalArgumentException.class, percentages, 0, 1.0001d, PRECISION);
         assertShiftThrows(IllegalArgumentException.class, percentages, 0, -1.0001d, PRECISION);
-        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, 17);
-        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, -1);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0d, 17);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0d, -1);
     }
 
     /**
