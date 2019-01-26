@@ -228,7 +228,7 @@ public class CalibraterTest {
      * Asserts whether the parameter {@link Class} of type {@link Throwable} is thrown when
      * invoking {@link Calibrater#shiftRatings(double[], int, double, int)} with the parameter args
      */
-    private <T extends Throwable>void assertShiftThrows(Class<T> exceptionClass, Object... args) {
+    private <T extends Throwable>void assertShiftThrows(Class<T> throwableClass, Object... args) {
 
         try {
             Calibrater.shiftRatings(
@@ -236,8 +236,8 @@ public class CalibraterTest {
             );
             fail(); // Exception not thrown
 
-        } catch (Exception e) {
-            assertTrue(exceptionClass.isInstance(e));
+        } catch (Throwable e) {
+            assertTrue(throwableClass.isInstance(e));
         }
     }
 }
