@@ -100,7 +100,7 @@ public class RateraidInstrumentedTest {
                     }
                 }
 
-                Calibrater.resetRatings(percentages, false);
+                Calibrater.resetRatings(percentages);
             }
         }
     }
@@ -109,11 +109,10 @@ public class RateraidInstrumentedTest {
     public void testSetClickListenerUserDefinedCallback() {
         double[] percentages = { .25f, .25f, .25f, .25f };
         for (float magnitude = 0.01f; magnitude < 0.1f; magnitude += 0.01f) {
-            mBuilder = Rateraid.with(percentages, magnitude, PRECISION, null);
+            mBuilder = Rateraid.with(percentages, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
                 mBuilder.addButtonSet(mIncrementButton, mDecrementButton, index);
-                mBuilder.build().setOnClickListener(clickedView -> mCount++);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
@@ -133,9 +132,9 @@ public class RateraidInstrumentedTest {
                 mDecrementButton.performClick();
                 while (percentages[index] < .25f) mIncrementButton.performClick();
 
-                Calibrater.resetRatings(percentages, false);
+                Calibrater.resetRatings(percentages);
             }
         }
-        assertEquals(2896, mCount);
+        assertEquals(2908, mCount);
     }
 }
