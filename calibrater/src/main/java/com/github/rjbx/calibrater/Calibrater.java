@@ -43,7 +43,7 @@ public class Calibrater {
 
             int excluded = 1; // prevent further allocation after maxing out all elements
             double limit = magnitude > 0d ? 0d : 1d; // limit approached by offset percents
-            double error = 1d / (10^precision);
+            double error = 1d / Math.pow(10, precision);
 
             while (Math.abs(offset) >= Math.abs(error) && excluded <= percents.length) { // offset expended or exclusions maxed
                 double allocation = (offset / (percents.length - excluded)); // factor in exclusions on iterations
