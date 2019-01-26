@@ -51,7 +51,7 @@ public class Calibrater {
                         percents[i] += allocation;
                         magnitude -= allocation; // expend allocated for recalculating offset on iterations
                         if (percents[i] + error  < limit * -1) { // below limit within margin of error
-                            if (percents[i] < 0d) magnitude += (percents[i] + error); // restore unallocated offset
+                            if (percents[i] < 0d) magnitude += percents[i]; // restore unallocated offset
                             percents[i] = limit; // set to limit
                             excluded++; // decrease offset divisor for fewer allocations
                         }

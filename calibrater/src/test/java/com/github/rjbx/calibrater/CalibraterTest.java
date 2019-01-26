@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 public class CalibraterTest {
     
     int PRECISION = Calibrater.STANDARD_PRECISION;
-    double ERROR = Math.pow(10, -(PRECISION - 2));
+    double ERROR = Math.pow(10, -PRECISION);
 
     /**
      * Asserts whether incrementing and decrementing a {@code double} array element resets all element values.
@@ -57,7 +57,7 @@ public class CalibraterTest {
                     Calibrater.shiftRatings(percentages, nextIndex, magnitude, PRECISION);
                 }
             }
-            assertEquals(1d, percentages[0], ERROR);
+            assertEquals(1d, percentages[0], Math.abs(ERROR));
             assertEquals(0d, percentages[1], ERROR);
             assertEquals(0d, percentages[2], ERROR);
             assertEquals(0d, percentages[3], ERROR);
@@ -139,7 +139,8 @@ public class CalibraterTest {
 
             double sum = 0;
             for (double percentage : percentages) sum += percentage;
-            assertEquals(1d, sum, ERROR);
+            double error = ERROR + (ERROR * percentages.length);
+            assertEquals(1d, sum, error);
         }
     }
 
