@@ -153,12 +153,10 @@ public class CalibraterTest {
         double[] percentages = {0d, 0d, 0d, 0d};
         assertFalse(Calibrater.shiftRatings(percentages, 0, -0.01d, PRECISION));
         assertFalse(Calibrater.shiftRatings(percentages, 0, 0d, PRECISION));
-        Calibrater.shiftRatings(percentages, 0, 1.0001d, PRECISION);
 
         percentages[0] = 1d;
         assertFalse(Calibrater.shiftRatings(percentages, 0, 0.02d, PRECISION));
         assertFalse(Calibrater.shiftRatings(percentages, 0, 0d, PRECISION));
-        assertFalse(Calibrater.shiftRatings(percentages, 0, 2d, PRECISION));
 
         for (int i = 0; i < percentages.length; i++) percentages[i] = .5d;
         assertTrue(Calibrater.shiftRatings(percentages, 0, -0.1d, PRECISION));
