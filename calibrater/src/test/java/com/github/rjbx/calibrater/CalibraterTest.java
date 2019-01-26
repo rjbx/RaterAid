@@ -57,7 +57,7 @@ public class CalibraterTest {
                     Calibrater.shiftRatings(percentages, nextIndex, magnitude, PRECISION);
                 }
             }
-            assertEquals(1d, percentages[0], Math.abs(ERROR));
+            assertEquals(1d, percentages[0], ERROR);
             assertEquals(0d, percentages[1], ERROR);
             assertEquals(0d, percentages[2], ERROR);
             assertEquals(0d, percentages[3], ERROR);
@@ -75,13 +75,15 @@ public class CalibraterTest {
             for (int index = 0; index < 4; index++) {
                 double sum;
 
-                while (percentages[index] < 1d) {
+
+                for (int i = 0; percentages[index] < 1d; i++) {
                     Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
                     sum = 0;
-                    for (int i = 0; i < percentages.length; i++) {
-                        sum += percentages[i];
-                        if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
+                    for (int j = 0; j < percentages.length; j++) {
+                        sum += percentages[j];
                     }
+                    double error = ERROR + (ERROR * i++);
+                    assertEquals(1d, sum, error);
                 }
                 Calibrater.shiftRatings(percentages, index, -magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, -magnitude / 2, PRECISION);
