@@ -1,6 +1,8 @@
 package com.github.rjbx.calibrater;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -17,7 +19,7 @@ public class CalibraterTest {
     /**
      * Verifies that incrementing and decrementing a {@code double} array element resets all element values.
      */
-    @Test public final void testAdjustDoubleArrayResetSingle() {
+    @Test public final void testShiftDoubleArrayResetSingle() {
 
         double[] percentages = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude <= .1d; magnitude += 0.01d) {
@@ -36,7 +38,7 @@ public class CalibraterTest {
      * Verifies that incrementing and decrementing through the range of possible values for
      * two adjacent {@code double} arrays assigns the expected value to each array element.
      */
-    @Test public final void testAdjustDoubleArrayRepeatRange() {
+    @Test public final void testShiftDoubleArrayRepeatRange() {
 
         double[] percentages = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude <= .1d; magnitude += 0.01d) {
@@ -66,7 +68,7 @@ public class CalibraterTest {
      * Verifies that incrementing and decrementing through the range of possible values for
      * two adjacent {@code double} arrays assigns the expected value to each array element.
      */
-    @Test public final void testAdjustDoubleArrayResetSingleRepeatRange() {
+    @Test public final void testShiftDoubleArrayResetSingleRepeatRange() {
 
         double[] percentages = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
@@ -117,10 +119,10 @@ public class CalibraterTest {
     }
 
     /**
-     * Verifies that adjusting {@code double} array elements to offset an element
+     * Verifies that shifting {@code double} array elements to offset an element
      * within a certain margin past the lower limit does not over allocate the unused offset.
      */
-    @Test public final void testAdjustDoubleArrayLimitAllocation() {
+    @Test public final void testShiftDoubleArrayLimitAllocation() {
 
         for (double magnitude = 0.001d; magnitude < 1d; magnitude *= 10) {
             double[] percentages = { 1d, 0f, 0f, 0f, 0f };
@@ -142,15 +144,15 @@ public class CalibraterTest {
     }
 
     /**
-     * Verifies that adjusting a {@code double} array with invalid and valid magnitudes returns
+     * Verifies that shifting a {@code double} array with invalid and valid magnitudes returns
      * the expected boolean value.
      */
-    @Test public final void testAdjustDoubleArrayReturnValue() {
+    @Test public final void testShiftDoubleArrayReturnValue() {
 
         double[] percentages = {0f, 0f, 0f, 0f};
         assertFalse(Calibrater.shiftRatings(percentages, 0, -0.01d, PRECISION));
         assertFalse(Calibrater.shiftRatings(percentages, 0, 0f, PRECISION));
-        assertFalse(Calibrater.shiftRatings(percentages, 0, 1.0001d, PRECISION));
+        Calibrater.shiftRatings(percentages, 0, 1.0001d, PRECISION);
 
         percentages[0] = 1d;
         assertFalse(Calibrater.shiftRatings(percentages, 0, 0.02d, PRECISION));
@@ -164,6 +166,16 @@ public class CalibraterTest {
         for (int i = 0; i < percentages.length; i++) percentages[i] = .1d;
         assertTrue(Calibrater.shiftRatings(percentages, 0, -0.2d, PRECISION));
         assertTrue(Calibrater.shiftRatings(percentages, 0, 0.02d, PRECISION));
+    }
+    
+    @Test public final void testShiftWithIllegalArguments() {
+
+        double[] percentages = {0f, 0f, 0f, 0f};
+
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 1.0001d, PRECISION);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, -1.0001d, PRECISION);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, 17);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, -1);
     }
 
     /**
@@ -205,5 +217,20 @@ public class CalibraterTest {
 
         percentages[3] = 0f;
         assertTrue(Calibrater.resetRatings(percentages, false));
+    }
+
+    public <T extends Throwable>void assertShiftThrows(Class<T> exceptionClass, Object... args) {
+
+        try {
+            Calibrater.shiftRatings(
+                    (double[]) args[0], (int) args[1], (double) args[2], (int) args[3]
+            );
+            assertFalse(true);
+
+        } catch (Exception e) {
+            if (exceptionClass.isInstance(e)) {
+                assertTrue(true);
+            }
+        }
     }
 }
