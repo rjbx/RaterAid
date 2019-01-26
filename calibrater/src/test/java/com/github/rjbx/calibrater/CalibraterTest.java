@@ -18,7 +18,7 @@ public class CalibraterTest {
     int PRECISION = Calibrater.STANDARD_PRECISION;
 
     /**
-     * Verifies that incrementing and decrementing a {@code double} array element resets all element values.
+     * Asserts whether incrementing and decrementing a {@code double} array element resets all element values.
      */
     @Test public final void testShiftDoubleArrayResetSingle() {
 
@@ -36,7 +36,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Verifies that incrementing and decrementing through the range of possible values for
+     * Asserts whether incrementing and decrementing through the range of possible values for
      * two adjacent {@code double} arrays assigns the expected value to each array element.
      */
     @Test public final void testShiftDoubleArrayRepeatRange() {
@@ -66,7 +66,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Verifies that incrementing and decrementing through the range of possible values for
+     * Asserts whether incrementing and decrementing through the range of possible values for
      * two adjacent {@code double} arrays assigns the expected value to each array element.
      */
     @Test public final void testShiftDoubleArrayResetSingleRepeatRange() {
@@ -120,7 +120,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Verifies that shifting {@code double} array elements to offset an element
+     * Asserts whether shifting {@code double} array elements to offset an element
      * within a certain margin past the lower limit does not over allocate the unused offset.
      */
     @Test public final void testShiftDoubleArrayLimitAllocation() {
@@ -145,7 +145,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Verifies that shifting a {@code double} array with invalid and valid magnitudes returns
+     * Asserts whether shifting a {@code double} array with different magnitudes returns
      * the expected boolean value.
      */
     @Test public final void testShiftDoubleArrayReturnValue() {
@@ -169,22 +169,11 @@ public class CalibraterTest {
         assertTrue(Calibrater.shiftRatings(percentages, 0, 0.02d, PRECISION));
     }
     
-    @Test public final void testShiftWithIllegalArguments() {
-
-        double[] percentages = {0f, 0f, 0f, 0f};
-
-//        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, 1);
-        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 1.0001d, PRECISION);
-        assertShiftThrows(IllegalArgumentException.class, percentages, 0, -1.0001d, PRECISION);
-        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, 17);
-        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, -1);
-    }
-
     /**
-     * Verifies that calibrating a {@code double} array assigns the expected value to each array element
+     * Asserts whether resetting a {@code double} array assigns the expected value to each array element
      * and results in the expected sum of all elements.
      */
-    @Test public final void testCalibrateDoubleArrayEqualDistribution() {
+    @Test public final void testResetDoubleArrayEqualDistribution() {
 
         double magnitude = 1d;
         for (int i = 1; i < 20; i++) {
@@ -199,10 +188,10 @@ public class CalibraterTest {
     }
 
     /**
-     * Verifies that calibrating {@code double} arrays with different element values returns
+     * Asserts whether resetting {@code double} arrays with different element values returns
      * the expected boolean value.
      */
-    @Test public final void testCalibrateDoubleArrayReturnValue() {
+    @Test public final void testResetDoubleArrayReturnValue() {
 
         double[] percentages = {1d, 0f, 0f, 0f};
         for (int i = 0; i < 2; i++) {
@@ -221,7 +210,25 @@ public class CalibraterTest {
         assertTrue(Calibrater.resetRatings(percentages, false));
     }
 
-    public <T extends Throwable>void assertShiftThrows(Class<T> exceptionClass, Object... args) {
+    /**
+     * Asserts whether shifting a {@code double} array with invalid magnitudes and precisions throws
+     * the expected exception.
+     */
+    @Test public final void testShiftWithIllegalArguments() {
+
+        double[] percentages = {0f, 0f, 0f, 0f};
+
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 1.0001d, PRECISION);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, -1.0001d, PRECISION);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, 17);
+        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, -1);
+    }
+
+    /**
+     * Asserts whether the parameter {@link Class} of type {@link Throwable} is thrown when
+     * invoking {@link Calibrater#shiftRatings(double[], int, double, int)} with the parameter args
+     */
+    private <T extends Throwable>void assertShiftThrows(Class<T> exceptionClass, Object... args) {
 
         try {
             Calibrater.shiftRatings(
