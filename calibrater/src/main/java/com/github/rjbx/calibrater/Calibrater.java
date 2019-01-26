@@ -34,24 +34,24 @@ public class Calibrater {
             for (int i = 0; i < percents.length; i++) if (targetIndex != i) percents[i] = 0d;
         } else {
 
-            double offset = magnitude * -1;
+            magnitude *= -1;
             if (percents[targetIndex] <= 0d) {
-                offset += percents[targetIndex]; // restore unallocated offset
+                magnitude += percents[targetIndex]; // restore unallocated offset
                 percents[targetIndex] = 0d; // set to limit
             }
 
             int excluded = 1; // prevent further allocation after maxing out all elements
-            double limit = magnitude > 0d ? 0d : 1d; // limit approached by offset percents
+            double limit = magnitude < 0d ? 0d : 1d; // limit approached by offset percents
             double error = magnitude / Math.pow(10, precision);
 
-            while (Math.abs(offset) >= Math.abs(error) && excluded <= percents.length) { // offset expended or exclusions maxed
-                double allocation = (offset / (percents.length - excluded)); // factor in exclusions on iterations
+            while (Math.abs(magnitude) >= Math.abs(error) && excluded <= percents.length) { // offset expended or exclusions maxed
+                double allocation = (magnitude / (percents.length - excluded)); // factor in exclusions on iterations
                 for (int i = 0; i < percents.length; i++) {
-                    if (i != targetIndex && (percents[i] != 0d || magnitude < 0d)) { // ignore adjusted and exclude only once
+                    if (i != targetIndex && (percents[i] != 0d || magnitude > 0d)) { // ignore adjusted and exclude only once
                         percents[i] += allocation;
-                        offset -= allocation; // expend allocated for recalculating offset on iterations
+                        magnitude -= allocation; // expend allocated for recalculating offset on iterations
                         if (percents[i] + error  < limit * -1) { // below limit within margin of error
-                            if (percents[i] < 0d) offset += (percents[i] + error); // restore unallocated offset
+                            if (percents[i] < 0d) magnitude += (percents[i] + error); // restore unallocated offset
                             percents[i] = limit; // set to limit
                             excluded++; // decrease offset divisor for fewer allocations
                         }
