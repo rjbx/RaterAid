@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 /**
  * Test methods for the {@link Calibrater} class.
@@ -172,6 +173,7 @@ public class CalibraterTest {
 
         double[] percentages = {0f, 0f, 0f, 0f};
 
+//        assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, 1);
         assertShiftThrows(IllegalArgumentException.class, percentages, 0, 1.0001d, PRECISION);
         assertShiftThrows(IllegalArgumentException.class, percentages, 0, -1.0001d, PRECISION);
         assertShiftThrows(IllegalArgumentException.class, percentages, 0, 0, 17);
@@ -225,12 +227,10 @@ public class CalibraterTest {
             Calibrater.shiftRatings(
                     (double[]) args[0], (int) args[1], (double) args[2], (int) args[3]
             );
-            assertFalse(true);
+            fail(); // Exception not thrown
 
         } catch (Exception e) {
-            if (exceptionClass.isInstance(e)) {
-                assertTrue(true);
-            }
+            assertTrue(exceptionClass.isInstance(e));
         }
     }
 }
