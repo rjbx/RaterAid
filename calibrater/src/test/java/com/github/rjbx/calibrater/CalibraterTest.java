@@ -57,6 +57,7 @@ public class CalibraterTest {
                     Calibrater.shiftRatings(percentages, nextIndex, magnitude, PRECISION);
                 }
             }
+            Calibrater.recalibrateRatings(percentages);
             assertEquals(1d, percentages[0], ERROR);
             assertEquals(0d, percentages[1], ERROR);
             assertEquals(0d, percentages[2], ERROR);

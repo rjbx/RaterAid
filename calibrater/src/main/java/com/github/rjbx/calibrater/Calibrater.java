@@ -101,7 +101,7 @@ public class Calibrater {
     public static void recalibrateRatings(double[] percents) {
         double sum = 0d;
         for (double percent : percents) sum += percent;
-        double difference = (1d - sum) / 4;
+        double difference = (1d - sum) / percents.length;
         for (int i = 0; i < percents.length; i++) percents[i] += difference;
     }
 }
