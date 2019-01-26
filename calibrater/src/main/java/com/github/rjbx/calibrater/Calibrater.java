@@ -1,45 +1,60 @@
 package com.github.rjbx.calibrater;
 
 /**
- * Utility class for adjusting and calibrating percentage arrays.
+ * Utility class for adjusting and calibrating percent arrays.
  */
 public class Calibrater {
 
+    public static final int STANDARD_PRECISION = 5;
+    public static final double STANDARD_MAGNITUDE = .01d;
+    
     /**
-     * Increments or decrements a {@link Float} array element by the specified magnitude while calibrating
-     * other {@link Float} array elements to maintain proportionality.
-     * @param percentages {@link Float} array elements to be adjusted if not proportionate
-     * @param adjustedIndex index of the array element to be adjusted
+     * Increments or decrements a {@code double} array element by the specified magnitude while calibrating
+     * other {@code double} array elements to maintain proportionality.
+     * @param percents {@code double} array elements to be adjusted if not proportionate
+     * @param targetIndex index of the array element to be adjusted
      * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
-     * @return true if percentage was adjusted and false otherwise
+     * @return true if percent was adjusted and false otherwise
      */
-    public static boolean shiftRatings(Double[] percentages, Integer adjustedIndex, double magnitude) {
+    public static boolean shiftRatings(double[] percents, int targetIndex, double magnitude, int precision) {
 
-        if (Math.abs(magnitude) > 1d || Math.abs(magnitude) == 0d || percentages.length < 2
-        || (percentages[adjustedIndex] == 0d && magnitude < 0d) || (percentages[adjustedIndex] == 1d && magnitude > 0d))
-            return false; // magnitudes or percentages outside adjustable limits
-        percentages[adjustedIndex] += magnitude;
-        if (percentages[adjustedIndex] >= 1d) { // adjusted percentage is whole so rest must be zero
-            percentages[adjustedIndex] = 1d;
-            for (int i = 0; i < percentages.length; i++) if (adjustedIndex != i) percentages[i] = 0d;
+        if (precision > 16 || precision < 0 || magnitude > 1d || magnitude < -1d)
+            throw new IllegalArgumentException("Parameter value is out of bounds");
+        
+        if (magnitude == 0 || percents.length < 2) 
+            return false; // nothing to adjust
+        
+        double targetPercent = percents[targetIndex];
+        if ((targetPercent == 0d && magnitude < 0d)
+        || (targetPercent == 1d && magnitude > 0d))
+            return false; // percent outside adjustable limits
+        
+        targetPercent += magnitude;
+        if (targetPercent >= 1d) { // adjusted percent is whole so rest must be zero
+            percents[targetIndex] = 1d;
+            for (int i = 0; i < percents.length; i++) if (targetIndex != i) percents[i] = 0d;
         } else {
+
             double offset = magnitude * -1;
-            if (percentages[adjustedIndex] <= 0d) {
-                percentages[adjustedIndex] = 0d; // set to limit
-                offset += percentages[adjustedIndex]; // restore unallocated offset
+            if (targetPercent <= 0d) {
+                percents[targetIndex] = 0d; // set to limit
+                offset += targetPercent; // restore unallocated offset
             }
+
             int excluded = 1; // prevent further allocation after maxing out all elements
-            double limit = magnitude > 0d ? 0d : 1d; // limit approached by offset percentages
-            double error = magnitude / 10000d;
-            while (Math.abs(offset) >= Math.abs(error) && excluded <= percentages.length) { // offset expended or exclusions maxed
-                double allocation = (offset / (percentages.length - excluded)); // factor in exclusions on iterations
-                for (int i = 0; i < percentages.length; i++) {
-                    if (i != adjustedIndex && (percentages[i] != 0d || magnitude < 0d)) { // ignore adjusted and exclude only once
-                        percentages[i] += allocation;
+            double limit = magnitude > 0d ? 0d : 1d; // limit approached by offset percents
+            double error = 1d / (10^precision);
+
+            while (Math.abs(offset) >= Math.abs(error) && excluded <= percents.length) { // offset expended or exclusions maxed
+                double allocation = (offset / (percents.length - excluded)); // factor in exclusions on iterations
+                for (int i = 0; i < percents.length; i++) {
+                    if (i != targetIndex && (percents[i] != 0d || magnitude < 0d)) { // ignore adjusted and exclude only once
+                        percents[i] += allocation;
+                        double indexedPercent = percents[i];
                         offset -= allocation; // expend allocated for recalculating offset on iterations
-                        if (percentages[i] + error  < limit * -1) { // below limit within margin of error
-                            if (percentages[i] < 0d) offset += (percentages[i] + error); // restore unallocated offset
-                            percentages[i] = limit; // set to limit
+                        if (indexedPercent + error  < limit * -1) { // below limit within margin of error
+                            if (indexedPercent < 0d) offset += (indexedPercent + error); // restore unallocated offset
+                            percents[i] = limit; // set to limit
                             excluded++; // decrease offset divisor for fewer allocations
                         }
                     }
@@ -49,28 +64,16 @@ public class Calibrater {
     }
 
     /**
-     * Reads {@link Float} array and assigns proportionate values to each {@link Float} array element.
-     * @param percentages {@link Float} array elements to be calibrated if not proportionate
-     * @return true if percentage was calibrated and false otherwise
+     * Reads {@code double} array and assigns proportionate values to each {@code double} array element.
+     * @param percents {@code double} array elements to be calibrated if not proportionate
+     * @return true if percent was calibrated and false otherwise
      */
-    public static boolean resetRatings(Double[] percentages, Boolean forceReset) {
-        float sum = 0f;
-        for (Double percentage : percentages) sum += percentage;
-        if (sum > 1.001f || sum < 0.999f || forceReset) { // elements are not proportionate
-            for (int i = 0; i < percentages.length; i++) percentages[i] = (1d / percentages.length);
+    public static boolean resetRatings(double[] percents, boolean forceReset) {
+        double sum = 0d;
+        for (double percent : percents) sum += percent;
+        if (sum > 1.001d || sum < 0.999d || forceReset) { // elements are not proportionate
+            for (int i = 0; i < percents.length; i++) percents[i] = (1d / percents.length);
             return true;
         } else return false;
-    }
-
-    public static boolean shiftRatings(double[] percentages, int adjustedIndex, double magnitude) {
-        Double[] boxedPercentages = new Double[percentages.length];
-        int i = 0; for (double percentage : percentages)  boxedPercentages[i++] = percentage;
-        return shiftRatings(boxedPercentages, adjustedIndex, magnitude);
-    }
-
-    public static boolean resetRatings(double[] percentages, boolean forceReset) {
-        Double[] boxedPercentages = new Double[percentages.length];
-        int i = 0; for (double percentage : percentages)  boxedPercentages[i++] = percentage;
-        return resetRatings(boxedPercentages, forceReset);
     }
 }
