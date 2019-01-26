@@ -40,28 +40,40 @@ public class CalibraterTest {
      */
     @Test public final void testShiftDoubleArrayRepeatRange() {
 
+        int multiplier = 0;
         double[] percentages = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude <= .1d; magnitude += 0.01d) {
             for (int index = 0; index < percentages.length; index++) {
                 while (percentages[index] <= .99d) {
                     Calibrater.shiftRatings(percentages, index, magnitude, PRECISION);
+                    multiplier++;
                 }
                 while (percentages[index] >= .01d) {
                     Calibrater.shiftRatings(percentages, index, magnitude * -1d, PRECISION);
+                    multiplier++;
                 }
                 int nextIndex = index == 3 ? 0 : index + 1;
                 while (percentages[index] >= .01d) {
                     Calibrater.shiftRatings(percentages, nextIndex, magnitude * -1d, PRECISION);
+                    multiplier++;
                 }
                 while (percentages[nextIndex] <= .99d) {
                     Calibrater.shiftRatings(percentages, nextIndex, magnitude, PRECISION);
+                    multiplier++;
                 }
             }
+
+            double error = ERROR + (ERROR * multiplier);
+
+            assertEquals(1d, percentages[0], error);
+            assertEquals(0d, percentages[1], error);
+            assertEquals(0d, percentages[2], error);
+            assertEquals(0d, percentages[3], error);
+
+            double sum = 0d;
             Calibrater.recalibrateRatings(percentages);
-            assertEquals(1d, percentages[0], ERROR);
-            assertEquals(0d, percentages[1], ERROR);
-            assertEquals(0d, percentages[2], ERROR);
-            assertEquals(0d, percentages[3], ERROR);
+            for (double percent : percentages) sum += percent;
+            assertEquals(1d, sum, ERROR);
         }
     }
 
@@ -116,7 +128,7 @@ public class CalibraterTest {
                     if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                 }
 
-                Calibrater.resetRatings(percentages, PRECISION);
+                assertFalse(Calibrater.resetRatings(percentages, PRECISION));
             }
         }
     }
@@ -184,7 +196,7 @@ public class CalibraterTest {
             assertEquals(1d / i, percentages[i - 1], 0d);
             double sum = 0d;
             for (Double percentage : percentages) sum += percentage;
-            assertEquals(1d, sum, magnitude / 200000);
+            assertEquals(1d, sum, PRECISION);
         }
     }
 
