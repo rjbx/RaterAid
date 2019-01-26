@@ -51,7 +51,7 @@ public class CalibraterTest {
                 }
                 int nextIndex = index == 3 ? 0 : index + 1;
                 while (percentages[index] >= .01d) {
-                    Calibrater.shiftRatings(percentages, nextIndex, magnitude * -1, PRECISION);
+                    Calibrater.shiftRatings(percentages, nextIndex, magnitude * -1d, PRECISION);
                 }
                 while (percentages[nextIndex] <= .99d) {
                     Calibrater.shiftRatings(percentages, nextIndex, magnitude, PRECISION);
@@ -115,7 +115,7 @@ public class CalibraterTest {
                     if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                 }
 
-                Calibrater.resetRatings(percentages, false);
+                Calibrater.resetRatings(percentages, PRECISION);
             }
         }
     }
@@ -179,7 +179,7 @@ public class CalibraterTest {
         for (int i = 1; i < 20; i++) {
             double[] percentages = new double[i];
             for (int j = 0; j < percentages.length; j++) percentages[j] = 0d;
-            Calibrater.resetRatings(percentages, false);
+            Calibrater.resetRatings(percentages, PRECISION);
             assertEquals(1d / i, percentages[i - 1], 0d);
             double sum = 0d;
             for (Double percentage : percentages) sum += percentage;
@@ -195,19 +195,19 @@ public class CalibraterTest {
 
         double[] percentages = {1d, 0d, 0d, 0d};
         for (int i = 0; i < 2; i++) {
-            assertFalse(Calibrater.resetRatings(percentages, false));
+            assertFalse(Calibrater.resetRatings(percentages, PRECISION));
             percentages[0] -= .25d;
             percentages[3 - i] +=.25d;
         }
         
         percentages[3] = .5d;
-        assertTrue(Calibrater.resetRatings(percentages, false));
+        assertTrue(Calibrater.resetRatings(percentages, PRECISION));
 
         for (int i = 0; i < percentages.length - 1; i++) percentages[i] = 0d;
-        assertTrue(Calibrater.resetRatings(percentages, false));
+        assertTrue(Calibrater.resetRatings(percentages, PRECISION));
 
         percentages[3] = 0d;
-        assertTrue(Calibrater.resetRatings(percentages, false));
+        assertTrue(Calibrater.resetRatings(percentages, PRECISION));
     }
 
     /**
