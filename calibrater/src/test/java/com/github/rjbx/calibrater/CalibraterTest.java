@@ -1,8 +1,6 @@
 package com.github.rjbx.calibrater;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -16,6 +14,7 @@ import static org.junit.Assert.fail;
 public class CalibraterTest {
     
     int PRECISION = Calibrater.STANDARD_PRECISION;
+    double ERROR = Math.pow(10, -(PRECISION - 2));
 
     /**
      * Asserts whether incrementing and decrementing a {@code double} array element resets all element values.
@@ -28,10 +27,10 @@ public class CalibraterTest {
                 Calibrater.shiftRatings(percentages, index, magnitude, PRECISION);
                 Calibrater.shiftRatings(percentages, index, magnitude * -1d, PRECISION);
             }
-            assertEquals(.25d, percentages[0], magnitude / 20000);
-            assertEquals(.25d, percentages[1], magnitude / 20000);
-            assertEquals(.25d, percentages[2], magnitude / 20000);
-            assertEquals(.25d, percentages[3], magnitude / 20000);
+            assertEquals(.25d, percentages[0], ERROR);
+            assertEquals(.25d, percentages[1], ERROR);
+            assertEquals(.25d, percentages[2], ERROR);
+            assertEquals(.25d, percentages[3], ERROR);
         }
     }
 
@@ -58,10 +57,10 @@ public class CalibraterTest {
                     Calibrater.shiftRatings(percentages, nextIndex, magnitude, PRECISION);
                 }
             }
-            assertEquals(1d, percentages[0], magnitude / 2);
-            assertEquals(0d, percentages[1], magnitude / 2);
-            assertEquals(0d, percentages[2], magnitude / 2);
-            assertEquals(0d, percentages[3], magnitude / 2);
+            assertEquals(1d, percentages[0], ERROR);
+            assertEquals(0d, percentages[1], ERROR);
+            assertEquals(0d, percentages[2], ERROR);
+            assertEquals(0d, percentages[3], ERROR);
         }
     }
 
@@ -81,18 +80,18 @@ public class CalibraterTest {
                     sum = 0;
                     for (int i = 0; i < percentages.length; i++) {
                         sum += percentages[i];
-                        if (i == percentages.length - 1) assertEquals(1d, sum, magnitude / 2);
+                        if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                     }
                 }
                 Calibrater.shiftRatings(percentages, index, -magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, -magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
-                assertEquals(1d, percentages[index], magnitude / 2);
+                assertEquals(1d, percentages[index], ERROR);
                 sum = 0;
                 for (int i = 0; i < percentages.length; i++) {
                     sum += percentages[i];
-                    if (i == percentages.length - 1) assertEquals(1d, sum, magnitude / 2);
+                    if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                 }
 
                 while (percentages[index] > 0d) {
@@ -100,18 +99,18 @@ public class CalibraterTest {
                     sum = 0;
                     for (int i = 0; i < percentages.length; i++) {
                         sum += percentages[i];
-                        if (i == percentages.length - 1) assertEquals(1d, sum, magnitude / 2);
+                        if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                     }
                 }
                 Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, -magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, -magnitude / 2, PRECISION);
-                assertEquals(0d, percentages[index], magnitude / 2);
+                assertEquals(0d, percentages[index], ERROR);
                 sum = 0;
                 for (int i = 0; i < percentages.length; i++) {
                     sum += percentages[i];
-                    if (i == percentages.length - 1) assertEquals(1d, sum, magnitude / 2);
+                    if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                 }
 
                 Calibrater.resetRatings(percentages, false);
@@ -140,7 +139,7 @@ public class CalibraterTest {
 
             double sum = 0;
             for (double percentage : percentages) sum += percentage;
-            assertEquals(1d, sum, magnitude / 2);
+            assertEquals(1d, sum, ERROR);
         }
     }
 
