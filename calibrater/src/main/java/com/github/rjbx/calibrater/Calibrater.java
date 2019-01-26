@@ -36,8 +36,8 @@ public class Calibrater {
 
             double offset = magnitude * -1;
             if (percents[targetIndex] <= 0d) {
-                percents[targetIndex] = 0d; // set to limit
                 offset += percents[targetIndex]; // restore unallocated offset
+                percents[targetIndex] = 0d; // set to limit
             }
 
             int excluded = 1; // prevent further allocation after maxing out all elements
