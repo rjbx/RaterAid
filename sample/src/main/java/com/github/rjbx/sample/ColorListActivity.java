@@ -9,21 +9,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.github.rjbx.calibrater.Calibrater;
-import com.github.rjbx.sample.dummy.DummyContent;
+import com.github.rjbx.sample.data.ColorData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.rjbx.rateraid.Rateraid;
-import com.github.rjbx.sample.dummy.DummyContent.*;
+import com.github.rjbx.sample.data.ColorData.*;
 
 import java.util.List;
 
 /**
- * An activity representing a list of Colors. This activity
+ * An activity representing a list of ColorData. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
  * lead to a {@link ColorDetailActivity} representing
@@ -70,21 +72,21 @@ public class ColorListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        recyclerView.setAdapter(new ColorListAdapter(this, ColorData.ITEMS, mTwoPane));
     }
 
-    public static class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public static class ColorListAdapter
+            extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
         private static Rateraid.Builder sBuilder;
         private static double[] sPercentages;
         private final ColorListActivity mParentActivity;
-        private final List<DummyItem> mValues;
+        private final List<ColorItem> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyItem item = (DummyItem) view.getTag();
+                ColorItem item = (ColorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(ColorDetailFragment.ARG_ITEM_ID, item.id);
@@ -103,13 +105,13 @@ public class ColorListActivity extends AppCompatActivity {
             }
         };
 
-        SimpleItemRecyclerViewAdapter(ColorListActivity parent,
-                                      List<DummyItem> items,
-                                      boolean twoPane) {
+        ColorListAdapter(ColorListActivity parent,
+                         List<ColorItem> items,
+                         boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
-            sPercentages = new double[DummyContent.ITEMS.size()];
+            sPercentages = new double[ColorData.ITEMS.size()];
             sBuilder = Rateraid.with(
                     sPercentages,
                     Calibrater.STANDARD_MAGNITUDE,
@@ -134,6 +136,13 @@ public class ColorListActivity extends AppCompatActivity {
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
+            holder.itemView.setBackgroundColor(
+                    holder.itemView.getResources().getColor(
+                            ColorData.OPTIONS[position])
+            );
+
+            sBuilder.addButtonSet(holder.mIncrementButton, holder.mDecrementButton, position)
+                    .addValueEditor(holder.mPercentText, position);
         }
 
         @Override
@@ -144,12 +153,17 @@ public class ColorListActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
+            final Button mIncrementButton;
+            final Button mDecrementButton;
+            final EditText mPercentText;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
-
+                mIdView = view.findViewById(R.id.id_text);
+                mContentView = view.findViewById(R.id.content);
+                mIncrementButton = view.findViewById(R.id.increment);
+                mDecrementButton = view.findViewById(R.id.decrement);
+                mPercentText = view.findViewById(R.id.percent);
             }
         }
     }

@@ -1,4 +1,6 @@
-package com.github.rjbx.sample.dummy;
+package com.github.rjbx.sample.data;
+
+import com.github.rjbx.sample.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,19 +13,40 @@ import java.util.Map;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class DummyContent {
+public class ColorData {
 
     /**
-     * An array of sample (dummy) items.
+     * An array of sample (color) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static final List<ColorItem> ITEMS = new ArrayList<ColorItem>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of sample (color) items, by ID.
      */
-    public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    public static final Map<String, ColorItem> ITEM_MAP = new HashMap<String, ColorItem>();
 
-    private static final int COUNT = 25;
+    public static final int [] OPTIONS = new int[] {
+            R.color.colorCoolLight,
+            R.color.colorCool,
+            R.color.colorCoolDark,
+            R.color.colorCheer,
+            R.color.colorCheerDark,
+            R.color.colorAttention,
+            R.color.colorAttentionDark,
+            R.color.colorAccent,
+            R.color.colorHeat,
+            R.color.colorHeatDark,
+            R.color.colorConversion,
+            R.color.colorConversionDark,
+            R.color.colorComfort,
+            R.color.colorComfortDark,
+            R.color.colorNeutral,
+            R.color.colorNeutralDark,
+            R.color.colorPrimary,
+            R.color.colorPrimaryDark
+    };
+
+    private static final int COUNT = OPTIONS.length;
 
     static {
         // Add some sample items.
@@ -32,13 +55,17 @@ public class DummyContent {
         }
     }
 
-    private static void addItem(DummyItem item) {
+    private static void addItem(ColorItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
 
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position), 0d);
+    private static ColorItem createDummyItem(int position) {
+        return new ColorItem(
+                String.valueOf(position),
+                "Item " + position,
+                makeDetails(position),
+                0d);
     }
 
     private static String makeDetails(int position) {
@@ -51,15 +78,15 @@ public class DummyContent {
     }
 
     /**
-     * A dummy item representing a piece of content.
+     * A color item representing a piece of content.
      */
-    public static class DummyItem {
+    public static class ColorItem {
         public String id;
         public String content;
         public String details;
         public double percent;
 
-        public DummyItem(String id, String content, String details, double percent) {
+        public ColorItem(String id, String content, String details, double percent) {
             this.id = id;
             this.content = content;
             this.details = details;

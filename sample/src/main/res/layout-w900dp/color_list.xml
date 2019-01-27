@@ -13,7 +13,7 @@
     tools:context=".ColorListActivity">
 
     <!--
-    This layout is a two-pane layout for the Colors
+    This layout is a two-pane layout for the ColorData
     master/detail flow.
     
     -->
