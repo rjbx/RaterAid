@@ -14,14 +14,14 @@ import androidx.annotation.Nullable;
 public class Rateraid {
 
     private double[] mPercentages;
-    private double[] getPercentages() { return mPercentages; }
-    private float[] getPercentagesBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mPercentages); }
-    private Double[] getPercentagesBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercentages); }
-    private Float[] getPercentagesFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercentages); }
     private void setPercentages(double[] percentages) { this.mPercentages = percentages; }
     private void setPercentages(float[] percentages) { this.mPercentages = TypeConverters.arrayFloatToDouble(percentages); }
     private void setPercentages(Double[] percentages) {this.mPercentages = TypeConverters.arrayBoxedToPrimitiveDouble(percentages); }
     private void setPercentages(Float[] percentages) {this.mPercentages = TypeConverters.arrayFloatBoxedToDouble(percentages); }
+    public double[] getPercentages() { return mPercentages; }
+    public float[] getPercentagesBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mPercentages); }
+    public Double[] getPercentagesBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercentages); }
+    public Float[] getPercentagesFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercentages); }
 
     public static Rateraid.Builder with(double[] percentages, float magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Rateraid.Builder(percentages, magnitude, precision,  clickListener);
