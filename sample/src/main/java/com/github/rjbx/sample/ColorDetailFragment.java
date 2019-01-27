@@ -1,15 +1,16 @@
 package com.github.rjbx.sample;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.rjbx.sample.dummy.DummyContent;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A fragment representing a single Color detail screen.

@@ -23,7 +23,7 @@ public class Rateraid {
     public Double[] getPercentagesBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercentages); }
     public Float[] getPercentagesFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercentages); }
 
-    public static Rateraid.Builder with(double[] percentages, float magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static Rateraid.Builder with(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Rateraid.Builder(percentages, magnitude, precision,  clickListener);
     }
 
@@ -35,7 +35,7 @@ public class Rateraid {
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        Builder(double[] percentages, float magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        Builder(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mPercentages = percentages;
             mMagnitude = magnitude;
             mPrecision = precision;
