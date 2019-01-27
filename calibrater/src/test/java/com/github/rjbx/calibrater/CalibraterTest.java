@@ -13,8 +13,8 @@ import static org.junit.Assert.fail;
  */
 public class CalibraterTest {
     
-    int PRECISION = Calibrater.STANDARD_PRECISION;
-    double ERROR = Math.pow(10, -PRECISION);
+    private static int PRECISION = Calibrater.STANDARD_PRECISION;
+    private static double ERROR = Math.pow(10, -PRECISION);
 
     /**
      * Asserts whether incrementing and decrementing a {@code double} array element resets all element values.
@@ -241,7 +241,7 @@ public class CalibraterTest {
      * Asserts whether the parameter {@link Class} of type {@link Throwable} is thrown when
      * invoking {@link Calibrater#shiftRatings(double[], int, double, int)} with the parameter args
      */
-    private <T extends Throwable>void assertShiftThrows(Class<T> throwableClass, Object... args) {
+    private static <T extends Throwable>void assertShiftThrows(Class<T> throwableClass, Object... args) {
 
         try {
             Calibrater.shiftRatings(

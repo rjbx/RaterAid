@@ -29,11 +29,11 @@ public class Rateraid {
 
     public static class Builder {
 
-        Rateraid mRateraid;
-        double[] mPercentages;
-        double mMagnitude;
-        int mPrecision;
-        View.OnClickListener mClickListener;
+        private Rateraid mRateraid;
+        private double[] mPercentages;
+        private double mMagnitude;
+        private int mPrecision;
+        private View.OnClickListener mClickListener;
 
         Builder(double[] percentages, float magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mPercentages = percentages;

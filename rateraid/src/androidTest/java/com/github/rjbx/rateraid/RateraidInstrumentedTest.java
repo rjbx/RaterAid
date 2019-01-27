@@ -26,14 +26,14 @@ public class RateraidInstrumentedTest {
     private static int PRECISION = Calibrater.STANDARD_PRECISION;
 
     @Before
-    public void setUp() {
+    public final void setUp() {
         mContext = InstrumentationRegistry.getInstrumentation().getContext();
         mIncrementButton = new Button(mContext);
         mDecrementButton = new Button(mContext);
     }
 
     @Test
-    public void testAddButtonSetClickListenerCallback() {
+    public final void testAddButtonSetClickListenerCallback() {
         double[] percentages = { .25f, .25f, .25f, .25f };
         for (float magnitude = 0.01f; magnitude < 0.1f; magnitude += 0.01f) {
             mBuilder = Rateraid.with(percentages, magnitude, PRECISION, null);
@@ -106,7 +106,7 @@ public class RateraidInstrumentedTest {
     }
 
     @Test
-    public void testSetClickListenerUserDefinedCallback() {
+    public final void testSetClickListenerUserDefinedCallback() {
         double[] percentages = { .25f, .25f, .25f, .25f };
         for (float magnitude = 0.01f; magnitude < 0.1f; magnitude += 0.01f) {
             mBuilder = Rateraid.with(percentages, magnitude, PRECISION, clickedView -> mCount++);
