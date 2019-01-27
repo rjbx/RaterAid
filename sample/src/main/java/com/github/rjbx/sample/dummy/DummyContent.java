@@ -54,15 +54,40 @@ public class DummyContent {
      * A dummy item representing a piece of content.
      */
     public static class DummyItem {
-        public final String id;
-        public final String content;
-        public final String details;
-        public final double percent;
+        public String id;
+        public String content;
+        public String details;
+        public double percent;
 
         public DummyItem(String id, String content, String details, double percent) {
             this.id = id;
             this.content = content;
             this.details = details;
+            this.percent = percent;
+        }
+
+        public String getId() {
+            return id;
+        }
+        public String getContent() {
+            return content;
+        }
+        public String getDetails() {
+            return details;
+        }
+        public double getPercent() {
+            return percent;
+        }
+        public void setId(String id) {
+            this.id = id;
+        }
+        public void setContent(String content) {
+            this.content = content;
+        }
+        public void setDetails(String details) {
+            this.details = details;
+        }
+        public void setPercent(double percent) {
             this.percent = percent;
         }
 

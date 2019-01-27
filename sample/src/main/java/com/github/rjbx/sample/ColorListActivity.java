@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.github.rjbx.calibrater.Calibrater;
+import com.github.rjbx.sample.dummy.DummyContent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.LayoutInflater;
@@ -17,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.rjbx.rateraid.Rateraid;
-import com.github.rjbx.sample.dummy.DummyContent;
+import com.github.rjbx.sample.dummy.DummyContent.*;
 
 import java.util.List;
 
@@ -78,12 +79,12 @@ public class ColorListActivity extends AppCompatActivity {
         private static Rateraid.Builder sBuilder;
         private static double[] sPercentages;
         private final ColorListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<DummyItem> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+                DummyItem item = (DummyItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(ColorDetailFragment.ARG_ITEM_ID, item.id);
@@ -103,7 +104,7 @@ public class ColorListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(ColorListActivity parent,
-                                      List<DummyContent.DummyItem> items,
+                                      List<DummyItem> items,
                                       boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
@@ -114,7 +115,8 @@ public class ColorListActivity extends AppCompatActivity {
                     Calibrater.STANDARD_MAGNITUDE,
                     Calibrater.STANDARD_PRECISION,
                     clickedView -> {
-
+                        for (int i = 0; i < mValues.size(); i++)
+                            mValues.get(i).setPercent(sPercentages[i]);
                     });
         }
 
@@ -147,6 +149,7 @@ public class ColorListActivity extends AppCompatActivity {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
+
             }
         }
     }
