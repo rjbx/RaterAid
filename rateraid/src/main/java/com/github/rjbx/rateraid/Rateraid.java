@@ -23,13 +23,10 @@ public class Rateraid {
     private void setPercentages(Double[] percentages) {this.mPercentages = TypeConverters.arrayBoxedToPrimitiveDouble(percentages); }
     private void setPercentages(Float[] percentages) {this.mPercentages = TypeConverters.arrayFloatBoxedToDouble(percentages); }
 
-    private View.OnClickListener mClickListener;
-    private View.OnClickListener getClickListener() { return mClickListener; }
-    public void setOnClickListener(View.OnClickListener clickListener) { mClickListener = clickListener; }
-
     public static Rateraid.Builder with(double[] percentages, float magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Rateraid.Builder(percentages, magnitude, precision,  clickListener);
     }
+
     public static class Builder {
 
         Rateraid mRateraid;
@@ -84,7 +81,6 @@ public class Rateraid {
         public Rateraid build() {
             mRateraid = new Rateraid();
             mRateraid.setPercentages(mPercentages);
-            if (mClickListener != null) mRateraid.setOnClickListener(mClickListener);
             return mRateraid;
         }
     }
