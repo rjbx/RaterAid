@@ -3,7 +3,7 @@ package com.github.rjbx.calibrater;
 /**
  * Utility class for adjusting and calibrating percent arrays.
  */
-public class Calibrater {
+public final class Calibrater {
 
     public static final int STANDARD_PRECISION = 4;
     public static final double STANDARD_MAGNITUDE = .01d;
@@ -14,6 +14,7 @@ public class Calibrater {
      * @param percents {@code double} array elements to be adjusted if not proportionate
      * @param targetIndex index of the array element to be adjusted
      * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
+     * @param precision number of decimal places to move the allowed error from the whole
      * @return true if percent was adjusted and false otherwise
      */
     public static boolean shiftRatings(double[] percents, int targetIndex, double magnitude, int precision) {
@@ -68,9 +69,8 @@ public class Calibrater {
 
 
     /**
-     * Reads {@code double} array and assigns proportionate values to each {@code double} array element.
+     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
      * @param percents {@code double} array elements to be calibrated if not proportionate
-     * @return true if percent was calibrated and false otherwise
      */
     public static void resetRatings(double[] percents) {
         double sum = 0d;
@@ -79,9 +79,10 @@ public class Calibrater {
     }
 
     /**
-     * Reads {@code double} array and assigns proportionate values to each {@code double} array element.
-     * @param percents {@code double} array elements to be calibrated if not proportionate
-     * @return true if percent was calibrated and false otherwise
+     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
+     * @param percents {@code double} array elements to be reset if not equivalent
+     * @param precision number of decimal places to move the allowed error from the whole
+     * @return true if array was reset and false otherwise
      */
     public static boolean resetRatings(double[] percents, double precision) {
         double sum = 0d;
@@ -94,9 +95,9 @@ public class Calibrater {
     }
 
     /**
-     * Reads {@code double} array and assigns proportionate values to each {@code double} array element.
-     * @param percents {@code double} array elements to be calibrated if not proportionate
-     * @return true if percent was calibrated and false otherwise
+     * Reads {@code double} array and equally distributes to each array element the difference
+     * between the whole and the sum of all array elements.
+     * @param percents {@code double} array to be calibrated closer to the whole
      */
     public static void recalibrateRatings(double[] percents) {
         double sum = 0d;
