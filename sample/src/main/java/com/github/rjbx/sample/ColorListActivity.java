@@ -145,7 +145,6 @@ public class ColorListActivity extends AppCompatActivity {
             holder.mPercentText.setText(PERCENT_FORMATTER.format(item.getPercent()));
             holder.mRemoveButton.setOnClickListener(clickedView -> {
                 mItems.remove(item);
-                Calibrater.recalibrateRatings(sPercents);
                 sPercents = new double[mItems.size()];
                 Calibrater.resetRatings(sPercents);
                 syncPercentsToItems(mItems, sPercents);
