@@ -18,11 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.github.rjbx.rateraid.Rateraid;
 import com.github.rjbx.sample.data.ColorData.*;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -81,10 +83,11 @@ public class ColorListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
         private static Rateraid.Builder sBuilder;
-        private static double[] sPercentages;
+        private static double[] sPercents;
         private final ColorListActivity mParentActivity;
-        private final List<ColorItem> mValues;
+        private final List<ColorItem> mItems;
         private final boolean mTwoPane;
+        private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,17 +113,19 @@ public class ColorListActivity extends AppCompatActivity {
         ColorListAdapter(ColorListActivity parent,
                          List<ColorItem> items,
                          boolean twoPane) {
-            mValues = items;
+            mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
-            sPercentages = new double[ColorData.ITEMS.size()];
+            sPercents = new double[ColorData.ITEMS.size()];
+            Calibrater.resetRatings(sPercents);
+            syncPercentsToItems(mItems, sPercents);
             sBuilder = Rateraid.with(
-                    sPercentages,
+                    sPercents,
                     Calibrater.STANDARD_MAGNITUDE,
                     Calibrater.STANDARD_PRECISION,
                     clickedView -> {
-                        for (int i = 0; i < mValues.size(); i++)
-                            mValues.get(i).setPercent(sPercentages[i]);
+                        syncPercentsToItems(mItems, sPercents);
+                        notifyDataSetChanged();
                     });
         }
 
@@ -133,16 +138,17 @@ public class ColorListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            
-            ColorItem value = mValues.get(position);
-            
-            holder.mIdView.setText(value.getId());
-            holder.mContentView.setText(value.getContent());
 
-            holder.itemView.setTag(value);
+            ColorItem item = mItems.get(position);
+
+            holder.mIdView.setText(item.getId());
+            holder.mContentView.setText(item.getContent());
+            holder.mPercentText.setText(PERCENT_FORMATTER.format(item.getPercent()));
+
+            holder.itemView.setTag(item);
             holder.itemView.setOnClickListener(mOnClickListener);
             holder.itemView.setBackgroundColor(
-                    holder.itemView.getResources().getColor(value.getColorRes())
+                    holder.itemView.getResources().getColor(item.getColorRes())
             );
 
             sBuilder.addButtonSet(holder.mIncrementButton, holder.mDecrementButton, position)
@@ -151,7 +157,11 @@ public class ColorListActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return mItems.size();
+        }
+
+        private void syncPercentsToItems(List<ColorItem> items, double[] percents) {
+            for (int i = 0; i < items.size(); i++) items.get(i).setPercent(percents[i]);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
