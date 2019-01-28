@@ -24,6 +24,7 @@ import com.github.rjbx.rateraid.Rateraid;
 import com.github.rjbx.sample.data.ColorData.*;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +42,7 @@ public class ColorListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private ColorListAdapter mListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +54,10 @@ public class ColorListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        fab.setOnClickListener(clickedView -> {
+            mListAdapter.swapItems(ColorData.ITEMS);
+                Snackbar.make(clickedView, "Color list has been repopulated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-            }
         });
 
         if (findViewById(R.id.color_detail_container) != null) {
@@ -74,17 +74,18 @@ public class ColorListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        mListAdapter = new ColorListAdapter(this, ColorData.ITEMS, mTwoPane);
+        recyclerView.setAdapter(mListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        recyclerView.setAdapter(new ColorListAdapter(this, ColorData.ITEMS, mTwoPane));
     }
 
     public static class ColorListAdapter
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
         private Rateraid.Builder sBuilder;
+        private List<ColorItem> mItems;
         private static double[] sPercents;
         private final ColorListActivity mParentActivity;
-        private final List<ColorItem> mItems;
         private final boolean mTwoPane;
         private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
 
@@ -113,7 +114,7 @@ public class ColorListActivity extends AppCompatActivity {
         ColorListAdapter(ColorListActivity parent,
                          List<ColorItem> items,
                          boolean twoPane) {
-            mItems = items;
+            mItems = new ArrayList<>(ColorData.ITEMS);
             mParentActivity = parent;
             mTwoPane = twoPane;
             sPercents = new double[mItems.size()];
@@ -159,6 +160,14 @@ public class ColorListActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return mItems.size();
+        }
+
+        private void swapItems(List<ColorItem> items) {
+            mItems = new ArrayList<>(ColorData.ITEMS);
+            sPercents = new double[mItems.size()];
+            Calibrater.resetRatings(sPercents);
+            syncPercentsToItems(mItems, sPercents);
+            notifyDataSetChanged();
         }
 
         private void syncPercentsToItems(List<ColorItem> items, double[] percents) {
