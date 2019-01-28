@@ -144,6 +144,10 @@ public class ColorListActivity extends AppCompatActivity {
             holder.mIdView.setText(item.getId());
             holder.mContentView.setText(item.getContent());
             holder.mPercentText.setText(PERCENT_FORMATTER.format(item.getPercent()));
+            holder.mRemoveButton.setOnClickListener(clickedView -> {
+                mItems.remove(item);
+                notifyDataSetChanged();
+            });
 
             holder.itemView.setTag(item);
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -167,6 +171,7 @@ public class ColorListActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
+            final Button mRemoveButton;
             final Button mIncrementButton;
             final Button mDecrementButton;
             final EditText mPercentText;
@@ -175,6 +180,7 @@ public class ColorListActivity extends AppCompatActivity {
                 super(view);
                 mIdView = view.findViewById(R.id.id_text);
                 mContentView = view.findViewById(R.id.content);
+                mRemoveButton = view.findViewById(R.id.remove);
                 mIncrementButton = view.findViewById(R.id.increment);
                 mDecrementButton = view.findViewById(R.id.decrement);
                 mPercentText = view.findViewById(R.id.percent);
