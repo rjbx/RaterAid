@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -48,9 +49,9 @@ public class ColorDetailFragment extends Fragment {
             mItem = ColorData.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mItem.getContent());
             }
         }
     }
@@ -62,7 +63,9 @@ public class ColorDetailFragment extends Fragment {
 
         // Show the color content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.color_detail)).setText(mItem.details);
+            int color = getResources().getColor(mItem.getColorRes());
+            container.setBackgroundColor(color);
+            ((TextView) rootView.findViewById(R.id.color_detail)).setText(mItem.getDetails());
         }
 
         return rootView;

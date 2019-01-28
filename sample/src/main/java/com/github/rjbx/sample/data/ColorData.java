@@ -25,7 +25,7 @@ public class ColorData {
      */
     public static final Map<String, ColorItem> ITEM_MAP = new HashMap<String, ColorItem>();
 
-    public static final int [] OPTIONS = new int[] {
+    private static final int [] COLORS = new int[] {
             R.color.colorCoolLight,
             R.color.colorCool,
             R.color.colorCoolDark,
@@ -46,11 +46,11 @@ public class ColorData {
             R.color.colorPrimaryDark
     };
 
-    private static final int COUNT = OPTIONS.length;
+    private static final int COUNT = COLORS.length;
 
     static {
         // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
+        for (int i = 0; i < COUNT; i++) {
             addItem(createDummyItem(i));
         }
     }
@@ -65,13 +65,15 @@ public class ColorData {
                 String.valueOf(position),
                 "Item " + position,
                 makeDetails(position),
-                0d);
+                0d,
+                COLORS[position]
+        );
     }
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
         builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
+        for (int i = 0; i < (position + 20); i++) {
             builder.append("\nMore details information here.");
         }
         return builder.toString();
@@ -81,16 +83,18 @@ public class ColorData {
      * A color item representing a piece of content.
      */
     public static class ColorItem {
-        public String id;
-        public String content;
-        public String details;
-        public double percent;
+        private String id;
+        private String content;
+        private String details;
+        private double percent;
+        private int colorRes;
 
-        public ColorItem(String id, String content, String details, double percent) {
+        private ColorItem(String id, String content, String details, double percent, int colorRes) {
             this.id = id;
             this.content = content;
             this.details = details;
             this.percent = percent;
+            this.colorRes = colorRes;
         }
 
         public String getId() {
@@ -116,6 +120,12 @@ public class ColorData {
         }
         public void setPercent(double percent) {
             this.percent = percent;
+        }
+        public int getColorRes() {
+            return colorRes;
+        }
+        public void setColorRes(int colorRes) {
+            this.colorRes = colorRes;
         }
 
         @Override public String toString() {

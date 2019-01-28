@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -72,6 +73,7 @@ public class ColorListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(new ColorListAdapter(this, ColorData.ITEMS, mTwoPane));
     }
 
@@ -89,7 +91,7 @@ public class ColorListActivity extends AppCompatActivity {
                 ColorItem item = (ColorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(ColorDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putString(ColorDetailFragment.ARG_ITEM_ID, item.getId());
                     ColorDetailFragment fragment = new ColorDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -98,7 +100,7 @@ public class ColorListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ColorDetailActivity.class);
-                    intent.putExtra(ColorDetailFragment.ARG_ITEM_ID, item.id);
+                    intent.putExtra(ColorDetailFragment.ARG_ITEM_ID, item.getId());
 
                     context.startActivity(intent);
                 }
@@ -131,14 +133,16 @@ public class ColorListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            
+            ColorItem value = mValues.get(position);
+            
+            holder.mIdView.setText(value.getId());
+            holder.mContentView.setText(value.getContent());
 
-            holder.itemView.setTag(mValues.get(position));
+            holder.itemView.setTag(value);
             holder.itemView.setOnClickListener(mOnClickListener);
             holder.itemView.setBackgroundColor(
-                    holder.itemView.getResources().getColor(
-                            ColorData.OPTIONS[position])
+                    holder.itemView.getResources().getColor(value.getColorRes())
             );
 
             sBuilder.addButtonSet(holder.mIncrementButton, holder.mDecrementButton, position)

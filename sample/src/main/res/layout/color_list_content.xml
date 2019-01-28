@@ -4,25 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_margin="15dp"
+    android:padding="24dp"
     android:rowCount="3"
     android:columnCount="3"
+    android:orientation="horizontal"
     tools:context=".ColorListActivity">
 
     <TextView
         android:id="@+id/id_text"
         android:layout_row="1"
         android:layout_column="0"
-        android:layout_gravity="start|center_vertical"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:gravity="center"
+        android:background="#fff"
+        android:textColor="#000"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/content"
         android:layout_row="1"
-        android:layout_column="2"
-        android:layout_gravity="center"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:gravity="center"
+        android:background="#fff"
+        android:textColor="#000"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/increment"
@@ -36,9 +45,14 @@
         android:id="@+id/percent"
         android:layout_row="1"
         android:layout_column="2"
-        android:layout_gravity="end|center_vertical"
-        android:text="0%"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:gravity="center"
+        android:background="#fff"
         android:inputType="numberDecimal"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:text="0%"
         android:hint=""
         android:autofillHints="percent"
         android:textAppearance="?attr/textAppearanceListItem"/>
