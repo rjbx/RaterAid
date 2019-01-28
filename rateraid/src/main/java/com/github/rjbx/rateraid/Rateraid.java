@@ -1,7 +1,9 @@
 package com.github.rjbx.rateraid;
 
+import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.rjbx.calibrater.Calibrater;
@@ -54,16 +56,18 @@ public class Rateraid {
             return this;
         }
 
-        public Rateraid.Builder addValueEditor(TextView valueEditor, int index) {
+        public Rateraid.Builder addValueEditor(EditText valueEditor, int index) {
+            valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
                 switch (onEditorActionId) {
                     case EditorInfo.IME_ACTION_DONE:
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
-                            float percentage;
+                            double percentage;
                             String viewText = onEditorActionView.getText().toString();
-                            if (viewText.contains("%")) percentage = percentFormatter.parse(viewText).floatValue();
-                            else percentage = Float.parseFloat(viewText);
+                            if (viewText.contains("%")) percentage = percentFormatter.parse(viewText).doubleValue();
+                            else percentage = Double.parseDouble(viewText);
                             double magnitude = percentage - mPercentages[index];
                             Calibrater.shiftRatings(mPercentages, index, magnitude, mPrecision);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
