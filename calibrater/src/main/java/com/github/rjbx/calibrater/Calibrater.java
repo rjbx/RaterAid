@@ -80,6 +80,27 @@ public final class Calibrater {
 
     /**
      * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
+     * @param percents {@code double} array elements to be calibrated if not proportionate
+     */
+    public static void resetRatings(double[] percents, int arrayLength) {
+        double sum = 0d;
+        for (double percent : percents) sum += percent;
+        for (int i = 0; i < arrayLength; i++) percents[i] = (1d / arrayLength);
+    }
+
+    /**
+     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
+     * @param percents {@code double} array elements to be calibrated if not proportionate
+     */
+    public static void removeRating(double[] percents, int index, int length) {
+        for (int i = 0; i < percents.length; i++) {
+            if (i < length) percents[i] = (1d / length);
+            else percents[i] = 0d;
+        }
+    }
+
+    /**
+     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
      * @param percents {@code double} array elements to be reset if not equivalent
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if array was reset and false otherwise

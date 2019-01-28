@@ -81,12 +81,13 @@ public class ColorListActivity extends AppCompatActivity {
     public static class ColorListAdapter
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
-        private static Rateraid.Builder sBuilder;
+        private Rateraid.Builder sBuilder;
         private static double[] sPercents;
         private final ColorListActivity mParentActivity;
         private final List<ColorItem> mItems;
         private final boolean mTwoPane;
         private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
+
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,12 +124,6 @@ public class ColorListActivity extends AppCompatActivity {
                     Calibrater.STANDARD_MAGNITUDE,
                     Calibrater.STANDARD_PRECISION,
                     clickedView -> {
-                        Button removeButton = clickedView.findViewById(R.id.remove);
-                        if (clickedView == removeButton) {
-                            mItems.remove((int) removeButton.getTag());
-                            sPercents = new double[mItems.size()];
-                            Calibrater.resetRatings(sPercents);
-                        }
                         syncPercentsToItems(mItems, sPercents);
                         notifyDataSetChanged();
                     });
@@ -160,7 +155,7 @@ public class ColorListActivity extends AppCompatActivity {
             );
 
             sBuilder.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
-                    .addRemover(holder.mRemoveButton, position)
+                    .addRemover(holder.mRemoveButton, mItems, position)
                     .addEditor(holder.mPercentText, position);
         }
 

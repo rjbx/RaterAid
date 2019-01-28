@@ -11,6 +11,9 @@ import com.github.rjbx.calibrater.TypeConverters;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
 
 public class Rateraid {
@@ -56,9 +59,10 @@ public class Rateraid {
             return this;
         }
 
-        public Rateraid.Builder addRemover(View removeButton, int index) {
+        public Rateraid.Builder addRemover(View removeButton, List items, int index) {
             removeButton.setOnClickListener(clickedView -> {
-                removeButton.setTag(index);
+                items.remove(index);
+                Calibrater.removeRating(mPercentages, index, items.size());
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             });
             return this;
