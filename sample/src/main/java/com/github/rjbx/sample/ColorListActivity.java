@@ -123,6 +123,10 @@ public class ColorListActivity extends AppCompatActivity {
                     Calibrater.STANDARD_MAGNITUDE,
                     Calibrater.STANDARD_PRECISION,
                     clickedView -> {
+                        Button removeButton = clickedView.findViewById(R.id.remove);
+                        if (clickedView == removeButton) mItems.remove((int) removeButton.getTag());
+                        sPercents = new double[mItems.size()];
+                        Calibrater.resetRatings(sPercents);
                         syncPercentsToItems(mItems, sPercents);
                         notifyDataSetChanged();
                     });
@@ -144,11 +148,7 @@ public class ColorListActivity extends AppCompatActivity {
             holder.mContentView.setText(item.getContent());
             holder.mPercentText.setText(PERCENT_FORMATTER.format(item.getPercent()));
             holder.mRemoveButton.setOnClickListener(clickedView -> {
-                mItems.remove(item);
-                sPercents = new double[mItems.size()];
                 Calibrater.resetRatings(sPercents);
-                syncPercentsToItems(mItems, sPercents);
-                notifyDataSetChanged();
             });
 
             holder.itemView.setTag(item);
@@ -157,8 +157,9 @@ public class ColorListActivity extends AppCompatActivity {
                     holder.itemView.getResources().getColor(item.getColorRes())
             );
 
-            sBuilder.addButtonSet(holder.mIncrementButton, holder.mDecrementButton, position)
-                    .addValueEditor(holder.mPercentText, position);
+            sBuilder.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
+                    .addRemover(holder.mRemoveButton, position)
+                    .addEditor(holder.mPercentText, position);
         }
 
         @Override

@@ -44,7 +44,7 @@ public class Rateraid {
             mClickListener = clickListener;
         }
 
-        public Rateraid.Builder addButtonSet(View incrementButton, View decrementButton, int index) {
+        public Rateraid.Builder addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 Calibrater.shiftRatings(mPercentages, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
@@ -56,7 +56,15 @@ public class Rateraid {
             return this;
         }
 
-        public Rateraid.Builder addValueEditor(EditText valueEditor, int index) {
+        public Rateraid.Builder addRemover(View removeButton, int index) {
+            removeButton.setOnClickListener(clickedView -> {
+                removeButton.setTag(index);
+                if (mClickListener != null) mClickListener.onClick(removeButton);
+            });
+            return this;
+        }
+
+        public Rateraid.Builder addEditor(EditText valueEditor, int index) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {

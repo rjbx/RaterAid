@@ -39,7 +39,7 @@ public class RateraidInstrumentedTest {
             mBuilder = Rateraid.with(percentages, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
 
-                mBuilder.addButtonSet(mIncrementButton, mDecrementButton, index);
+                mBuilder.addShifters(mIncrementButton, mDecrementButton, index);
                 mBuilder.build();
                 float sum;
 
@@ -112,7 +112,7 @@ public class RateraidInstrumentedTest {
             mBuilder = Rateraid.with(percentages, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
-                mBuilder.addButtonSet(mIncrementButton, mDecrementButton, index);
+                mBuilder.addShifters(mIncrementButton, mDecrementButton, index);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
