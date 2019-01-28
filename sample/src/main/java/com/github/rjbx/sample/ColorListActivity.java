@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.github.rjbx.rateraid.Rateraid;
@@ -116,7 +115,7 @@ public class ColorListActivity extends AppCompatActivity {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
-            sPercents = new double[ColorData.ITEMS.size()];
+            sPercents = new double[mItems.size()];
             Calibrater.resetRatings(sPercents);
             syncPercentsToItems(mItems, sPercents);
             sBuilder = Rateraid.with(
@@ -146,6 +145,10 @@ public class ColorListActivity extends AppCompatActivity {
             holder.mPercentText.setText(PERCENT_FORMATTER.format(item.getPercent()));
             holder.mRemoveButton.setOnClickListener(clickedView -> {
                 mItems.remove(item);
+                Calibrater.recalibrateRatings(sPercents);
+                sPercents = new double[mItems.size()];
+                Calibrater.resetRatings(sPercents);
+                syncPercentsToItems(mItems, sPercents);
                 notifyDataSetChanged();
             });
 
