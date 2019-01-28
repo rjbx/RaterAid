@@ -77,6 +77,7 @@ public class Rateraid {
                             String viewText = onEditorActionView.getText().toString();
                             if (viewText.contains("%")) percentage = percentFormatter.parse(viewText).doubleValue();
                             else percentage = Double.parseDouble(viewText);
+                            if (percentage < 0d || percentage > 1d) return false;
                             double magnitude = percentage - mPercentages[index];
                             Calibrater.shiftRatings(mPercentages, index, magnitude, mPrecision);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
