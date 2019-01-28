@@ -1,17 +1,14 @@
 package com.github.rjbx.rateraid;
 
-import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.github.rjbx.calibrater.Calibrater;
 import com.github.rjbx.calibrater.TypeConverters;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
