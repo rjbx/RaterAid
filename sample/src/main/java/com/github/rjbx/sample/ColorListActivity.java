@@ -124,9 +124,11 @@ public class ColorListActivity extends AppCompatActivity {
                     Calibrater.STANDARD_PRECISION,
                     clickedView -> {
                         Button removeButton = clickedView.findViewById(R.id.remove);
-                        if (clickedView == removeButton) mItems.remove((int) removeButton.getTag());
-                        sPercents = new double[mItems.size()];
-                        Calibrater.resetRatings(sPercents);
+                        if (clickedView == removeButton) {
+                            mItems.remove((int) removeButton.getTag());
+                            sPercents = new double[mItems.size()];
+                            Calibrater.resetRatings(sPercents);
+                        }
                         syncPercentsToItems(mItems, sPercents);
                         notifyDataSetChanged();
                     });
