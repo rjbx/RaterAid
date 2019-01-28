@@ -142,7 +142,7 @@ public class ColorListActivity extends AppCompatActivity {
             ColorItem item = mItems.get(position);
 
             holder.mIdView.setText(item.getId());
-            holder.mContentView.setText(item.getContent());
+            holder.mContentView.setText(item.getColorRes());
             holder.mPercentText.setText(PERCENT_FORMATTER.format(item.getPercent()));
 
             holder.itemView.setTag(item);

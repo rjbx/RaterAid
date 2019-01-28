@@ -41,9 +41,7 @@ public class ColorData {
             R.color.colorComfort,
             R.color.colorComfortDark,
             R.color.colorNeutral,
-            R.color.colorNeutralDark,
             R.color.colorPrimary,
-            R.color.colorPrimaryDark
     };
 
     private static final int COUNT = COLORS.length;
