@@ -20,6 +20,10 @@ public class Rateraid {
         double getPercent();
     }
 
+    private RatedObject[] mRateables;
+    public RatedObject[] getRateables() { return mRateables; }
+    public void setRateables(RatedObject[] rateables) { this.mRateables = rateables; }
+
     private double[] mPercentages;
     private void setPercentages(double[] percentages) { this.mPercentages = percentages; }
     private void setPercentages(float[] percentages) { this.mPercentages = TypeConverters.arrayFloatToDouble(percentages); }
@@ -34,9 +38,14 @@ public class Rateraid {
         return new Rateraid.Builder(percentages, magnitude, precision,  clickListener);
     }
 
+    public static Rateraid.Builder with(RatedObject[] rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        return new Rateraid.Builder(rateables, magnitude, precision,  clickListener);
+    }
+
     public static class Builder {
 
         private Rateraid mRateraid;
+        private RatedObject[] mRateables;
         private double[] mPercentages;
         private double mMagnitude;
         private int mPrecision;
@@ -44,6 +53,15 @@ public class Rateraid {
 
         Builder(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mPercentages = percentages;
+            mMagnitude = magnitude;
+            mPrecision = precision;
+            mClickListener = clickListener;
+        }
+
+        Builder(RatedObject[] rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+
+            mRateables = rateables;
+            for (int i = 0; i < rateables.length; i++) { mPercentages[i] = mRateables[i].getPercent(); }
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -100,6 +118,11 @@ public class Rateraid {
         public Rateraid build() {
             mRateraid = new Rateraid();
             mRateraid.setPercentages(mPercentages);
+            if (mRateables != null) {
+                for (int i = 0; i < mRateables.length; i++)
+                    mRateables[i].setPercent(mPercentages[i]);
+                mRateraid.setRateables(mRateables);
+            }
             return mRateraid;
         }
     }
