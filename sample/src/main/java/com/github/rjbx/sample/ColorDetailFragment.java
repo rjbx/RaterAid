@@ -8,8 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import java.text.NumberFormat;
 
 import androidx.fragment.app.Fragment;
 
@@ -65,7 +66,13 @@ public class ColorDetailFragment extends Fragment {
         if (mItem != null) {
             int color = getResources().getColor(mItem.getColorRes());
             container.setBackgroundColor(color);
-            ((TextView) rootView.findViewById(R.id.color_detail)).setText(mItem.getDetails());
+            ((TextView) rootView.findViewById(R.id.color_detail))
+                    .setText(String.format(
+                        "%s rated %s\n\n%s",
+                        mItem.colorResToString(getContext()),
+                        NumberFormat.getPercentInstance().format(mItem.getPercent()),
+                        mItem.getDetails()
+                    ));
         }
 
         return rootView;

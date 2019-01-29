@@ -1,10 +1,13 @@
 package com.github.rjbx.sample.data;
 
+import android.content.Context;
+
 import com.github.rjbx.sample.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -110,6 +113,7 @@ public class ColorData {
         public double getPercent() {
             return percent;
         }
+        public int getColorRes() { return colorRes; }
         public void setId(String id) {
             this.id = id;
         }
@@ -122,15 +126,16 @@ public class ColorData {
         public void setPercent(double percent) {
             this.percent = percent;
         }
-        public int getColorRes() {
-            return colorRes;
-        }
         public void setColorRes(int colorRes) {
             this.colorRes = colorRes;
         }
 
-        @Override public String toString() {
-            return content;
+        @Override public String toString() { return content; }
+        public String colorResToString(Context context) {
+            return String.format(
+                Locale.getDefault(),
+                "#%06X", 0xFFFFFF & context.getResources().getColor(colorRes)
+            );
         }
     }
 }
