@@ -90,7 +90,7 @@ public class ColorData {
     /**
      * A color item representing a piece of content.
      */
-    public static class ColorItem implements Rateraid.RatedObject {
+    public static class ColorItem implements Rateraid.RatedObject<ColorItem> {
         private String id;
         private String content;
         private String details;
@@ -103,6 +103,11 @@ public class ColorData {
             this.details = details;
             this.percent = percent;
             this.colorRes = colorRes;
+        }
+
+        @Override
+        public ColorItem getObject() {
+            return this;
         }
 
         public String getId() {
