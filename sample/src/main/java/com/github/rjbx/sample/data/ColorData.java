@@ -18,12 +18,12 @@ public class ColorData {
     /**
      * An array of sample (color) items.
      */
-    public static final List<ColorItem> ITEMS = new ArrayList<ColorItem>();
+    private static final List<ColorItem> ITEMS = new ArrayList<ColorItem>();
 
     /**
      * A map of sample (color) items, by ID.
      */
-    public static final Map<String, ColorItem> ITEM_MAP = new HashMap<String, ColorItem>();
+    private static final Map<String, ColorItem> ITEM_MAP = new HashMap<String, ColorItem>();
 
     private static final int [] COLORS = new int[] {
             R.color.colorCoolLight,
@@ -76,6 +76,9 @@ public class ColorData {
         }
         return builder.toString();
     }
+
+    public static List<ColorItem> getItems() { return new ArrayList<>(ITEMS); }
+    public static Map<String, ColorItem> getItemMap() { return new HashMap<>(ITEM_MAP); }
 
     /**
      * A color item representing a piece of content.

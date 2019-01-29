@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +25,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -60,13 +58,13 @@ public class ColorListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(clickedView -> {
-            mListAdapter.swapItems(ColorData.ITEMS);
+            mListAdapter.swapItems(ColorData.getItems());
             Snackbar.make(clickedView, "Color list has been repopulated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
         });
@@ -85,7 +83,7 @@ public class ColorListActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.color_list);
         assert recyclerView != null;
-        mListAdapter = new ColorListAdapter(this, ColorData.ITEMS, mTwoPane);
+        mListAdapter = new ColorListAdapter(this, ColorData.getItems(), mTwoPane);
         recyclerView.setAdapter(mListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
@@ -125,7 +123,7 @@ public class ColorListActivity extends AppCompatActivity {
         ColorListAdapter(ColorListActivity parent,
                          List<ColorItem> items,
                          boolean twoPane) {
-            mItems = new ArrayList<>(ColorData.ITEMS);
+            mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
             sPercents = new double[mItems.size()];
@@ -174,7 +172,7 @@ public class ColorListActivity extends AppCompatActivity {
         }
 
         private void swapItems(List<ColorItem> items) {
-            mItems = new ArrayList<>(ColorData.ITEMS);
+            mItems = items;
             sPercents = new double[mItems.size()];
             Calibrater.resetRatings(sPercents);
             syncPercentsToItems(mItems, sPercents);
