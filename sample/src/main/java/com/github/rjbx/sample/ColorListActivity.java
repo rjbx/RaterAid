@@ -1,9 +1,12 @@
 package com.github.rjbx.sample;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,11 +16,17 @@ import com.github.rjbx.calibrater.Calibrater;
 import com.github.rjbx.sample.data.ColorData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.github.rjbx.rateraid.Rateraid;
@@ -26,6 +35,7 @@ import com.github.rjbx.sample.data.ColorData.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * An activity representing a list of ColorData. This activity
@@ -83,12 +93,12 @@ public class ColorListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
         private Rateraid.Builder sBuilder;
+
         private List<ColorItem> mItems;
         private static double[] sPercents;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
         private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
-
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +132,7 @@ public class ColorListActivity extends AppCompatActivity {
             syncPercentsToItems(mItems, sPercents);
             sBuilder = Rateraid.with(
                     sPercents,
-                    Calibrater.STANDARD_MAGNITUDE,
+                    sMagnitude,
                     Calibrater.STANDARD_PRECISION,
                     clickedView -> {
                         syncPercentsToItems(mItems, sPercents);
@@ -175,13 +185,13 @@ public class ColorListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
+
             final TextView mIdView;
             final TextView mContentView;
             final Button mRemoveButton;
             final Button mIncrementButton;
             final Button mDecrementButton;
             final EditText mPercentText;
-
             ViewHolder(View view) {
                 super(view);
                 mIdView = view.findViewById(R.id.id_text);
@@ -191,6 +201,79 @@ public class ColorListActivity extends AppCompatActivity {
                 mDecrementButton = view.findViewById(R.id.decrement);
                 mPercentText = view.findViewById(R.id.percent);
             }
+
         }
+    }
+
+    private static double sMagnitude = Calibrater.STANDARD_MAGNITUDE;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.color_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_adjust) {
+            double startingMagnitude = sMagnitude;
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            View view = getLayoutInflater().inflate(R.layout.dialog_color_list, new LinearLayout(this));
+            EditText readout = view.findViewById(R.id.main_readout);
+            SeekBar seekbar = view.findViewById(R.id.main_seekbar);
+            readout.setText(String.format(
+                    Locale.getDefault(), "%,2f", sMagnitude)
+                    .substring(0, 5));
+            readout.setOnEditorActionListener( (textView, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    double decimal = Double.parseDouble(textView.getText().toString());
+                    if (decimal < 0 || decimal > .1) return false;
+                    sMagnitude = decimal;
+                    seekbar.setProgress((int) (sMagnitude * 1000d));
+                    return true;
+                } return false;
+            });
+            seekbar.setProgress((int) (startingMagnitude * 1000d));
+            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    sMagnitude = progress / 1000d;
+                    readout.setText(String.format(
+                            Locale.getDefault(), "%,2f", sMagnitude)
+                            .substring(0, 5));
+                }
+                @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+                @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+            });
+            alertDialog.setView(view);
+            alertDialog.setMessage(String.format(Locale.getDefault(),
+                    "Rateraid is a library for automatically calibrating as well as " +
+                            "defining behaviors for views controlling percent values.\n\n" +
+                            "You can adjust the amount at which each press of a " +
+                            "shifter button raises or lowers the related percent value.\n\n" +
+                            "This amount is currently set to %s. To change it, " +
+                            "move the slider and press Save,",
+                    String.format(
+                            Locale.getDefault(), "%,2f", sMagnitude)
+                            .substring(0, 5)));
+            DialogInterface.OnClickListener listener = (dialog, button) -> {
+                if (dialog == alertDialog) {
+                    switch (button) {
+                        case AlertDialog.BUTTON_NEUTRAL:
+                            sMagnitude = startingMagnitude;
+                            dialog.dismiss();
+                            break;
+                        case AlertDialog.BUTTON_POSITIVE:
+                            dialog.dismiss();
+                            break;
+                    }
+                }
+            };
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", listener);
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", listener);
+            alertDialog.show();
+            alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.GRAY);
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.GRAY);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
