@@ -19,9 +19,9 @@ import java.util.Map;
 public class ColorData {
 
     /**
-     * An array of sample (color) items.
+     * A saved array of sample (color) items.
      */
-    private static final List<ColorItem> ITEMS = new ArrayList<ColorItem>();
+    private static List<ColorItem> sSavedItems = new ArrayList<ColorItem>();
 
     /**
      * A map of sample (color) items, by ID.
@@ -57,7 +57,6 @@ public class ColorData {
     }
 
     private static void addItem(ColorItem item) {
-        ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
 
@@ -80,8 +79,12 @@ public class ColorData {
         return builder.toString();
     }
 
-    public static List<ColorItem> getItems() { return new ArrayList<>(ITEMS); }
     public static Map<String, ColorItem> getItemMap() { return new HashMap<>(ITEM_MAP); }
+    public static List<ColorItem> getItemMapValues() { return new ArrayList<>(ITEM_MAP.values()); }
+
+    public static List<ColorItem> getSavedItems() { return sSavedItems; }
+    public static void setSavedItems(List<ColorItem> items) { sSavedItems = items; }
+
 
     /**
      * A color item representing a piece of content.

@@ -5,9 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -32,7 +33,6 @@ import com.github.rjbx.rateraid.Rateraid;
 import com.github.rjbx.sample.data.ColorData.*;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -64,11 +64,12 @@ public class ColorListActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(clickedView -> {
-            mListAdapter.swapItems(ColorData.getItems());
+            mListAdapter.swapItems(ColorData.getSavedItems());
             Snackbar.make(clickedView, "Color list has been repopulated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
         });
 
+        if (savedInstanceState == null) ColorData.setSavedItems(ColorData.getItemMapValues());
         if (findViewById(R.id.color_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -80,24 +81,27 @@ public class ColorListActivity extends AppCompatActivity {
         setupRecyclerView();
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.color_list);
         assert recyclerView != null;
-        mListAdapter = new ColorListAdapter(this, ColorData.getItems(), mTwoPane);
+        mListAdapter = new ColorListAdapter(this, ColorData.getSavedItems(), mTwoPane);
         recyclerView.setAdapter(mListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
 
     public static class ColorListAdapter
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
-        private Rateraid.Builder sBuilder;
-
+        private Rateraid.Builder mBuilder;
         private List<ColorItem> mItems;
-        private static double[] sPercents;
+        private double[] mPercents;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
-        private static final NumberFormat PERCENT_FORMATTER = NumberFormat.getPercentInstance();
+
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,15 +130,17 @@ public class ColorListActivity extends AppCompatActivity {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
-            sPercents = new double[mItems.size()];
-            Calibrater.resetRatings(sPercents);
-            syncPercentsToItems(mItems, sPercents);
-            sBuilder = Rateraid.with(
-                    sPercents,
+            if (mItems.get(0).getPercent() == 0d) {
+                mPercents = new double[mItems.size()];
+                Calibrater.resetRatings(mPercents);
+                syncPercentsToItems(mItems, mPercents);
+            }
+            mBuilder = Rateraid.with(
+                    mPercents,
                     sMagnitude,
                     Calibrater.STANDARD_PRECISION,
                     clickedView -> {
-                        syncPercentsToItems(mItems, sPercents);
+                        syncPercentsToItems(mItems, mPercents);
                         notifyDataSetChanged();
                     });
         }
@@ -153,7 +159,7 @@ public class ColorListActivity extends AppCompatActivity {
 
             holder.mIdView.setText(item.getId());
             holder.mContentView.setText(item.colorResToString(mParentActivity));
-            holder.mPercentText.setText(PERCENT_FORMATTER.format(item.getPercent()));
+            holder.mPercentText.setText(NumberFormat.getPercentInstance().format(item.getPercent()));
 
             holder.itemView.setTag(item);
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -161,7 +167,7 @@ public class ColorListActivity extends AppCompatActivity {
                     holder.itemView.getResources().getColor(item.getColorRes())
             );
 
-            sBuilder.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
+            mBuilder.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
                     .addRemover(holder.mRemoveButton, mItems, position)
                     .addEditor(holder.mPercentText, position);
         }
@@ -173,9 +179,9 @@ public class ColorListActivity extends AppCompatActivity {
 
         private void swapItems(List<ColorItem> items) {
             mItems = items;
-            sPercents = new double[mItems.size()];
-            Calibrater.resetRatings(sPercents);
-            syncPercentsToItems(mItems, sPercents);
+            mPercents = new double[mItems.size()];
+            Calibrater.resetRatings(mPercents);
+            syncPercentsToItems(mItems, mPercents);
             notifyDataSetChanged();
         }
 

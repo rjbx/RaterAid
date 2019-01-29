@@ -36,8 +36,7 @@ public class ColorDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ColorDetailFragment() {
-    }
+    public ColorDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
