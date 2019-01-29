@@ -26,6 +26,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -66,7 +67,7 @@ public class ColorListActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(clickedView -> {
             mListAdapter.swapItems(ColorData.ITEMS);
-                Snackbar.make(clickedView, "Color list has been repopulated", Snackbar.LENGTH_LONG)
+            Snackbar.make(clickedView, "Color list has been repopulated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
         });
 
@@ -78,12 +79,12 @@ public class ColorListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.color_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        setupRecyclerView();
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.color_list);
+        assert recyclerView != null;
         mListAdapter = new ColorListAdapter(this, ColorData.ITEMS, mTwoPane);
         recyclerView.setAdapter(mListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -263,6 +264,7 @@ public class ColorListActivity extends AppCompatActivity {
                             dialog.dismiss();
                             break;
                         case AlertDialog.BUTTON_POSITIVE:
+                            setupRecyclerView();
                             dialog.dismiss();
                             break;
                     }
