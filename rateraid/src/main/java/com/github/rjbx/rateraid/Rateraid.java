@@ -15,6 +15,11 @@ import androidx.annotation.Nullable;
 
 public class Rateraid {
 
+    public interface RatedObject {
+        void setPercent(double percent);
+        double getPercent();
+    }
+
     private double[] mPercentages;
     private void setPercentages(double[] percentages) { this.mPercentages = percentages; }
     private void setPercentages(float[] percentages) { this.mPercentages = TypeConverters.arrayFloatToDouble(percentages); }
