@@ -157,7 +157,7 @@ public class ColorListActivity extends AppCompatActivity {
             );
 
             mRateraid.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
-                    .addRemover(holder.mRemoveButton, mItems, position)
+                    .addRemover(holder.mRemoveButton, position)
                     .addEditor(holder.mPercentText, position);
         }
 

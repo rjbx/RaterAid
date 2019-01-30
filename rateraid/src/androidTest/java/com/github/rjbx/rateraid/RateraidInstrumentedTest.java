@@ -100,7 +100,7 @@ public class RateraidInstrumentedTest {
                     }
                 }
 
-                Calibrater.resetRatings(percentages);
+                Calibrater.resetRatings(percentages, true, PRECISION);
             }
         }
     }
@@ -132,7 +132,7 @@ public class RateraidInstrumentedTest {
                 mDecrementButton.performClick();
                 while (percentages[index] < .25f) mIncrementButton.performClick();
 
-                Calibrater.resetRatings(percentages);
+                Calibrater.resetRatings(percentages, true, PRECISION);
             }
         }
         assertEquals(2908, mCount);
