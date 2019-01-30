@@ -96,7 +96,7 @@ public class ColorListActivity extends AppCompatActivity {
     public static class ColorListAdapter
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
-        private Rateraid.Builder mBuilder;
+        private Rateraid.Objects mObjects;
         private List<Rateraid.RatedObject<ColorItem>> mItems;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
@@ -129,7 +129,7 @@ public class ColorListActivity extends AppCompatActivity {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
-            mBuilder = Rateraid.with(
+            mObjects = Rateraid.with(
                     mItems,
                     sMagnitude,
                     Calibrater.STANDARD_PRECISION,
@@ -158,7 +158,7 @@ public class ColorListActivity extends AppCompatActivity {
                     holder.itemView.getResources().getColor(item.getColorRes())
             );
 
-            mBuilder.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
+            mObjects.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
                     .addRemover(holder.mRemoveButton, mItems, position)
                     .addEditor(holder.mPercentText, position);
         }

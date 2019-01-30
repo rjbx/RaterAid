@@ -21,7 +21,7 @@ public class RateraidInstrumentedTest {
     private Button mDecrementButton;
     private Context mContext;
     private long mCount;
-    private Rateraid.Builder mBuilder;
+    private Rateraid.Objects mObjects;
 
     private static int PRECISION = Calibrater.STANDARD_PRECISION;
 
@@ -36,11 +36,11 @@ public class RateraidInstrumentedTest {
     public final void testAddButtonSetClickListenerCallback() {
         double[] percentages = { .25f, .25f, .25f, .25f };
         for (float magnitude = 0.01f; magnitude < 0.1f; magnitude += 0.01f) {
-            mBuilder = Rateraid.with(percentages, magnitude, PRECISION, null);
+            mObjects = Rateraid.with(percentages, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
 
-                mBuilder.addShifters(mIncrementButton, mDecrementButton, index);
-                mBuilder.build();
+                mObjects.addShifters(mIncrementButton, mDecrementButton, index);
+                mObjects.build();
                 float sum;
 
                 mIncrementButton.performClick();
@@ -109,10 +109,10 @@ public class RateraidInstrumentedTest {
     public final void testSetClickListenerUserDefinedCallback() {
         double[] percentages = { .25f, .25f, .25f, .25f };
         for (float magnitude = 0.01f; magnitude < 0.1f; magnitude += 0.01f) {
-            mBuilder = Rateraid.with(percentages, magnitude, PRECISION, clickedView -> mCount++);
+            mObjects = Rateraid.with(percentages, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
-                mBuilder.addShifters(mIncrementButton, mDecrementButton, index);
+                mObjects.addShifters(mIncrementButton, mDecrementButton, index);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
