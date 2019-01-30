@@ -9,6 +9,7 @@ import com.github.rjbx.calibrater.TypeConverters;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -21,10 +22,10 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         T getObject();
     }
 
-
-    private List<RatedObject<T>> mRateables;
-    public List<RatedObject<T>> getRateables() { return mRateables; }
-    public void setRateables(List<RatedObject<T>> rateables) { this.mRateables = rateables; }
+    public <T extends RatedObject>List<RatedObject<T>> getRateables(List<RatedObject<T>> objects) {
+        for (int i = 0; i < mPercentages.length; i++) objects.get(i).setPercent(mPercentages[i]);
+        return objects;
+    }
 
     private double[] mPercentages;
     private void setPercentages(double[] percentages) { this.mPercentages = percentages; }
@@ -36,7 +37,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
     public Double[] getPercentagesBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercentages); }
     public Float[] getPercentagesFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercentages); }
 
-    public static Arrays with(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    static Arrays with(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Arrays(percentages, magnitude, precision,  clickListener);
     }
 
@@ -52,7 +53,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        public Arrays(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private Arrays(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mPercentages = percentages;
             mMagnitude = magnitude;
             mPrecision = precision;
@@ -107,7 +108,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
             return this;
         }
 
-        public Rateraid build() {
+        public Rateraid instance() {
             mRateraid = new Rateraid();
             mRateraid.setPercentages(mPercentages);
             return mRateraid;
@@ -122,7 +123,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        public Objects(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private Objects(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mRateables = rateables;
             mMagnitude = magnitude;
             mPrecision = precision;
@@ -177,9 +178,11 @@ public class Rateraid<T extends Rateraid.RatedObject> {
             return this;
         }
 
-        public Rateraid build() {
+        public Rateraid instance() {
             mRateraid = new Rateraid();
-            mRateraid.setRateables(mRateables);
+            double percents[] = new double[mRateables.size()];
+            for (int i = 0; i < percents.length; i++) percents[i] = mRateables.get(i).getPercent();
+            mRateraid.setPercentages(percents);
             return mRateraid;
         }
     }
