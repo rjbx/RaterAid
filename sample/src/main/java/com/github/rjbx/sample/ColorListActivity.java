@@ -161,8 +161,6 @@ public class ColorListActivity extends AppCompatActivity {
             mBuilder.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
                     .addRemover(holder.mRemoveButton, mItems, position)
                     .addEditor(holder.mPercentText, position);
-
-            if (position == mItems.size() - 1) mBuilder.build();
         }
 
         @Override

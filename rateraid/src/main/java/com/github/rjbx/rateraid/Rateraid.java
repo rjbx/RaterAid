@@ -63,7 +63,10 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         public Builder(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
 
             mRateables = rateables;
-            for (int i = 0; i < rateables.size(); i++) { mPercentages[i] = mRateables.get(i).getPercent(); }
+            mPercentages = new double[mRateables.size()];
+            for (int i = 0; i < mRateables.size(); i++)
+                mRateables.get(i).setPercent(mPercentages[i]);
+            Calibrater.resetRatings(mPercentages);
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -72,10 +75,14 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         public Rateraid.Builder addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 Calibrater.shiftRatings(mPercentages, index, mMagnitude, mPrecision);
+                if (mRateables != null) for (int i = 0; i < mRateables.size(); i++)
+                    mRateables.get(i).setPercent(mPercentages[i]);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
             });
             decrementButton.setOnClickListener(clickedView -> {
                 Calibrater.shiftRatings(mPercentages, index, -mMagnitude, mPrecision);
+                if (mRateables != null) for (int i = 0; i < mRateables.size(); i++)
+                    mRateables.get(i).setPercent(mPercentages[i]);
                 if (mClickListener != null) mClickListener.onClick(decrementButton);
             });
             return this;
@@ -85,6 +92,8 @@ public class Rateraid<T extends Rateraid.RatedObject> {
             removeButton.setOnClickListener(clickedView -> {
                 items.remove(index);
                 Calibrater.removeRating(mPercentages, index, items.size());
+                if (mRateables != null) for (int i = 0; i < mRateables.size(); i++)
+                    mRateables.get(i).setPercent(mPercentages[i]);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             });
             return this;
@@ -121,8 +130,6 @@ public class Rateraid<T extends Rateraid.RatedObject> {
             mRateraid = new Rateraid();
             mRateraid.setPercentages(mPercentages);
             if (mRateables != null) {
-                for (int i = 0; i < mRateables.size(); i++)
-                    mRateables.get(i).setPercent(mPercentages[i]);
                 mRateraid.setRateables(mRateables);
             }
             return mRateraid;
