@@ -9,7 +9,6 @@ import com.github.rjbx.calibrater.TypeConverters;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -191,6 +190,13 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
         Calibrater.shiftRatings(percents, index, magnitude, precision);
+        for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+    }
+
+    public static <T extends RatedObject> void resetRatedObjects(List<RatedObject<T>> objects) {
+        double percents[] = new double[objects.size()];
+        for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
+        Calibrater.resetRatings(percents);
         for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
     }
 
