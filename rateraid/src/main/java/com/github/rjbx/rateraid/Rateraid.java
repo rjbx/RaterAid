@@ -54,6 +54,7 @@ public class Rateraid {
 
         private Arrays(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mPercentages = percentages;
+            Calibrater.resetRatings(mPercentages, false, precision);
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -74,7 +75,7 @@ public class Rateraid {
         public Arrays addRemover(View removeButton, List items, int index) {
             removeButton.setOnClickListener(clickedView -> {
                 items.remove(index);
-                Calibrater.removeRating(mPercentages, index, items.size());
+                Calibrater.removeRating(mPercentages, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             });
             return this;
@@ -142,10 +143,9 @@ public class Rateraid {
             return this;
         }
 
-        public Objects addRemover(View removeButton, List items, int index) {
+        public Objects addRemover(View removeButton, int index) {
             removeButton.setOnClickListener(clickedView -> {
-                items.remove(index);
-                removeRating(mRateables, index, items.size());
+                removeRating(mRateables, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             });
             return this;
@@ -205,13 +205,9 @@ public class Rateraid {
         return result;
     }
 
-    public static <T extends RatedObject> boolean removeRating(List<RatedObject<T>> objects, int index, int size) {
-        boolean result;
-        double percents[] = new double[objects.size()];
-        for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
-        result = Calibrater.removeRating(percents, index, size);
-        for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
-        return result;
+    public static <T extends RatedObject> boolean removeRating(List<RatedObject<T>> objects, int index) {
+        objects.remove(index);
+        return resetRatings(objects, false, null);
     }
 
     public static <T extends RatedObject> boolean recalibrateRatings(List<RatedObject<T>> objects) {

@@ -87,12 +87,20 @@ public final class Calibrater {
      * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
      * @param percents {@code double} array elements to be calibrated if not proportionate
      */
-    public static boolean removeRating(double[] percents, int index, int length) {
+    public static boolean removeRating(double[] percents, int index) {
+
         if (percents[index] == -1d) return false;
-        for (int i = 0; i < percents.length; i++) {
-            if (i < length) percents[i] = (1d / length);
-            else percents[i] = -1d;
-        }
+
+        int lastIndex = -1;
+        for (int i = 0; i < percents.length; i++) if (percents[i] == -1d) lastIndex = i - 1;
+
+        if (lastIndex != -1 && index > lastIndex) return false;
+
+        System.arraycopy(percents, index + 1, percents, index, percents.length - index - 1 );
+        percents[percents.length - 1] = -1d;
+
+        for (int i = 0; i < lastIndex; i++) percents[i] = 1d / (lastIndex + 1);
+
         return true;
     }
 
