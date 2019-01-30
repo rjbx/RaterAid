@@ -128,7 +128,7 @@ public class CalibraterTest {
                     if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                 }
 
-                assertFalse(Calibrater.resetRatings(percentages, PRECISION));
+                assertFalse(Calibrater.resetRatings(percentages, false, PRECISION));
             }
         }
     }
@@ -192,7 +192,7 @@ public class CalibraterTest {
         for (int i = 1; i < 20; i++) {
             double[] percentages = new double[i];
             for (int j = 0; j < percentages.length; j++) percentages[j] = 0d;
-            Calibrater.resetRatings(percentages, PRECISION);
+            Calibrater.resetRatings(percentages, false, PRECISION);
             assertEquals(1d / i, percentages[i - 1], 0d);
             double sum = 0d;
             for (Double percentage : percentages) sum += percentage;
@@ -208,19 +208,19 @@ public class CalibraterTest {
 
         double[] percentages = {1d, 0d, 0d, 0d};
         for (int i = 0; i < 2; i++) {
-            assertFalse(Calibrater.resetRatings(percentages, PRECISION));
+            assertFalse(Calibrater.resetRatings(percentages, false, PRECISION));
             percentages[0] -= .25d;
             percentages[3 - i] +=.25d;
         }
         
         percentages[3] = .5d;
-        assertTrue(Calibrater.resetRatings(percentages, PRECISION));
+        assertTrue(Calibrater.resetRatings(percentages, false, PRECISION));
 
         for (int i = 0; i < percentages.length - 1; i++) percentages[i] = 0d;
-        assertTrue(Calibrater.resetRatings(percentages, PRECISION));
+        assertTrue(Calibrater.resetRatings(percentages, false, PRECISION));
 
         percentages[3] = 0d;
-        assertTrue(Calibrater.resetRatings(percentages, PRECISION));
+        assertTrue(Calibrater.resetRatings(percentages, false, PRECISION));
     }
 
     /**

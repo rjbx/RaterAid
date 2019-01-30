@@ -13,7 +13,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class Rateraid<T extends Rateraid.RatedObject> {
+public class Rateraid {
 
     public interface RatedObject<T> {
         void setPercent(double percent);
@@ -21,7 +21,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         T getObject();
     }
 
-    public <T extends RatedObject>List<RatedObject<T>> getRateables(List<RatedObject<T>> objects) {
+    public <T extends RatedObject> List<RatedObject<T>> getRateables(List<RatedObject<T>> objects) {
         for (int i = 0; i < mPercentages.length; i++) objects.get(i).setPercent(mPercentages[i]);
         return objects;
     }
@@ -36,7 +36,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
     public Double[] getPercentagesBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercentages); }
     public Float[] getPercentagesFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercentages); }
 
-    static Arrays with(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static Arrays with(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Arrays(percentages, magnitude, precision,  clickListener);
     }
 
@@ -124,6 +124,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
 
         private Objects(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mRateables = rateables;
+            resetRatings(rateables, false, precision);
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -131,11 +132,11 @@ public class Rateraid<T extends Rateraid.RatedObject> {
 
         public Objects addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
-                shiftRatedObjects(mRateables, index, mMagnitude, mPrecision);
+                shiftRatings(mRateables, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
             });
             decrementButton.setOnClickListener(clickedView -> {
-                shiftRatedObjects(mRateables, index, -mMagnitude, mPrecision);
+                shiftRatings(mRateables, index, -mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(decrementButton);
             });
             return this;
@@ -144,7 +145,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         public Objects addRemover(View removeButton, List items, int index) {
             removeButton.setOnClickListener(clickedView -> {
                 items.remove(index);
-                removeRatedObject(mRateables, index, items.size());
+                removeRating(mRateables, index, items.size());
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             });
             return this;
@@ -164,7 +165,7 @@ public class Rateraid<T extends Rateraid.RatedObject> {
                             else percentage = Double.parseDouble(viewText);
                             if (percentage < 0d || percentage > 1d) return false;
                             double magnitude = percentage - mRateables.get(index).getPercent();
-                            shiftRatedObjects(mRateables, index, magnitude, mPrecision);
+                            shiftRatings(mRateables, index, magnitude, mPrecision);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
                         } catch (ParseException e) {
                             throw new NumberFormatException();
@@ -186,24 +187,39 @@ public class Rateraid<T extends Rateraid.RatedObject> {
         }
     }
 
-    public static <T extends RatedObject> void shiftRatedObjects(List<RatedObject<T>> objects, int index, double magnitude, int precision) {
+    public static <T extends RatedObject> boolean shiftRatings(List<RatedObject<T>> objects, int index, double magnitude, int precision) {
+        boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
-        Calibrater.shiftRatings(percents, index, magnitude, precision);
+        result = Calibrater.shiftRatings(percents, index, magnitude, precision);
         for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+        return result;
     }
 
-    public static <T extends RatedObject> void resetRatedObjects(List<RatedObject<T>> objects) {
+    public static <T extends RatedObject> boolean resetRatings(List<RatedObject<T>> objects, boolean forceReset, @Nullable Integer precision) {
+        boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
-        Calibrater.resetRatings(percents);
+        result = Calibrater.resetRatings(percents, forceReset, precision);
         for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+        return result;
     }
 
-    public static <T extends RatedObject> void removeRatedObject(List<RatedObject<T>> objects, int index, int size) {
+    public static <T extends RatedObject> boolean removeRating(List<RatedObject<T>> objects, int index, int size) {
+        boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
-        Calibrater.removeRating(percents, index, size);
+        result = Calibrater.removeRating(percents, index, size);
         for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+        return result;
+    }
+
+    public static <T extends RatedObject> boolean recalibrateRatings(List<RatedObject<T>> objects) {
+        boolean result;
+        double percents[] = new double[objects.size()];
+        for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
+        result = Calibrater.recalibrateRatings(percents);
+        for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+        return result;
     }
 }

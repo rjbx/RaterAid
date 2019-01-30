@@ -66,53 +66,34 @@ public final class Calibrater {
         } return true;
     }
 
-
-
-    /**
-     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
-     * @param percents {@code double} array elements to be calibrated if not proportionate
-     */
-    public static void resetRatings(double[] percents) {
-        double sum = 0d;
-        for (double percent : percents) sum += percent;
-        for (int i = 0; i < percents.length; i++) percents[i] = (1d / percents.length);
-    }
-
-    /**
-     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
-     * @param percents {@code double} array elements to be calibrated if not proportionate
-     */
-    public static void resetRatings(double[] percents, int arrayLength) {
-        double sum = 0d;
-        for (double percent : percents) sum += percent;
-        for (int i = 0; i < arrayLength; i++) percents[i] = (1d / arrayLength);
-    }
-
-    /**
-     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
-     * @param percents {@code double} array elements to be calibrated if not proportionate
-     */
-    public static void removeRating(double[] percents, int index, int length) {
-        for (int i = 0; i < percents.length; i++) {
-            if (i < length) percents[i] = (1d / length);
-            else percents[i] = 0d;
-        }
-    }
-
     /**
      * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
      * @param percents {@code double} array elements to be reset if not equivalent
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if array was reset and false otherwise
      */
-    public static boolean resetRatings(double[] percents, double precision) {
+    public static boolean resetRatings(double[] percents, boolean forceReset, Integer precision) {
+        if (precision == null) precision = 0;
         double sum = 0d;
         for (double percent : percents) sum += percent;
         double error = Math.pow(10, -precision);
-        if (sum > 1d + error || sum < 1d - error) { // elements are not proportionate
+        if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
             for (int i = 0; i < percents.length; i++) percents[i] = (1d / percents.length);
             return true;
         } else return false;
+    }
+
+    /**
+     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
+     * @param percents {@code double} array elements to be calibrated if not proportionate
+     */
+    public static boolean removeRating(double[] percents, int index, int length) {
+        if (percents[index] == -1d) return false;
+        for (int i = 0; i < percents.length; i++) {
+            if (i < length) percents[i] = (1d / length);
+            else percents[i] = -1d;
+        }
+        return true;
     }
 
     /**
@@ -120,10 +101,12 @@ public final class Calibrater {
      * between the whole and the sum of all array elements.
      * @param percents {@code double} array to be calibrated closer to the whole
      */
-    public static void recalibrateRatings(double[] percents) {
+    public static boolean recalibrateRatings(double[] percents) {
         double sum = 0d;
         for (double percent : percents) sum += percent;
+        if (sum == 1d) return false;
         double difference = (1d - sum) / percents.length;
         for (int i = 0; i < percents.length; i++) percents[i] += difference;
+        return true;
     }
 }

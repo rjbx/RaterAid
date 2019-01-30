@@ -127,7 +127,7 @@ public class ColorListActivity extends AppCompatActivity {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
-            Rateraid.resetRatedObjects(mItems);
+            Rateraid.resetRatings(mItems);
             mRateraid = Rateraid.with(
                     mItems,
                     sMagnitude,
