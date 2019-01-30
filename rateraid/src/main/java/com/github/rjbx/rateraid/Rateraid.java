@@ -39,7 +39,7 @@ public class Rateraid {
         return new Rateraid.Builder(percentages, magnitude, precision,  clickListener);
     }
 
-    public static Rateraid.Builder with(List<RatedObject> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static <T extends RatedObject>Rateraid.Builder with(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Rateraid.Builder(rateables, magnitude, precision,  clickListener);
     }
 
@@ -59,9 +59,9 @@ public class Rateraid {
             mClickListener = clickListener;
         }
 
-        Builder(List rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        <T extends RatedObject> Builder(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
 
-            mRateables = (List<RatedObject>) rateables;
+            mRateables = rateables;
             for (int i = 0; i < rateables.size(); i++) { mPercentages[i] = mRateables.get(i).getPercent(); }
             mMagnitude = magnitude;
             mPrecision = precision;

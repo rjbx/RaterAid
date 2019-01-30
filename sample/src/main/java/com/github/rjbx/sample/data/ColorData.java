@@ -22,12 +22,12 @@ public class ColorData {
     /**
      * A saved array of sample (color) items.
      */
-    private static List<ColorItem> sSavedItems = new ArrayList<ColorItem>();
+    private static List<Rateraid.RatedObject<ColorItem>> sSavedItems = new ArrayList<Rateraid.RatedObject<ColorItem>>();
 
     /**
      * A map of sample (color) items, by ID.
      */
-    private static final Map<String, ColorItem> ITEM_MAP = new HashMap<String, ColorItem>();
+    private static final Map<String, Rateraid.RatedObject<ColorItem>> ITEM_MAP = new HashMap<String, Rateraid.RatedObject<ColorItem>>();
 
     private static final int [] COLORS = new int[] {
             R.color.colorCoolLight,
@@ -80,11 +80,11 @@ public class ColorData {
         return builder.toString();
     }
 
-    public static Map<String, ColorItem> getItemMap() { return new HashMap<>(ITEM_MAP); }
-    public static List<ColorItem> getItemMapValues() { return new ArrayList<>(ITEM_MAP.values()); }
+    public static Map<String, Rateraid.RatedObject<ColorItem>> getItemMap() { return new HashMap<>(ITEM_MAP); }
+    public static List<Rateraid.RatedObject<ColorItem>> getItemMapValues() { return new ArrayList<Rateraid.RatedObject<ColorItem>>(ITEM_MAP.values()); }
 
-    public static List<ColorItem> getSavedItems() { return sSavedItems; }
-    public static void setSavedItems(List<ColorItem> items) { sSavedItems = items; }
+    public static List<Rateraid.RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
+    public static void setSavedItems(List<Rateraid.RatedObject<ColorItem>> items) { sSavedItems = items; }
 
 
     /**

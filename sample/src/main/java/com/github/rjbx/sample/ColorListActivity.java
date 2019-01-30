@@ -97,8 +97,7 @@ public class ColorListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
         private Rateraid.Builder mBuilder;
-        private List<ColorItem> mItems;
-        private double[] mPercents;
+        private List<Rateraid.RatedObject<ColorItem>> mItems;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
 
@@ -124,25 +123,17 @@ public class ColorListActivity extends AppCompatActivity {
             }
         };
 
-        ColorListAdapter(ColorListActivity parent,
-                         List<ColorItem> items,
-                         boolean twoPane) {
+        <T extends Rateraid.RatedObject> ColorListAdapter(ColorListActivity parent,
+                                                         List<Rateraid.RatedObject<ColorItem>> items,
+                                                         boolean twoPane) {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
-            if (mItems.get(0).getPercent() == 0d) {
-                mPercents = new double[mItems.size()];
-                Calibrater.resetRatings(mPercents);
-                syncPercentsToItems(mItems, mPercents);
-            }
             mBuilder = Rateraid.with(
-                    mPercents,
+                    mItems,
                     sMagnitude,
                     Calibrater.STANDARD_PRECISION,
-                    clickedView -> {
-                        syncPercentsToItems(mItems, mPercents);
-                        notifyDataSetChanged();
-                    });
+                    clickedView -> notifyDataSetChanged());
         }
 
         @Override
@@ -155,7 +146,7 @@ public class ColorListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            ColorItem item = mItems.get(position);
+            ColorItem item = mItems.get(position).getObject();
 
             holder.mIdView.setText(item.getId());
             holder.mContentView.setText(item.colorResToString(mParentActivity));
@@ -179,16 +170,9 @@ public class ColorListActivity extends AppCompatActivity {
             return mItems.size();
         }
 
-        private void swapItems(List<ColorItem> items) {
+        private void swapItems(List<Rateraid.RatedObject<ColorItem>> items) {
             mItems = items;
-            mPercents = new double[mItems.size()];
-            Calibrater.resetRatings(mPercents);
-            syncPercentsToItems(mItems, mPercents);
             notifyDataSetChanged();
-        }
-
-        private void syncPercentsToItems(List<ColorItem> items, double[] percents) {
-            for (int i = 0; i < items.size(); i++) items.get(i).setPercent(percents[i]);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
