@@ -13,7 +13,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class Rateraid {
+public class Rateraid<T extends Rateraid.RatedObject> {
 
     public interface RatedObject<T> {
         void setPercent(double percent);
@@ -21,9 +21,10 @@ public class Rateraid {
         T getObject();
     }
 
-    private List<RatedObject> mRateables;
-    public List<RatedObject> getRateables() { return mRateables; }
-    public void setRateables(List<RatedObject> rateables) { this.mRateables = rateables; }
+
+    private List<RatedObject<T>> mRateables;
+    public List<RatedObject<T>> getRateables() { return mRateables; }
+    public void setRateables(List<RatedObject<T>> rateables) { this.mRateables = rateables; }
 
     private double[] mPercentages;
     private void setPercentages(double[] percentages) { this.mPercentages = percentages; }
@@ -43,23 +44,23 @@ public class Rateraid {
         return new Rateraid.Builder(rateables, magnitude, precision,  clickListener);
     }
 
-    public static class Builder {
+    public static class Builder<T extends RatedObject> {
 
         private Rateraid mRateraid;
-        private List<RatedObject> mRateables;
+        private List<RatedObject<T>> mRateables;
         private double[] mPercentages;
         private double mMagnitude;
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        Builder(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        public Builder(double[] percentages, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mPercentages = percentages;
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
         }
 
-        <T extends RatedObject> Builder(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        public Builder(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
 
             mRateables = rateables;
             for (int i = 0; i < rateables.size(); i++) { mPercentages[i] = mRateables.get(i).getPercent(); }

@@ -46,7 +46,7 @@ public class ColorDetailFragment extends Fragment {
             // Load the color content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = ColorData.getItemMap().get(getArguments().getString(ARG_ITEM_ID));
+            mItem = ColorData.getItemMap().get(getArguments().getString(ARG_ITEM_ID)).getObject();
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
