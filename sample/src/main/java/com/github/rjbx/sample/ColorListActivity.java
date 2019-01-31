@@ -64,6 +64,7 @@ public class ColorListActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(clickedView -> {
+            ColorData.setSavedItems(ColorData.getItemMapValues());
             mListAdapter.swapItems(ColorData.getSavedItems());
             Snackbar.make(clickedView, "Color list has been repopulated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -168,6 +169,11 @@ public class ColorListActivity extends AppCompatActivity {
 
         private void swapItems(List<Rateraid.RatedObject<ColorItem>> items) {
             mItems = items;
+            mRateraid = Rateraid.with(
+                    mItems,
+                    sMagnitude,
+                    Calibrater.STANDARD_PRECISION,
+                    clickedView -> notifyDataSetChanged());
             notifyDataSetChanged();
         }
 

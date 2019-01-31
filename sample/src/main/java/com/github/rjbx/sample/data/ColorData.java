@@ -81,7 +81,7 @@ public class ColorData {
     }
 
     public static Map<String, Rateraid.RatedObject<ColorItem>> getItemMap() { return new HashMap<>(ITEM_MAP); }
-    public static List<Rateraid.RatedObject<ColorItem>> getItemMapValues() { return new ArrayList<Rateraid.RatedObject<ColorItem>>(ITEM_MAP.values()); }
+    public static List<Rateraid.RatedObject<ColorItem>> getItemMapValues() { return new ArrayList<>(ITEM_MAP.values()); }
 
     public static List<Rateraid.RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
     public static void setSavedItems(List<Rateraid.RatedObject<ColorItem>> items) { sSavedItems = items; }
