@@ -22,19 +22,19 @@ public class Rateraid {
     }
 
     public <T extends RatedObject> List<RatedObject<T>> getRateables(List<RatedObject<T>> objects) {
-        for (int i = 0; i < mpercents.length; i++) objects.get(i).setPercent(mpercents[i]);
+        for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
         return objects;
     }
 
-    private double[] mpercents;
-    private void setpercents(double[] percents) { this.mpercents = percents; }
-    private void setpercents(float[] percents) { this.mpercents = TypeConverters.arrayFloatToDouble(percents); }
-    private void setpercents(Double[] percents) {this.mpercents = TypeConverters.arrayBoxedToPrimitiveDouble(percents); }
-    private void setpercents(Float[] percents) {this.mpercents = TypeConverters.arrayFloatBoxedToDouble(percents); }
-    public double[] getpercents() { return mpercents; }
-    public float[] getpercentsBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mpercents); }
-    public Double[] getpercentsBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mpercents); }
-    public Float[] getpercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mpercents); }
+    private double[] mPercents;
+    private void setPercents(double[] percents) { this.mPercents = percents; }
+    private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
+    private void setPercents(Double[] percents) {this.mPercents = TypeConverters.arrayBoxedToPrimitiveDouble(percents); }
+    private void setPercents(Float[] percents) {this.mPercents = TypeConverters.arrayFloatBoxedToDouble(percents); }
+    public double[] getPercents() { return mPercents; }
+    public float[] getPercentsBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mPercents); }
+    public Double[] getPercentsBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercents); }
+    public Float[] getPercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercents); }
 
     public static Arrays with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Arrays(percents, magnitude, precision,  clickListener);
@@ -47,26 +47,26 @@ public class Rateraid {
     public static class Arrays {
 
         private Rateraid mRateraid;
-        private double[] mpercents;
+        private double[] mPercents;
         private double mMagnitude;
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
         private Arrays(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-            mpercents = percents;
-            Calibrater.resetRatings(mpercents, false, precision);
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
+            mPercents = percents;
+            Calibrater.resetRatings(mPercents, false, precision);
         }
 
         public Arrays addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
-                Calibrater.shiftRatings(mpercents, index, mMagnitude, mPrecision);
+                Calibrater.shiftRatings(mPercents, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
             });
             decrementButton.setOnClickListener(clickedView -> {
-                Calibrater.shiftRatings(mpercents, index, -mMagnitude, mPrecision);
+                Calibrater.shiftRatings(mPercents, index, -mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(decrementButton);
             });
             return this;
@@ -74,7 +74,7 @@ public class Rateraid {
 
         public Arrays addRemover(View removeButton, int index) {
             removeButton.setOnClickListener(clickedView -> {
-                Calibrater.removeRating(mpercents, index);
+                Calibrater.removeRating(mPercents, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             }); return this;
         }
@@ -92,8 +92,8 @@ public class Rateraid {
                             if (viewText.contains("%")) percent = percentFormatter.parse(viewText).doubleValue();
                             else percent = Double.parseDouble(viewText);
                             if (percent < 0d || percent > 1d) return false;
-                            double magnitude = percent - mpercents[index];
-                            Calibrater.shiftRatings(mpercents, index, magnitude, mPrecision);
+                            double magnitude = percent - mPercents[index];
+                            Calibrater.shiftRatings(mPercents, index, magnitude, mPrecision);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
                         } catch (ParseException e) {
                             throw new NumberFormatException();
@@ -106,7 +106,7 @@ public class Rateraid {
 
         public Rateraid instance() {
             mRateraid = new Rateraid();
-            mRateraid.setpercents(mpercents);
+            mRateraid.setPercents(mPercents);
             return mRateraid;
         }
     }
@@ -120,11 +120,11 @@ public class Rateraid {
         private View.OnClickListener mClickListener;
 
         private Objects(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-            mRateables = rateables;
-            resetRatings(rateables, false, precision);
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
+            mRateables = rateables;
+            resetRatings(rateables, false, precision);
         }
 
         public Objects addShifters(View incrementButton, View decrementButton, int index) {
@@ -175,7 +175,7 @@ public class Rateraid {
             mRateraid = new Rateraid();
             double percents[] = new double[mRateables.size()];
             for (int i = 0; i < percents.length; i++) percents[i] = mRateables.get(i).getPercent();
-            mRateraid.setpercents(percents);
+            mRateraid.setPercents(percents);
             return mRateraid;
         }
     }

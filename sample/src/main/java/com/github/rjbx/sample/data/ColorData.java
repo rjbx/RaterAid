@@ -2,7 +2,7 @@ package com.github.rjbx.sample.data;
 
 import android.content.Context;
 
-import com.github.rjbx.rateraid.Rateraid;
+import com.github.rjbx.rateraid.Rateraid.RatedObject;
 import com.github.rjbx.sample.R;
 
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ public class ColorData {
     /**
      * A saved array of sample (color) items.
      */
-    private static List<Rateraid.RatedObject<ColorItem>> sSavedItems = new ArrayList<>();
+    private static List<RatedObject<ColorItem>> sSavedItems = new ArrayList<>();
 
     /**
      * A map of sample (color) items, by ID.
      */
-    private static final Map<Integer, Rateraid.RatedObject<ColorItem>> ITEM_MAP = new HashMap<>();
+    private static final Map<Integer, RatedObject<ColorItem>> ITEM_MAP = new HashMap<>();
 
     private static final int [] COLORS = new int[] {
             R.color.colorCoolLight,
@@ -84,16 +84,21 @@ public class ColorData {
         return builder.toString();
     }
 
-    public static Map<Integer, Rateraid.RatedObject<ColorItem>> getItemMap() { return new HashMap<>(ITEM_MAP); }
-    public static List<Rateraid.RatedObject<ColorItem>> getItemMapValues() { return new ArrayList<>(ITEM_MAP.values()); }
+    public static Map<Integer, RatedObject<ColorItem>> getItemMap() { return new HashMap<>(ITEM_MAP); }
+    public static List<RatedObject<ColorItem>> getItemMapValues() {
+        List<RatedObject<ColorItem>> clones = new ArrayList<>();
+        for (RatedObject<ColorItem> ratedObject : ITEM_MAP.values())
+            clones.add(ratedObject.getObject().clone());
+        return clones;
+    }
 
-    public static List<Rateraid.RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
-    public static void setSavedItems(List<Rateraid.RatedObject<ColorItem>> items) { sSavedItems = items; }
+    public static List<RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
+    public static void setSavedItems(List<RatedObject<ColorItem>> items) { sSavedItems = items; }
 
     /**
      * A color item representing a piece of content.
      */
-    public static class ColorItem implements Rateraid.RatedObject<ColorItem> {
+    public static class ColorItem implements RatedObject<ColorItem>, Cloneable {
         private String id;
         private String content;
         private String details;
@@ -144,6 +149,17 @@ public class ColorData {
                 Locale.getDefault(),
                 "#%06X", 0xFFFFFF & context.getResources().getColor(colorRes)
             );
+        }
+
+        @Override public ColorItem clone() {
+            ColorItem clone  = new ColorItem(
+                    this.id, this.content, this.details, this.percent, this.colorRes
+            );
+            try { super.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException("Class must implement Cloneable interface");
+            }
+            return clone;
         }
     }
 }
