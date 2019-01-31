@@ -67,7 +67,7 @@ public final class Calibrater {
     }
 
     /**
-     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
+     * Reads {@code double} array and assigns equivalent percents to each {@code double} array element.
      * @param percents {@code double} array elements to be reset if not equivalent
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if array was reset and false otherwise
@@ -83,7 +83,7 @@ public final class Calibrater {
     }
 
     /**
-     * Reads {@code double} array and assigns equivalent percentages to each {@code double} array element.
+     * Reads {@code double} array and assigns equivalent percents to each {@code double} array element.
      * @param percents {@code double} array elements to be calibrated if not proportionate
      */
     public static boolean removeRating(double[] percents, int index) {

@@ -231,9 +231,9 @@ public class ColorListActivity extends AppCompatActivity {
             alertDialog.setMessage(String.format(Locale.getDefault(),
                     "Rateraid is a library for automatically calibrating as well as " +
                             "defining behaviors for views controlling percent values.\n\n" +
-                            "You can adjust the amount at which each press of a " +
-                            "shifter button raises or lowers the related percent value.\n\n" +
-                            "This amount is currently set to %s. To change it, " +
+                            "You can adjust how much each percent value is raised or lowered" +
+                            "when pressing any shifter button.\n\n" +
+                            "The adjustment is currently saved at %s. To change it, " +
                             "move the slider and press Save,",
                     String.format(
                             Locale.getDefault(), "%,2f", sMagnitude)
