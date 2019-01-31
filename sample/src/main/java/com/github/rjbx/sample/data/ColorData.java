@@ -5,7 +5,6 @@ import android.content.Context;
 import com.github.rjbx.rateraid.Rateraid.RatedObject;
 import com.github.rjbx.sample.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -86,7 +85,10 @@ public class ColorData {
     public static Map<Integer, RatedObject<ColorItem>> getOriginalItems() {
         Map<Integer, RatedObject<ColorItem>> clones = new HashMap<>();
         for (RatedObject<ColorItem> ratedObject : ORIGINAL_ITEMS.values())
-            clones.put(Integer.parseInt(ratedObject.getObject().getId()), ratedObject.getObject().clone());
+            clones.put(
+                    Integer.parseInt(ratedObject.getObject().getId()),
+                    ratedObject.getObject().clone()
+            );
         return clones;
     }
 

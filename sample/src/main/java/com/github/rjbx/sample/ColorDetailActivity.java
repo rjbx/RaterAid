@@ -25,8 +25,11 @@ public class ColorDetailActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(clickedView ->
-            Snackbar.make(clickedView, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show());
+            Snackbar.make(
+                    clickedView,
+                    "Replace with your own detail action",
+                    Snackbar.LENGTH_LONG
+            ).setAction("Action", null).show());
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();

@@ -73,7 +73,6 @@ public class ColorListActivity extends AppCompatActivity {
             ).setAction("Action", null).show();
         });
 
-        if (ColorData.getSavedItems().isEmpty()) ColorData.setSavedItems(ColorData.getOriginalItems());
         if (findViewById(R.id.color_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -81,6 +80,8 @@ public class ColorListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+        if (ColorData.getSavedItems().isEmpty())
+            ColorData.setSavedItems(ColorData.getOriginalItems());
 
         setupRecyclerView();
     }
@@ -88,7 +89,9 @@ public class ColorListActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.color_list);
         assert recyclerView != null;
-        mListAdapter = new ColorListAdapter(this, new ArrayList<>(ColorData.getSavedItems().values()), mTwoPane);
+        mListAdapter = new ColorListAdapter(
+                this, new ArrayList<>(ColorData.getSavedItems().values()), mTwoPane
+        );
         recyclerView.setAdapter(mListAdapter);
     }
 
@@ -120,7 +123,8 @@ public class ColorListActivity extends AppCompatActivity {
             }
         };
 
-        ColorListAdapter(ColorListActivity parent, List<RatedObject<ColorItem>> items, boolean twoPane) {
+        ColorListAdapter(
+                ColorListActivity parent, List<RatedObject<ColorItem>> items, boolean twoPane) {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
@@ -131,7 +135,8 @@ public class ColorListActivity extends AppCompatActivity {
                     clickedView -> notifyDataSetChanged());
         }
 
-        @Override public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        @Override public @NonNull ViewHolder onCreateViewHolder(
+                @NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.color_list_content, parent, false);
             return new ViewHolder(view);
@@ -202,7 +207,9 @@ public class ColorListActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_adjust) {
             double startingMagnitude = sMagnitude;
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            View view = getLayoutInflater().inflate(R.layout.dialog_color_list, new LinearLayout(this));
+            View view = getLayoutInflater().inflate(
+                    R.layout.dialog_color_list, new LinearLayout(this)
+            );
             EditText readout = view.findViewById(R.id.main_readout);
             SeekBar seekbar = view.findViewById(R.id.main_seekbar);
             readout.setText(String.format(
@@ -219,7 +226,8 @@ public class ColorListActivity extends AppCompatActivity {
             });
             seekbar.setProgress((int) (startingMagnitude * 1000d));
             seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                @Override public void onProgressChanged(
+                        SeekBar seekBar, int progress, boolean fromUser) {
                     sMagnitude = progress / 1000d;
                     readout.setText(String.format(
                             Locale.getDefault(), "%,2f", sMagnitude)
