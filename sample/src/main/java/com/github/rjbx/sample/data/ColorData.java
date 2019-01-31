@@ -27,7 +27,7 @@ public class ColorData {
     /**
      * A map of sample (color) items, by ID.
      */
-    private static final Map<String, Rateraid.RatedObject<ColorItem>> ITEM_MAP = new HashMap<String, Rateraid.RatedObject<ColorItem>>();
+    private static final Map<Integer, Rateraid.RatedObject<ColorItem>> ITEM_MAP = new HashMap<>();
 
     private static final int [] COLORS = new int[] {
             R.color.colorCoolLight,
@@ -58,13 +58,13 @@ public class ColorData {
     }
 
     private static void addItem(ColorItem item) {
-        ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(Integer.valueOf(item.id), item);
     }
 
     private static ColorItem createDummyItem(int position) {
         return new ColorItem(
-                String.valueOf(position),
-                "Item " + position,
+                String.valueOf(position + 1),
+                "Item " + (position + 1),
                 makeDetails(position),
                 0d,
                 COLORS[position]
@@ -73,14 +73,14 @@ public class ColorData {
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
+        builder.append("Details about Item: ").append(position + 1);
         for (int i = 0; i < (position + 20); i++) {
             builder.append("\nMore details information here.");
         }
         return builder.toString();
     }
 
-    public static Map<String, Rateraid.RatedObject<ColorItem>> getItemMap() { return new HashMap<>(ITEM_MAP); }
+    public static Map<Integer, Rateraid.RatedObject<ColorItem>> getItemMap() { return new HashMap<>(ITEM_MAP); }
     public static List<Rateraid.RatedObject<ColorItem>> getItemMapValues() { return new ArrayList<>(ITEM_MAP.values()); }
 
     public static List<Rateraid.RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
@@ -110,18 +110,14 @@ public class ColorData {
             return this;
         }
 
-        public String getId() {
-            return id;
-        }
+        public String getId() { return id; }
         public String getContent() {
             return content;
         }
         public String getDetails() {
             return details;
         }
-        public double getPercent() {
-            return percent;
-        }
+        public double getPercent() { return percent; }
         public int getColorRes() { return colorRes; }
         public void setId(String id) {
             this.id = id;

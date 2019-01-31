@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
  * A fragment representing a single ColorItem detail screen.
  * This fragment is either contained in a {@link ColorListActivity}
  * in two-pane mode (on tablets) or a {@link ColorDetailActivity}
+ * in two-pane mode (on tablets) or a {@link ColorDetailActivity}
  * on handsets.
  */
 public class ColorDetailFragment extends Fragment {
@@ -46,7 +47,7 @@ public class ColorDetailFragment extends Fragment {
             // Load the color content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = ColorData.getItemMap().get(getArguments().getString(ARG_ITEM_ID)).getObject();
+            mItem = ColorData.getItemMap().get(Integer.parseInt(getArguments().getString(ARG_ITEM_ID))).getObject();
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
