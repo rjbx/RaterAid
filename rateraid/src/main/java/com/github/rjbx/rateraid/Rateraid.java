@@ -72,9 +72,8 @@ public class Rateraid {
             return this;
         }
 
-        public Arrays addRemover(View removeButton, List items, int index) {
+        public Arrays addRemover(View removeButton, int index) {
             removeButton.setOnClickListener(clickedView -> {
-                items.remove(index);
                 Calibrater.removeRating(mPercentages, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             });

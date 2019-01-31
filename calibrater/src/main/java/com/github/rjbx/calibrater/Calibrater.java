@@ -73,10 +73,9 @@ public final class Calibrater {
      * @return true if array was reset and false otherwise
      */
     public static boolean resetRatings(double[] percents, boolean forceReset, Integer precision) {
-        if (precision == null) precision = 0;
         double sum = 0d;
         for (double percent : percents) sum += percent;
-        double error = Math.pow(10, -precision);
+        double error = precision != null ? Math.pow(10, -precision) : 0;
         if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
             for (int i = 0; i < percents.length; i++) percents[i] = (1d / percents.length);
             return true;
