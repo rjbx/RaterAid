@@ -7,7 +7,6 @@ import com.github.rjbx.sample.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -22,12 +21,12 @@ public class ColorData {
     /**
      * A saved array of sample (color) items.
      */
-    private static List<RatedObject<ColorItem>> sSavedItems = new ArrayList<>();
+    private static Map<Integer, RatedObject<ColorItem>> sSavedItems = new HashMap<>();
 
     /**
      * A map of sample (color) items, by ID.
      */
-    private static final Map<Integer, RatedObject<ColorItem>> ITEM_MAP = new HashMap<>();
+    private static final Map<Integer, RatedObject<ColorItem>> ORIGINAL_ITEMS = new HashMap<>();
 
     private static final int [] COLORS = new int[] {
             R.color.colorCoolLight,
@@ -62,7 +61,7 @@ public class ColorData {
     }
 
     private static void addItem(ColorItem item) {
-        ITEM_MAP.put(Integer.valueOf(item.id), item);
+        ORIGINAL_ITEMS.put(Integer.valueOf(item.id), item);
     }
 
     private static ColorItem createColorItem(int position) {
@@ -84,16 +83,15 @@ public class ColorData {
         return builder.toString();
     }
 
-    public static Map<Integer, RatedObject<ColorItem>> getItemMap() { return new HashMap<>(ITEM_MAP); }
-    public static List<RatedObject<ColorItem>> getItemMapValues() {
-        List<RatedObject<ColorItem>> clones = new ArrayList<>();
-        for (RatedObject<ColorItem> ratedObject : ITEM_MAP.values())
-            clones.add(ratedObject.getObject().clone());
+    public static Map<Integer, RatedObject<ColorItem>> getOriginalItems() {
+        Map<Integer, RatedObject<ColorItem>> clones = new HashMap<>();
+        for (RatedObject<ColorItem> ratedObject : ORIGINAL_ITEMS.values())
+            clones.put(Integer.parseInt(ratedObject.getObject().getId()), ratedObject.getObject().clone());
         return clones;
     }
 
-    public static List<RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
-    public static void setSavedItems(List<RatedObject<ColorItem>> items) { sSavedItems = items; }
+    public static Map<Integer, RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
+    public static void setSavedItems(Map<Integer, RatedObject<ColorItem>> items) { sSavedItems = items; }
 
     /**
      * A color item representing a piece of content.

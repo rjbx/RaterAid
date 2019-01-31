@@ -33,6 +33,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,8 +64,8 @@ public class ColorListActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(clickedView -> {
-            ColorData.setSavedItems(ColorData.getItemMapValues());
-            mListAdapter.swapItems(ColorData.getSavedItems());
+            ColorData.setSavedItems(ColorData.getOriginalItems());
+            mListAdapter.swapItems(new ArrayList<>(ColorData.getSavedItems().values()));
             Snackbar.make(
                     clickedView,
                     "The list has been repopulated with the original dataset.",
@@ -72,7 +73,7 @@ public class ColorListActivity extends AppCompatActivity {
             ).setAction("Action", null).show();
         });
 
-        if (ColorData.getSavedItems().isEmpty()) ColorData.setSavedItems(ColorData.getItemMapValues());
+        if (ColorData.getSavedItems().isEmpty()) ColorData.setSavedItems(ColorData.getOriginalItems());
         if (findViewById(R.id.color_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -87,7 +88,7 @@ public class ColorListActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.color_list);
         assert recyclerView != null;
-        mListAdapter = new ColorListAdapter(this, ColorData.getSavedItems(), mTwoPane);
+        mListAdapter = new ColorListAdapter(this, new ArrayList<>(ColorData.getSavedItems().values()), mTwoPane);
         recyclerView.setAdapter(mListAdapter);
     }
 
