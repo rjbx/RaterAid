@@ -65,8 +65,11 @@ public class ColorListActivity extends AppCompatActivity {
         fab.setOnClickListener(clickedView -> {
             ColorData.setSavedItems(ColorData.getItemMapValues());
             mListAdapter.swapItems(ColorData.getSavedItems());
-            Snackbar.make(clickedView, "Color list has been repopulated", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            Snackbar.make(
+                    clickedView,
+                    "The list has been repopulated with the original dataset.",
+                    Snackbar.LENGTH_LONG
+            ).setAction("Action", null).show();
         });
 
         if (ColorData.getSavedItems().isEmpty()) ColorData.setSavedItems(ColorData.getItemMapValues());
