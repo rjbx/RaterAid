@@ -92,9 +92,7 @@ public class CalibraterTest {
                 for (int i = 0; percentages[index] < 1d; i++) {
                     Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
                     sum = 0;
-                    for (int j = 0; j < percentages.length; j++) {
-                        sum += percentages[j];
-                    }
+                    for (double percent : percentages) sum += percent;
                     double error = ERROR + (ERROR * i++);
                     assertEquals(1d, sum, error);
                 }
@@ -117,6 +115,7 @@ public class CalibraterTest {
                         if (i == percentages.length - 1) assertEquals(1d, sum, ERROR);
                     }
                 }
+
                 Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, magnitude / 2, PRECISION);
                 Calibrater.shiftRatings(percentages, index, -magnitude / 2, PRECISION);
@@ -188,7 +187,6 @@ public class CalibraterTest {
      */
     @Test public final void testResetDoubleArrayEqualDistribution() {
 
-        double magnitude = 1d;
         for (int i = 1; i < 20; i++) {
             double[] percentages = new double[i];
             for (int j = 0; j < percentages.length; j++) percentages[j] = 0d;
@@ -244,13 +242,11 @@ public class CalibraterTest {
     private static <T extends Throwable>void assertShiftThrows(Class<T> throwableClass, Object... args) {
 
         try {
+
             Calibrater.shiftRatings(
                     (double[]) args[0], (int) args[1], (double) args[2], (int) args[3]
-            );
-            fail(); // Exception not thrown
+            ); fail(); // Exception not thrown
 
-        } catch (Throwable e) {
-            assertTrue(throwableClass.isInstance(e));
-        }
+        } catch (Throwable e){ assertTrue(throwableClass.isInstance(e)); }
     }
 }

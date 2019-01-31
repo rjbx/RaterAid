@@ -76,8 +76,7 @@ public class Rateraid {
             removeButton.setOnClickListener(clickedView -> {
                 Calibrater.removeRating(mPercentages, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
-            });
-            return this;
+            }); return this;
         }
 
         public Arrays addEditor(EditText valueEditor, int index) {
@@ -98,13 +97,11 @@ public class Rateraid {
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
                         } catch (ParseException e) {
                             throw new NumberFormatException();
-                        }
-                        return true;
+                        } return true;
                     default:
                         return false;
                 }
-            });
-            return this;
+            }); return this;
         }
 
         public Rateraid instance() {
@@ -146,8 +143,7 @@ public class Rateraid {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
-            });
-            return this;
+            }); return this;
         }
 
         public Objects addEditor(EditText valueEditor, int index) {
@@ -168,13 +164,11 @@ public class Rateraid {
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
                         } catch (ParseException e) {
                             throw new NumberFormatException();
-                        }
-                        return true;
+                        } return true;
                     default:
                         return false;
                 }
-            });
-            return this;
+            }); return this;
         }
 
         public Rateraid instance() {

@@ -29,15 +29,13 @@ public class RateraidInstrumentedTest {
 
     private static int PRECISION = Calibrater.STANDARD_PRECISION;
 
-    @Before
-    public final void setUp() {
+    @Before public final void setUp() {
         mContext = InstrumentationRegistry.getInstrumentation().getContext();
         mIncrementButton = new Button(mContext);
         mDecrementButton = new Button(mContext);
     }
 
-    @Test
-    public final void testArraysAddButtonSetClickListenerCallback() {
+    @Test public final void testArraysAddButtonSetClickListenerCallback() {
         double[] percentages = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
             mRateArrays = Rateraid.with(percentages, magnitude, PRECISION, null);
@@ -109,8 +107,7 @@ public class RateraidInstrumentedTest {
         }
     }
 
-    @Test
-    public final void testArraysSetClickListenerUserDefinedCallback() {
+    @Test public final void testArraysSetClickListenerUserDefinedCallback() {
         double[] percentages = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
             mRateArrays = Rateraid.with(percentages, magnitude, PRECISION, clickedView -> mCount++);
@@ -142,8 +139,7 @@ public class RateraidInstrumentedTest {
         assertEquals(2872, mCount);
     }
 
-    @Test
-    public final void testObjectsAddButtonSetClickListenerCallback() {
+    @Test public final void testObjectsAddButtonSetClickListenerCallback() {
         List<Rateraid.RatedObject<Rateable>> rateables = new ArrayList<>(4);
         Rateable rateable = new Rateable();
         rateable.setPercent(.25d);
@@ -218,9 +214,7 @@ public class RateraidInstrumentedTest {
         }
     }
 
-
-    @Test
-    public final void testSetClickListenerUserDefinedCallback() {
+    @Test public final void testSetClickListenerUserDefinedCallback() {
         List<Rateraid.RatedObject<Rateable>> rateables = new ArrayList<>(4);
         Rateable rateable = new Rateable();
         rateable.setPercent(.25d);
@@ -262,8 +256,7 @@ public class RateraidInstrumentedTest {
         @Override public double getPercent() { return percent; }
         @Override public Rateable getObject() { return this; }
 
-        @Override
-        public Rateable clone() {
+        @Override public Rateable clone() {
             Rateable clone  = new Rateable();
             clone.setPercent(this.percent);
             try { super.clone();

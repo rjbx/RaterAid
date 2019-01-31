@@ -3,6 +3,8 @@ package com.github.rjbx.sample;
 import android.app.Activity;
 
 import com.github.rjbx.sample.data.ColorData;
+import com.github.rjbx.sample.data.ColorData.ColorItem;
+import com.github.rjbx.rateraid.Rateraid.RatedObject;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -26,12 +29,12 @@ public class ColorDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    static final String ARG_ITEM_ID = "item_id";
 
     /**
      * The color content this fragment is presenting.
      */
-    private ColorData.ColorItem mItem;
+    private ColorItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -43,13 +46,19 @@ public class ColorDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             // Load the color content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = ColorData.getItemMap().get(Integer.parseInt(getArguments().getString(ARG_ITEM_ID))).getObject();
+            String id = arguments.getString(ARG_ITEM_ID);
+            if (id != null) {
+                RatedObject<ColorItem> rateable = ColorData.getItemMap().get(Integer.parseInt(id));
+                if (rateable != null) mItem = rateable.getObject();
+            }
 
             Activity activity = this.getActivity();
+            if (activity == null) return;
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getContent());
@@ -58,7 +67,7 @@ public class ColorDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.color_detail, container, false);
 
@@ -73,8 +82,6 @@ public class ColorDetailFragment extends Fragment {
                         NumberFormat.getPercentInstance().format(mItem.getPercent()),
                         mItem.getDetails()
                     ));
-        }
-
-        return rootView;
+        } return rootView;
     }
 }

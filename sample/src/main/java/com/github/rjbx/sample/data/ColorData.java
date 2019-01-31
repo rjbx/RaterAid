@@ -57,7 +57,7 @@ public class ColorData {
     static {
         // Add some sample items.
         for (int i = 0; i < COUNT; i++) {
-            addItem(createDummyItem(i));
+            addItem(createColorItem(i));
         }
     }
 
@@ -65,7 +65,7 @@ public class ColorData {
         ITEM_MAP.put(Integer.valueOf(item.id), item);
     }
 
-    private static ColorItem createDummyItem(int position) {
+    private static ColorItem createColorItem(int position) {
         return new ColorItem(
                 String.valueOf(position + 1),
                 "Item " + (position + 1),
@@ -89,7 +89,6 @@ public class ColorData {
 
     public static List<Rateraid.RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
     public static void setSavedItems(List<Rateraid.RatedObject<ColorItem>> items) { sSavedItems = items; }
-
 
     /**
      * A color item representing a piece of content.

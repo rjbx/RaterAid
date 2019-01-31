@@ -12,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.github.rjbx.rateraid.Rateraid;
+import com.github.rjbx.rateraid.Rateraid.RatedObject;
 import com.github.rjbx.calibrater.Calibrater;
+import com.github.rjbx.sample.data.ColorData.*;
 import com.github.rjbx.sample.data.ColorData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,9 +31,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.github.rjbx.rateraid.Rateraid;
-import com.github.rjbx.sample.data.ColorData.*;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -53,8 +53,7 @@ public class ColorListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     private ColorListAdapter mListAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_list);
 
@@ -82,11 +81,6 @@ public class ColorListActivity extends AppCompatActivity {
         setupRecyclerView();
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.color_list);
         assert recyclerView != null;
@@ -98,13 +92,12 @@ public class ColorListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
         private Rateraid.Objects mRateraid;
-        private List<Rateraid.RatedObject<ColorItem>> mItems;
+        private List<RatedObject<ColorItem>> mItems;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
 
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            @Override public void onClick(View view) {
                 ColorItem item = (ColorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
@@ -118,13 +111,12 @@ public class ColorListActivity extends AppCompatActivity {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ColorDetailActivity.class);
                     intent.putExtra(ColorDetailFragment.ARG_ITEM_ID, item.getId());
-
                     context.startActivity(intent);
                 }
             }
         };
 
-        ColorListAdapter(ColorListActivity parent, List<Rateraid.RatedObject<ColorItem>> items, boolean twoPane) {
+        ColorListAdapter(ColorListActivity parent, List<RatedObject<ColorItem>> items, boolean twoPane) {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
@@ -135,15 +127,13 @@ public class ColorListActivity extends AppCompatActivity {
                     clickedView -> notifyDataSetChanged());
         }
 
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        @Override public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.color_list_content, parent, false);
             return new ViewHolder(view);
         }
 
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        @Override public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
             ColorItem item = mItems.get(position).getObject();
 
@@ -162,12 +152,11 @@ public class ColorListActivity extends AppCompatActivity {
                     .addEditor(holder.mPercentText, position);
         }
 
-        @Override
-        public int getItemCount() {
+        @Override public int getItemCount() {
             return mItems.size();
         }
 
-        private void swapItems(List<Rateraid.RatedObject<ColorItem>> items) {
+        private void swapItems(List<RatedObject<ColorItem>> items) {
             mItems = items;
             mRateraid = Rateraid.with(
                     mItems,
@@ -185,6 +174,7 @@ public class ColorListActivity extends AppCompatActivity {
             final Button mIncrementButton;
             final Button mDecrementButton;
             final EditText mPercentText;
+
             ViewHolder(View view) {
                 super(view);
                 mIdView = view.findViewById(R.id.id_text);
@@ -194,20 +184,17 @@ public class ColorListActivity extends AppCompatActivity {
                 mDecrementButton = view.findViewById(R.id.decrement);
                 mPercentText = view.findViewById(R.id.percent);
             }
-
         }
     }
 
     private static double sMagnitude = Calibrater.STANDARD_MAGNITUDE;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.color_list, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_adjust) {
             double startingMagnitude = sMagnitude;
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -267,7 +254,6 @@ public class ColorListActivity extends AppCompatActivity {
             alertDialog.show();
             alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.GRAY);
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.GRAY);
-        }
-        return super.onOptionsItemSelected(item);
+        } return super.onOptionsItemSelected(item);
     }
 }
