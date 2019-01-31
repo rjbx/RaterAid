@@ -69,7 +69,7 @@ public class ColorListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
         });
 
-        if (savedInstanceState == null) ColorData.setSavedItems(ColorData.getItemMapValues());
+        if (ColorData.getSavedItems().isEmpty()) ColorData.setSavedItems(ColorData.getItemMapValues());
         if (findViewById(R.id.color_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).

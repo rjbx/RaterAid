@@ -22,7 +22,7 @@ public class ColorData {
     /**
      * A saved array of sample (color) items.
      */
-    private static List<Rateraid.RatedObject<ColorItem>> sSavedItems = new ArrayList<Rateraid.RatedObject<ColorItem>>();
+    private static List<Rateraid.RatedObject<ColorItem>> sSavedItems = new ArrayList<>();
 
     /**
      * A map of sample (color) items, by ID.
