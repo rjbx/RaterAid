@@ -108,12 +108,14 @@ public final class Calibrater {
      * between the whole and the sum of all array elements.
      * @param percents {@code double} array to be calibrated closer to the whole
      */
-    public static boolean recalibrateRatings(double[] percents) {
+    public static boolean recalibrateRatings(double[] percents, boolean forceReset, Integer precision) {
         double sum = 0d;
         for (double percent : percents) sum += percent;
-        if (sum == 1d) return false;
         double difference = (1d - sum) / percents.length;
-        for (int i = 0; i < percents.length; i++) percents[i] += difference;
-        return true;
+        double error = precision != null ? Math.pow(10, -precision) : 0;
+        if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
+            for (int i = 0; i < percents.length; i++) percents[i] += difference;
+            return true;
+        } return false;
     }
 }
