@@ -1,7 +1,10 @@
 package com.github.rjbx.rateraid;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.github.rjbx.calibrater.Calibrater;
@@ -79,7 +82,7 @@ public class Rateraid {
             }); return this;
         }
 
-        public Arrays addEditor(EditText valueEditor, int index) {
+        public Arrays addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -94,6 +97,7 @@ public class Rateraid {
                             if (percent < 0d || percent > 1d) return false;
                             double magnitude = percent - mPercents[index];
                             Calibrater.shiftRatings(mPercents, index, magnitude, mPrecision);
+                            if (imm != null) imm.toggleSoftInput(0, 0);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
                         } catch (ParseException e) {
                             throw new NumberFormatException();
@@ -146,7 +150,7 @@ public class Rateraid {
             }); return this;
         }
 
-        public Objects addEditor(EditText valueEditor, int index) {
+        public Objects addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -161,6 +165,7 @@ public class Rateraid {
                             if (percent < 0d || percent > 1d) return false;
                             double magnitude = percent - mRateables.get(index).getPercent();
                             shiftRatings(mRateables, index, magnitude, mPrecision);
+                            if (imm != null) imm.toggleSoftInput(0, 0);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
                         } catch (ParseException e) {
                             throw new NumberFormatException();
