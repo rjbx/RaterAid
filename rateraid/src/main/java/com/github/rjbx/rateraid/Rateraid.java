@@ -80,12 +80,13 @@ public class Rateraid {
             }); return this;
         }
 
-        public Arrays addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
+        public Arrays addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
                 switch (onEditorActionId) {
                     case EditorInfo.IME_ACTION_DONE:
+                        runnable.run();
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
                             double percent;
@@ -148,12 +149,13 @@ public class Rateraid {
             }); return this;
         }
 
-        public Objects addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
+        public Objects addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
                 switch (onEditorActionId) {
                     case EditorInfo.IME_ACTION_DONE:
+                        runnable.run();
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
                             double percent;
