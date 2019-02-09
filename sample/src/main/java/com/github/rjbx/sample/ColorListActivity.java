@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -102,7 +103,7 @@ public class ColorListActivity extends AppCompatActivity {
         private List<RatedObject<ColorItem>> mItems;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
-
+        private InputMethodManager mMethodManager;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override public void onClick(View view) {
                 ColorItem item = (ColorItem) view.getTag();
@@ -128,6 +129,8 @@ public class ColorListActivity extends AppCompatActivity {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
+            mMethodManager = (InputMethodManager)
+                    mParentActivity.getSystemService(INPUT_METHOD_SERVICE);
             mRateraid = Rateraid.with(
                     mItems,
                     sMagnitude,
@@ -158,7 +161,7 @@ public class ColorListActivity extends AppCompatActivity {
 
             mRateraid.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
                     .addRemover(holder.mRemoveButton, position)
-                    .addEditor(holder.mPercentText, position);
+                    .addEditor(holder.mPercentText, position, mMethodManager);
         }
 
         @Override public int getItemCount() {
