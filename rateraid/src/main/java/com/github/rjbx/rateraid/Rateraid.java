@@ -203,11 +203,11 @@ public class Rateraid {
         return resetRatings(objects, false, null);
     }
 
-    public static <T extends RatedObject> boolean recalibrateRatings(List<RatedObject<T>> objects) {
+    public static <T extends RatedObject> boolean recalibrateRatings(List<RatedObject<T>> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
-        result = Calibrater.recalibrateRatings(percents);
+        result = Calibrater.recalibrateRatings(percents, false, precision);
         for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
         return result;
     }
