@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,8 +25,10 @@ import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -55,18 +58,18 @@ public class ColorListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     private ColorListAdapter mListAdapter;
-    private static FloatingActionButton mFab;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_list);
+        View contentView = findViewById(R.id.color_list_coordinator);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(clickedView -> {
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(clickedView -> {
             ColorData.setSavedItems(ColorData.getOriginalItems());
             mListAdapter.swapItems(new ArrayList<>(ColorData.getSavedItems().values()));
             Snackbar.make(
@@ -75,6 +78,17 @@ public class ColorListActivity extends AppCompatActivity {
                     Snackbar.LENGTH_LONG
             ).setAction("Action", null).show();
         });
+
+        contentView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            Rect r = new Rect();
+            contentView.getWindowVisibleDisplayFrame(r);
+            if (100 < (contentView.getHeight() - (r.bottom - r.top))) {
+                ((View) fab).setVisibility(View.GONE);
+            } else {
+                ((View) fab).setVisibility(View.VISIBLE);
+            }
+        });
+
 
         if (findViewById(R.id.color_detail_container) != null) {
             // The detail container view will be present only in the
@@ -106,7 +120,6 @@ public class ColorListActivity extends AppCompatActivity {
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
         private InputMethodManager mMethodManager;
-        private Runnable mRunnable = () -> ((View) mFab).setVisibility(View.VISIBLE);
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override public void onClick(View view) {
                 ColorItem item = (ColorItem) view.getTag();
@@ -155,18 +168,6 @@ public class ColorListActivity extends AppCompatActivity {
             holder.mIdView.setText(item.getId());
             holder.mContentView.setText(item.colorResToString(mParentActivity));
             holder.mPercentText.setText(NumberFormat.getPercentInstance().format(item.getPercent()));
-            holder.mPercentText.setFocusableInTouchMode(false);
-
-            KeyListener keyListener = holder.mPercentText.getKeyListener();
-
-            holder.mPercentText.setOnClickListener(clickedView -> {
-                holder.mPercentText.setFocusableInTouchMode(true);
-                holder.mPercentText.setKeyListener(keyListener);
-                holder.mPercentText.requestFocus();
-                InputMethodManager imm = (InputMethodManager) mParentActivity.getSystemService(INPUT_METHOD_SERVICE);
-                imm.showSoftInput(holder.mPercentText, InputMethodManager.SHOW_IMPLICIT);
-                ((View) mFab).setVisibility(View.GONE);
-            });
 
             holder.itemView.setTag(item);
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -176,7 +177,7 @@ public class ColorListActivity extends AppCompatActivity {
 
             mRateraid.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
                     .addRemover(holder.mRemoveButton, position)
-                    .addEditor(holder.mPercentText, position, mMethodManager, mRunnable);
+                    .addEditor(holder.mPercentText, position, mMethodManager, null);
         }
 
         @Override public int getItemCount() {
