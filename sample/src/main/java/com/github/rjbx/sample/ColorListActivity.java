@@ -20,6 +20,7 @@ import com.github.rjbx.sample.data.ColorData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -154,7 +155,18 @@ public class ColorListActivity extends AppCompatActivity {
             holder.mIdView.setText(item.getId());
             holder.mContentView.setText(item.colorResToString(mParentActivity));
             holder.mPercentText.setText(NumberFormat.getPercentInstance().format(item.getPercent()));
-            holder.mPercentText.setOnClickListener(clickedView -> ((View) mFab).setVisibility(View.GONE));
+            holder.mPercentText.setFocusableInTouchMode(false);
+
+            KeyListener keyListener = holder.mPercentText.getKeyListener();
+
+            holder.mPercentText.setOnClickListener(clickedView -> {
+                holder.mPercentText.setFocusableInTouchMode(true);
+                holder.mPercentText.setKeyListener(keyListener);
+                holder.mPercentText.requestFocus();
+                InputMethodManager imm = (InputMethodManager) mParentActivity.getSystemService(INPUT_METHOD_SERVICE);
+                imm.showSoftInput(holder.mPercentText, InputMethodManager.SHOW_IMPLICIT);
+                ((View) mFab).setVisibility(View.GONE);
+            });
 
             holder.itemView.setTag(item);
             holder.itemView.setOnClickListener(mOnClickListener);
