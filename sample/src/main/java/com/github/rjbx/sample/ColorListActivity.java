@@ -61,8 +61,8 @@ public class ColorListActivity extends AppCompatActivity {
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color_list);
-        View contentView = findViewById(R.id.color_list_coordinator);
+        View contentView = getLayoutInflater().inflate(R.layout.activity_color_list, null);
+        setContentView(contentView);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,13 +82,10 @@ public class ColorListActivity extends AppCompatActivity {
         contentView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             Rect r = new Rect();
             contentView.getWindowVisibleDisplayFrame(r);
-            if (100 < (contentView.getHeight() - (r.bottom - r.top))) {
+            if (100 < (contentView.getHeight() - (r.bottom - r.top)))
                 ((View) fab).setVisibility(View.GONE);
-            } else {
-                ((View) fab).setVisibility(View.VISIBLE);
-            }
+            else ((View) fab).setVisibility(View.VISIBLE);
         });
-
 
         if (findViewById(R.id.color_detail_container) != null) {
             // The detail container view will be present only in the
