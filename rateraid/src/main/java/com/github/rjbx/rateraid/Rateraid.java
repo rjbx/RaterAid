@@ -94,10 +94,14 @@ public class Rateraid {
                         }
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
-                            double percent;
+                            double percent = mPercents[index];
                             String viewText = onEditorActionView.getText().toString();
                             if (viewText.contains("%")) percent = percentFormatter.parse(viewText).doubleValue();
-                            else percent = Double.parseDouble(viewText);
+                            else if (!viewText.isEmpty()) percent = Double.parseDouble(viewText);
+                            else {
+                                onEditorActionView.setText(percentFormatter.format(percent));
+                                return false;
+                            }
                             if (percent < 0d || percent > 1d) return false;
                             double magnitude = percent - mPercents[index];
                             Calibrater.shiftRatings(mPercents, index, magnitude, mPrecision);
@@ -166,10 +170,14 @@ public class Rateraid {
                         }
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
-                            double percent;
+                            double percent = mRateables.get(index).getPercent();
                             String viewText = onEditorActionView.getText().toString();
                             if (viewText.contains("%")) percent = percentFormatter.parse(viewText).doubleValue();
-                            else percent = Double.parseDouble(viewText);
+                            else if (!viewText.isEmpty()) percent = Double.parseDouble(viewText);
+                            else {
+                                onEditorActionView.setText(percentFormatter.format(percent));
+                                return false;
+                            }
                             if (percent < 0d || percent > 1d) return false;
                             double magnitude = percent - mRateables.get(index).getPercent();
                             shiftRatings(mRateables, index, magnitude, mPrecision);
