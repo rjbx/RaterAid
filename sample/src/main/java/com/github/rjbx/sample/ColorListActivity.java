@@ -54,6 +54,7 @@ public class ColorListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     private ColorListAdapter mListAdapter;
+    private static FloatingActionButton mFab;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +64,8 @@ public class ColorListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(clickedView -> {
+        mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(clickedView -> {
             ColorData.setSavedItems(ColorData.getOriginalItems());
             mListAdapter.swapItems(new ArrayList<>(ColorData.getSavedItems().values()));
             Snackbar.make(
@@ -104,6 +105,7 @@ public class ColorListActivity extends AppCompatActivity {
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
         private InputMethodManager mMethodManager;
+        private Runnable mRunnable = () -> ((View) mFab).setVisibility(View.VISIBLE);
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override public void onClick(View view) {
                 ColorItem item = (ColorItem) view.getTag();
@@ -152,6 +154,7 @@ public class ColorListActivity extends AppCompatActivity {
             holder.mIdView.setText(item.getId());
             holder.mContentView.setText(item.colorResToString(mParentActivity));
             holder.mPercentText.setText(NumberFormat.getPercentInstance().format(item.getPercent()));
+            holder.mPercentText.setOnClickListener(clickedView -> ((View) mFab).setVisibility(View.GONE));
 
             holder.itemView.setTag(item);
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -161,7 +164,7 @@ public class ColorListActivity extends AppCompatActivity {
 
             mRateraid.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
                     .addRemover(holder.mRemoveButton, position)
-                    .addEditor(holder.mPercentText, position, mMethodManager);
+                    .addEditor(holder.mPercentText, position, mMethodManager, mRunnable);
         }
 
         @Override public int getItemCount() {

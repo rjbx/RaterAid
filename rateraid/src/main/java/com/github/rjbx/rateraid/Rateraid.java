@@ -1,5 +1,7 @@
 package com.github.rjbx.rateraid;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -86,7 +88,10 @@ public class Rateraid {
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
                 switch (onEditorActionId) {
                     case EditorInfo.IME_ACTION_DONE:
-                        runnable.run();
+                        if (runnable != null) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(runnable);
+                        }
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
                             double percent;
@@ -155,7 +160,10 @@ public class Rateraid {
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
                 switch (onEditorActionId) {
                     case EditorInfo.IME_ACTION_DONE:
-                        runnable.run();
+                        if (runnable != null) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(runnable);
+                        }
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
                             double percent;
