@@ -24,7 +24,7 @@ public class Rateraid {
         T getObject();
     }
 
-    public <T extends RatedObject> List<T> getRateables(List<RatedObject<T>> objects) {
+    public <T extends RatedObject> List<T> getRateables(List<T> objects) {
         for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
         return objects;
     }
