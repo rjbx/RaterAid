@@ -53,7 +53,7 @@ public class ColorDetailFragment extends Fragment {
             // to load content from a content provider.
             String id = arguments.getString(ARG_ITEM_ID);
             if (id != null) {
-                RatedObject<ColorItem> rateable
+                ColorItem rateable
                         = ColorData.getSavedItems().get(Integer.parseInt(id));
                 if (rateable != null) mItem = rateable.getObject();
             }

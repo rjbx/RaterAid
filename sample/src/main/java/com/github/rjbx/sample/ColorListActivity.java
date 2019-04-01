@@ -110,7 +110,7 @@ public class ColorListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
         private Rateraid.Objects mRateraid;
-        private List<RatedObject<ColorItem>> mItems;
+        private List<ColorItem> mItems;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
         private InputMethodManager mMethodManager;
@@ -135,7 +135,7 @@ public class ColorListActivity extends AppCompatActivity {
         };
 
         ColorListAdapter(
-                ColorListActivity parent, List<RatedObject<ColorItem>> items, boolean twoPane) {
+                ColorListActivity parent, List<ColorItem> items, boolean twoPane) {
             mItems = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
@@ -178,7 +178,7 @@ public class ColorListActivity extends AppCompatActivity {
             return mItems.size();
         }
 
-        private void swapItems(List<RatedObject<ColorItem>> items) {
+        private void swapItems(List<ColorItem> items) {
             mItems = items;
             mRateraid = Rateraid.with(
                     mItems,

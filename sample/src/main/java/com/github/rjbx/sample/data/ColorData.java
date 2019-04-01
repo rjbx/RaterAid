@@ -20,12 +20,12 @@ public class ColorData {
     /**
      * A saved array of sample (color) items.
      */
-    private static Map<Integer, RatedObject<ColorItem>> sSavedItems = new HashMap<>();
+    private static Map<Integer, ColorItem> sSavedItems = new HashMap<>();
 
     /**
      * A map of sample (color) items, by ID.
      */
-    private static final Map<Integer, RatedObject<ColorItem>> ORIGINAL_ITEMS = new HashMap<>();
+    private static final Map<Integer, ColorItem> ORIGINAL_ITEMS = new HashMap<>();
 
     private static final int [] COLORS = new int[] {
             R.color.colorCoolLight,
@@ -82,9 +82,9 @@ public class ColorData {
         return builder.toString();
     }
 
-    public static Map<Integer, RatedObject<ColorItem>> getOriginalItems() {
-        Map<Integer, RatedObject<ColorItem>> clones = new HashMap<>();
-        for (RatedObject<ColorItem> ratedObject : ORIGINAL_ITEMS.values())
+    public static Map<Integer, ColorItem> getOriginalItems() {
+        Map<Integer, ColorItem> clones = new HashMap<>();
+        for (ColorItem ratedObject : ORIGINAL_ITEMS.values())
             clones.put(
                     Integer.parseInt(ratedObject.getObject().getId()),
                     ratedObject.getObject().clone()
@@ -92,8 +92,8 @@ public class ColorData {
         return clones;
     }
 
-    public static Map<Integer, RatedObject<ColorItem>> getSavedItems() { return sSavedItems; }
-    public static void setSavedItems(Map<Integer, RatedObject<ColorItem>> items) { sSavedItems = items; }
+    public static Map<Integer, ColorItem> getSavedItems() { return sSavedItems; }
+    public static void setSavedItems(Map<Integer, ColorItem> items) { sSavedItems = items; }
 
     /**
      * A color item representing a piece of content.
