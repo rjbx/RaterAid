@@ -24,7 +24,7 @@ public class Rateraid {
         T getObject();
     }
 
-    public <T extends RatedObject> List<RatedObject<T>> getRateables(List<RatedObject<T>> objects) {
+    public <T extends RatedObject> List<T> getRateables(List<RatedObject<T>> objects) {
         for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
         return objects;
     }
@@ -224,7 +224,7 @@ public class Rateraid {
         return resetRatings(objects, false, null);
     }
 
-    public static <T extends RatedObject> boolean recalibrateRatings(List<RatedObject<T>> objects, boolean forceReset, @Nullable Integer precision) {
+    public static <T extends RatedObject> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
