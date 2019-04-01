@@ -43,7 +43,7 @@ public class Rateraid {
         return new Arrays(percents, magnitude, precision,  clickListener);
     }
 
-    public static <T extends RatedObject> Objects with(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static <T extends RatedObject> Objects with(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new Objects(rateables, magnitude, precision,  clickListener);
     }
 
@@ -126,12 +126,12 @@ public class Rateraid {
     public static class Objects<T extends RatedObject> {
 
         private Rateraid mRateraid;
-        private List<RatedObject<T>> mRateables;
+        private List<T> mRateables;
         private double mMagnitude;
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        private Objects(List<RatedObject<T>> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private Objects(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -201,7 +201,7 @@ public class Rateraid {
         }
     }
 
-    public static <T extends RatedObject> boolean shiftRatings(List<RatedObject<T>> objects, int index, double magnitude, int precision) {
+    public static <T extends RatedObject> boolean shiftRatings(List<T> objects, int index, double magnitude, int precision) {
         boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
@@ -210,7 +210,7 @@ public class Rateraid {
         return result;
     }
 
-    public static <T extends RatedObject> boolean resetRatings(List<RatedObject<T>> objects, boolean forceReset, @Nullable Integer precision) {
+    public static <T extends RatedObject> boolean resetRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
@@ -219,7 +219,7 @@ public class Rateraid {
         return result;
     }
 
-    public static <T extends RatedObject> boolean removeRating(List<RatedObject<T>> objects, int index) {
+    public static <T extends RatedObject> boolean removeRating(List<T> objects, int index) {
         objects.remove(index);
         return resetRatings(objects, false, null);
     }
