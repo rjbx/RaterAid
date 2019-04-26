@@ -1,5 +1,6 @@
 package com.github.rjbx.rateraid;
 
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -151,7 +152,7 @@ public class Rateraid {
             return this;
         }
 
-        public Objects addRemover(View removeButton, int index) {
+        public Objects addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
