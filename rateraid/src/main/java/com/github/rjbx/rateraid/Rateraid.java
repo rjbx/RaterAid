@@ -152,6 +152,8 @@ public class Rateraid {
             return this;
         }
 
+
+        //TODO: Decide where to define dialog click listener (inside or outside method) before setting parameter
         public Objects addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index);
