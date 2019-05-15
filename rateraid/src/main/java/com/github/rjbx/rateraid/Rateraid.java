@@ -225,7 +225,7 @@ public class Rateraid {
 
     public static <T extends RatedObject> boolean removeRating(List<T> objects, int index) {
         objects.remove(index);
-        return resetRatings(objects, false, null);
+        return recalibrateRatings(objects, false, null);
     }
 
     public static <T extends RatedObject> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
