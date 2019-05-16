@@ -61,7 +61,7 @@ public class Rateraid {
             mPrecision = precision;
             mClickListener = clickListener;
             mPercents = percents;
-            Calibrater.resetRatings(mPercents, false, precision);
+            Calibrater.recalibrateRatings(mPercents, false, precision);
         }
 
         public Arrays addShifters(View incrementButton, View decrementButton, int index) {
@@ -137,7 +137,7 @@ public class Rateraid {
             mPrecision = precision;
             mClickListener = clickListener;
             mRateables = rateables;
-            resetRatings(rateables, false, precision);
+            recalibrateRatings(rateables, false, precision);
         }
 
         public Objects addShifters(View incrementButton, View decrementButton, int index) {
