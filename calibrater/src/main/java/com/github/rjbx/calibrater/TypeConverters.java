@@ -15,7 +15,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a primitive {@code double} array from a boxed {@link Float} array
+     * Generates a primitive {@code double} array from a boxed {@code Float} array
      */
     public static double[] arrayFloatBoxedToDouble(Float[] floatBoxedArray) {
         double[] doubleArray = new double[floatBoxedArray.length];
@@ -24,7 +24,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a primitive {@code double} array from a boxed {@link Double} array array
+     * Generates a primitive {@code double} array from a boxed {@code Double} array array
      */
     public static double[] arrayBoxedToPrimitiveDouble(Double[] doubleBoxedArray) {
         double[] doubleArray = new double[doubleBoxedArray.length];
@@ -42,7 +42,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a boxed {@link Float} array from a primitive {@code double} array
+     * Generates a boxed {@code Float} array from a primitive {@code double} array
      */
     public static Float[] arrayDoubleToFloatBoxed(double[] doubleArray) {
         Float[] floatBoxedArray = new Float[doubleArray.length];
@@ -51,7 +51,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a boxed {@link Double} array from a primitive {@code double} array
+     * Generates a boxed {@code Double} array from a primitive {@code double} array
      */
     public static Double[] arrayPrimitiveToBoxedDouble(double[] doubleArray) {
         Double[] doubleBoxedArray = new Double[doubleArray.length];
