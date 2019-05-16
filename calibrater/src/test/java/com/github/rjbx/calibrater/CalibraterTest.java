@@ -73,7 +73,7 @@ public class CalibraterTest {
             double sum = 0d;
             Calibrater.recalibrateRatings(percents, false, PRECISION);
             for (double percent : percents) sum += percent;
-            assertEquals(1d, sum, ERROR);
+            assertEquals(1d, sum, PRECISION);
         }
     }
 
