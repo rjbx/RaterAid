@@ -118,8 +118,8 @@ public final class Calibrater {
                 percents[i] += difference;
                 if (percents[1] > 1d) percents[i] = 1d;
                 else if (percents[i] < 0d) percents[i] = 0d;
-                return true;
             }
+            return true;
         } return false;
     }
 }
