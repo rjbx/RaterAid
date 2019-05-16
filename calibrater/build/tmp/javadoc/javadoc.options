@@ -1,7 +1,0 @@
--classpath '/home/b/Documents/Rateraid/calibrater/build/classes/java/main:/home/b/Documents/Rateraid/calibrater/build/resources/main'
--d '/home/b/Documents/Rateraid/calibrater/build/docs/javadoc'
--doctitle 'calibrater 0.6.4 API'
--quiet 
--windowtitle 'calibrater 0.6.4 API'
-'/home/b/Documents/Rateraid/calibrater/src/main/java/com/github/rjbx/calibrater/TypeConverters.java'
-'/home/b/Documents/Rateraid/calibrater/src/main/java/com/github/rjbx/calibrater/Calibrater.java'
