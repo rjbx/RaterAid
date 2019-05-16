@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import com.github.rjbx.sample.data.ColorData;
 import com.github.rjbx.sample.data.ColorData.ColorItem;
-import com.github.rjbx.rateraid.Rateraid.RatedObject;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.view.LayoutInflater;

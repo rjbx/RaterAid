@@ -2,7 +2,7 @@ package com.github.rjbx.sample.data;
 
 import android.content.Context;
 
-import com.github.rjbx.rateraid.Rateraid.RatedObject;
+import com.github.rjbx.rateraid.Rateraid.Rateable;
 import com.github.rjbx.sample.R;
 
 import java.util.HashMap;
@@ -96,7 +96,7 @@ public class ColorData {
     /**
      * A color item representing a piece of content.
      */
-    public static class ColorItem implements RatedObject<ColorItem>, Cloneable {
+    public static class ColorItem implements Rateable<ColorItem>, Cloneable {
         private String id;
         private String content;
         private String details;

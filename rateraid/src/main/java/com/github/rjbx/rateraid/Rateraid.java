@@ -19,13 +19,13 @@ import androidx.annotation.Nullable;
 
 public class Rateraid {
 
-    public interface RatedObject<T> {
+    public interface Rateable<T> {
         void setPercent(double percent);
         double getPercent();
         T getObject();
     }
 
-    public <T extends RatedObject> List<T> getRateables(List<T> objects) {
+    public <T extends Rateable> List<T> getRateables(List<T> objects) {
         for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
         return objects;
     }
@@ -44,8 +44,8 @@ public class Rateraid {
         return new PercentSeries(percents, magnitude, precision,  clickListener);
     }
 
-    public static <T extends RatedObject> ViewSeries with(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-        return new ViewSeries(rateables, magnitude, precision,  clickListener);
+    public static <T extends Rateable> RateableSeries with(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        return new RateableSeries(rateables, magnitude, precision,  clickListener);
     }
 
     public static class PercentSeries {
@@ -124,7 +124,7 @@ public class Rateraid {
         }
     }
 
-    public static class ViewSeries<T extends RatedObject> {
+    public static class RateableSeries<T extends Rateable> {
 
         private Rateraid mRateraid;
         private List<T> mRateables;
@@ -132,7 +132,7 @@ public class Rateraid {
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        private ViewSeries(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private RateableSeries(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -140,7 +140,7 @@ public class Rateraid {
             recalibrateRatings(rateables, false, precision);
         }
 
-        public ViewSeries addShifters(View incrementButton, View decrementButton, int index) {
+        public RateableSeries addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 shiftRatings(mRateables, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
@@ -153,7 +153,7 @@ public class Rateraid {
         }
 
 
-        public ViewSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
+        public RateableSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index);
 
@@ -162,7 +162,7 @@ public class Rateraid {
             }); return this;
         }
 
-        public ViewSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
+        public RateableSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -205,7 +205,7 @@ public class Rateraid {
         }
     }
 
-    public static <T extends RatedObject> boolean shiftRatings(List<T> objects, int index, double magnitude, int precision) {
+    public static <T extends Rateable> boolean shiftRatings(List<T> objects, int index, double magnitude, int precision) {
         boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
@@ -214,7 +214,7 @@ public class Rateraid {
         return result;
     }
 
-    public static <T extends RatedObject> boolean resetRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
+    public static <T extends Rateable> boolean resetRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
@@ -223,12 +223,12 @@ public class Rateraid {
         return result;
     }
 
-    public static <T extends RatedObject> boolean removeRating(List<T> objects, int index) {
+    public static <T extends Rateable> boolean removeRating(List<T> objects, int index) {
         objects.remove(index);
         return recalibrateRatings(objects, false, null);
     }
 
-    public static <T extends RatedObject> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
+    public static <T extends Rateable> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         double percents[] = new double[objects.size()];
         for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();

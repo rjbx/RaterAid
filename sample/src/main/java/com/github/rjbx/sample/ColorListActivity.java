@@ -108,7 +108,7 @@ public class ColorListActivity extends AppCompatActivity {
     public static class ColorListAdapter
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
-        private Rateraid.ViewSeries mRateraid;
+        private Rateraid.RateableSeries mRateraid;
         private List<ColorItem> mItems;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;
