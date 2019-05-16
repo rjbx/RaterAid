@@ -152,7 +152,6 @@ public class Rateraid {
             return this;
         }
 
-
         public RateableSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index);
