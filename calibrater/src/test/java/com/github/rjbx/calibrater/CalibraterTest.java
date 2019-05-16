@@ -73,7 +73,7 @@ public class CalibraterTest {
             double sum = 0d;
             Calibrater.recalibrateRatings(percents, false, PRECISION);
             for (double percent : percents) sum += percent;
-            assertEquals(1d, sum, PRECISION);
+            assertEquals(1d, sum, PRECISION); // Test recalibration precision
         }
     }
 
@@ -236,7 +236,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Asserts whether the parameter {@link Class} of type {@link Throwable} is thrown when
+     * Asserts whether the parameter {@code Class} of type {@code Throwable} is thrown when
      * invoking {@link Calibrater#shiftRatings(double[], int, double, int)} with the parameter args
      */
     private static <T extends Throwable>void assertShiftThrows(Class<T> throwableClass, Object... args) {
