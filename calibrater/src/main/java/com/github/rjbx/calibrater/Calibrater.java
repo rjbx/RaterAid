@@ -59,6 +59,9 @@ public final class Calibrater {
                             percents[i] = limit; // set to limit
                             excluded++; // decrease offset divisor for fewer allocations
                         }
+                    } else if (percents[i] < 0) {
+                        percents[i] = 0d;
+                        magnitude += percents[i];
                     }
                 }
             }
