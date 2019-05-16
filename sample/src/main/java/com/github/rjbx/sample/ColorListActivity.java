@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.github.rjbx.rateraid.Rateraid;
-import com.github.rjbx.rateraid.Rateraid.RatedObject;
 import com.github.rjbx.calibrater.Calibrater;
 import com.github.rjbx.sample.data.ColorData.*;
 import com.github.rjbx.sample.data.ColorData;
@@ -109,7 +108,7 @@ public class ColorListActivity extends AppCompatActivity {
     public static class ColorListAdapter
             extends RecyclerView.Adapter<ColorListAdapter.ViewHolder> {
 
-        private Rateraid.Objects mRateraid;
+        private Rateraid.ViewSeries mRateraid;
         private List<ColorItem> mItems;
         private final ColorListActivity mParentActivity;
         private final boolean mTwoPane;

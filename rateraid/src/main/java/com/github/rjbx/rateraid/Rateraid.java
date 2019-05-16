@@ -40,15 +40,15 @@ public class Rateraid {
     public Double[] getPercentsBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercents); }
     public Float[] getPercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercents); }
 
-    public static Arrays with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-        return new Arrays(percents, magnitude, precision,  clickListener);
+    public static PercentSeries with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        return new PercentSeries(percents, magnitude, precision,  clickListener);
     }
 
-    public static <T extends RatedObject> Objects with(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-        return new Objects(rateables, magnitude, precision,  clickListener);
+    public static <T extends RatedObject> ViewSeries with(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        return new ViewSeries(rateables, magnitude, precision,  clickListener);
     }
 
-    public static class Arrays {
+    public static class PercentSeries {
 
         private Rateraid mRateraid;
         private double[] mPercents;
@@ -56,7 +56,7 @@ public class Rateraid {
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        private Arrays(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private PercentSeries(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -64,7 +64,7 @@ public class Rateraid {
             Calibrater.recalibrateRatings(mPercents, false, precision);
         }
 
-        public Arrays addShifters(View incrementButton, View decrementButton, int index) {
+        public PercentSeries addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 Calibrater.shiftRatings(mPercents, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
@@ -76,14 +76,14 @@ public class Rateraid {
             return this;
         }
 
-        public Arrays addRemover(View removeButton, int index) {
+        public PercentSeries addRemover(View removeButton, int index) {
             removeButton.setOnClickListener(clickedView -> {
                 Calibrater.removeRating(mPercents, index);
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             }); return this;
         }
 
-        public Arrays addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
+        public PercentSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -124,7 +124,7 @@ public class Rateraid {
         }
     }
 
-    public static class Objects<T extends RatedObject> {
+    public static class ViewSeries<T extends RatedObject> {
 
         private Rateraid mRateraid;
         private List<T> mRateables;
@@ -132,7 +132,7 @@ public class Rateraid {
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
-        private Objects(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private ViewSeries(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -140,7 +140,7 @@ public class Rateraid {
             recalibrateRatings(rateables, false, precision);
         }
 
-        public Objects addShifters(View incrementButton, View decrementButton, int index) {
+        public ViewSeries addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 shiftRatings(mRateables, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
@@ -153,7 +153,7 @@ public class Rateraid {
         }
 
 
-        public Objects addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
+        public ViewSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index);
 
@@ -162,7 +162,7 @@ public class Rateraid {
             }); return this;
         }
 
-        public Objects addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
+        public ViewSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {

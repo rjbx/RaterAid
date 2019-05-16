@@ -24,8 +24,8 @@ public class RateraidInstrumentedTest {
     private Button mDecrementButton;
     private Context mContext;
     private long mCount;
-    private Rateraid.Arrays mRateArrays;
-    private Rateraid.Objects mRateObjects;
+    private Rateraid.PercentSeries mRatePercentSeries;
+    private Rateraid.ViewSeries mRateViewSeries;
 
     private static int PRECISION = Calibrater.STANDARD_PRECISION;
 
@@ -38,11 +38,11 @@ public class RateraidInstrumentedTest {
     @Test public final void testArraysAddButtonSetClickListenerCallback() {
         double[] percents = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRateArrays = Rateraid.with(percents, magnitude, PRECISION, null);
+            mRatePercentSeries = Rateraid.with(percents, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
 
-                mRateArrays.addShifters(mIncrementButton, mDecrementButton, index);
-                mRateArrays.instance();
+                mRatePercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mRatePercentSeries.instance();
                 double sum;
 
                 mIncrementButton.performClick();
@@ -110,10 +110,10 @@ public class RateraidInstrumentedTest {
     @Test public final void testArraysSetClickListenerUserDefinedCallback() {
         double[] percents = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRateArrays = Rateraid.with(percents, magnitude, PRECISION, clickedView -> mCount++);
+            mRatePercentSeries = Rateraid.with(percents, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
-                mRateArrays.addShifters(mIncrementButton, mDecrementButton, index);
+                mRatePercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
@@ -145,11 +145,11 @@ public class RateraidInstrumentedTest {
         rateable.setPercent(.25d);
         for (int i = 0; i < 4; i++) rateables.add(rateable.clone());
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRateObjects = Rateraid.with(rateables, magnitude, PRECISION, null);
+            mRateViewSeries = Rateraid.with(rateables, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
 
-                mRateObjects.addShifters(mIncrementButton, mDecrementButton, index);
-                mRateObjects.instance();
+                mRateViewSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mRateViewSeries.instance();
                 double sum;
 
                 mIncrementButton.performClick();
@@ -219,10 +219,10 @@ public class RateraidInstrumentedTest {
         Rateable rateable = new Rateable();
         rateable.setPercent(.25d);
         for (int i = 0; i < 4; i++) rateables.add(rateable.clone());for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRateObjects = Rateraid.with(rateables, magnitude, PRECISION, clickedView -> mCount++);
+            mRateViewSeries = Rateraid.with(rateables, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
-                mRateObjects.addShifters(mIncrementButton, mDecrementButton, index);
+                mRateViewSeries.addShifters(mIncrementButton, mDecrementButton, index);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
