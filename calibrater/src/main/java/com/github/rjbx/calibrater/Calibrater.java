@@ -119,7 +119,7 @@ public final class Calibrater {
         if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
             for (int i = 0; i < percents.length; i++) {
                 percents[i] += difference;
-                if (percents[1] > 1d) percents[i] = 1d;
+                if (percents[i] > 1d) percents[i] = 1d;
                 else if (percents[i] < 0d) percents[i] = 0d;
             }
             return true;
