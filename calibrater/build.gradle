@@ -12,7 +12,7 @@ ext {
     siteUrl = 'https://github.com/rjbx/rateraid'
     gitUrl = 'https://github.com/rjbx/rateraid.git'
 
-    libraryVersion = '0.6.5'
+    libraryVersion = '0.6.6'
 
     developerId = 'rjbx'
     developerName = 'Bob Basmaji'
