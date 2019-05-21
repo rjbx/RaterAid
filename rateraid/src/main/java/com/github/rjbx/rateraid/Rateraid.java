@@ -85,16 +85,12 @@ public class Rateraid {
             }); return this;
         }
 
-        public PercentSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
+        public PercentSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
                 switch (onEditorActionId) {
                     case EditorInfo.IME_ACTION_DONE:
-                        if (runnable != null) {
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.post(runnable);
-                        }
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
                             double percent = mPercents[index];
@@ -163,16 +159,12 @@ public class Rateraid {
             }); return this;
         }
 
-        public RateableSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm, @Nullable Runnable runnable) {
+        public RateableSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
                 switch (onEditorActionId) {
                     case EditorInfo.IME_ACTION_DONE:
-                        if (runnable != null) {
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.post(runnable);
-                        }
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
                             double percent = mRateables.get(index).getPercent();
