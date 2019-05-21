@@ -76,9 +76,11 @@ public class Rateraid {
             return this;
         }
 
-        public PercentSeries addRemover(View removeButton, int index) {
+        public PercentSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 Calibrater.removeRating(mPercents, index);
+
+                if (dialog != null) dialog.dismiss();
                 if (mClickListener != null) mClickListener.onClick(removeButton);
             }); return this;
         }
