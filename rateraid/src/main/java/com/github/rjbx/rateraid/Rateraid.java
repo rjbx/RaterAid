@@ -28,7 +28,7 @@ public class Rateraid {
     /**
      * Wrapper interface for objects associated with a percent value.
      * @param <T> to specify the type of the implementing class for generating appropriately cast
-     *            objects from {@link #getObject}
+     *            objects from {@link #getObject()}
      */
     public interface Rateable<T> {
         void setPercent(double percent);
