@@ -25,26 +25,48 @@ import androidx.annotation.Nullable;
  */
 public class Rateraid {
 
+    /**
+     * Wrapper interface for objects associated with a percent value.
+     * @param <T>
+     */
     public interface Rateable<T> {
         void setPercent(double percent);
         double getPercent();
         T getObject();
     }
 
-    public <T extends Rateable> List<T> getRateables(List<T> objects) {
+    /*
+     * Instance field updated from subclasses
+     */
+    private double[] mPercents;
+
+    /**
+     * Transfers the values from an adjusted {@link PercentSeries} to an
+     * {@code ArrayList} of {@link Rateable} elements.
+     * @param objects {@code ArrayList} of {@link Rateable} elements
+     * @return argument {@ArrayList} of {@link Rateable} elements with updated percents
+     */
+    public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
         for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
         return objects;
     }
 
-    private double[] mPercents;
+    /*
+     * Helper methods for setting the percent array field with primitive and boxed double and float array types
+     */
     private void setPercents(double[] percents) { this.mPercents = percents; }
     private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
     private void setPercents(Double[] percents) {this.mPercents = TypeConverters.arrayBoxedToPrimitiveDouble(percents); }
     private void setPercents(Float[] percents) {this.mPercents = TypeConverters.arrayFloatBoxedToDouble(percents); }
+
+    /*
+     * Helper methods for getting the percent array field as primitive and boxed double and float array types
+     */
     public double[] getPercents() { return mPercents; }
     public float[] getPercentsBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mPercents); }
     public Double[] getPercentsBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercents); }
     public Float[] getPercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercents); }
+
 
     public static PercentSeries with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new PercentSeries(percents, magnitude, precision,  clickListener);
@@ -204,6 +226,16 @@ public class Rateraid {
         }
     }
 
+    /**
+     * Increments or decrements a {@link Rateable} {@code ArrayList} element by
+     * the specified magnitude while calibrating other {@link Rateable} {@code ArrayList} elements
+     * to maintain proportionality.
+     * @param objects {@link Rateable} {@code ArrayList }elements to be adjusted if not proportionate
+     * @param index index of the array element to be adjusted
+     * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
+     * @param precision number of decimal places to move the allowed error from the whole
+     * @return true if percent was adjusted and false otherwise
+     */
     public static <T extends Rateable> boolean shiftRatings(List<T> objects, int index, double magnitude, int precision) {
         boolean result;
         double percents[] = new double[objects.size()];
@@ -213,6 +245,13 @@ public class Rateraid {
         return result;
     }
 
+    /**
+     * Assigns equivalent percents to each {@link Rateable} {@code ArrayList} element.
+     * @param objects {@link Rateable} {@code ArrayList} elements to be reset if not equivalent
+     * @param forceReset applies reset even if sum of array elements is as precise as specified
+     * @param precision number of decimal places to move the permitted error from the whole
+     * @return true if values were adjusted; false otherwise
+     */
     public static <T extends Rateable> boolean resetRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         double percents[] = new double[objects.size()];
@@ -222,11 +261,27 @@ public class Rateraid {
         return result;
     }
 
+    /**
+     * Removes {@link Rateable} from {@code ArrayList} at the specified index.
+     * The whole is then distributed among the remaining elements
+     * according to {@link #recalibrateRatings(List, boolean, Integer)}
+     * @param objects {@link Rateable} {@code ArrayList} elements to be calibrated if not proportionate
+     * @param index to be removed
+     * @return true if values were adjusted; false otherwise
+     */
     public static <T extends Rateable> boolean removeRating(List<T> objects, int index) {
         objects.remove(index);
         return recalibrateRatings(objects, false, null);
     }
 
+    /**
+     * Reads {@link Rateable} {@code ArrayList} and equally distributes to each array element
+     * the difference between the whole and the sum of all array elements.
+     * @param objects {@link Rateable} {@code ArrayList} to be calibrated closer to the whole
+     * @param forceReset applies reset even if sum of array elements is as precise as specified
+     * @param precision number of decimal places to move the permitted error from the whole
+     * @return true if values were adjusted; false otherwise
+     */
     public static <T extends Rateable> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         double percents[] = new double[objects.size()];

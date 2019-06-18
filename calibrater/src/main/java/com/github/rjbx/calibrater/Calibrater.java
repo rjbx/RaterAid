@@ -12,12 +12,12 @@ public final class Calibrater {
      * Increments or decrements a {@code double} array element by the specified magnitude while calibrating
      * other {@code double} array elements to maintain proportionality.
      * @param percents {@code double} array elements to be adjusted if not proportionate
-     * @param targetIndex index of the array element to be adjusted
+     * @param index index of the array element to be adjusted
      * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if percent was adjusted and false otherwise
      */
-    public static boolean shiftRatings(double[] percents, int targetIndex, double magnitude, int precision) {
+    public static boolean shiftRatings(double[] percents, int index, double magnitude, int precision) {
 
         if (precision > 16 || precision < 0 || magnitude > 1d || magnitude < -1d) {
             throw new IllegalArgumentException("Parameter value is out of bounds");
@@ -27,21 +27,21 @@ public final class Calibrater {
             return false; // nothing to adjust
         }
 
-        if ((percents[targetIndex] == 0d && magnitude < 0d)
-        || (percents[targetIndex] == 1d && magnitude > 0d)) {
+        if ((percents[index] == 0d && magnitude < 0d)
+        || (percents[index] == 1d && magnitude > 0d)) {
             return false; // percent outside adjustable limits
         }
 
-        percents[targetIndex] += magnitude;
-        if (percents[targetIndex] >= 1d) { // adjusted percent is whole so rest must be zero
-            percents[targetIndex] = 1d;
-            for (int i = 0; i < percents.length; i++) if (targetIndex != i) percents[i] = 0d;
+        percents[index] += magnitude;
+        if (percents[index] >= 1d) { // adjusted percent is whole so rest must be zero
+            percents[index] = 1d;
+            for (int i = 0; i < percents.length; i++) if (index != i) percents[i] = 0d;
         } else {
 
             magnitude *= -1;
-            if (percents[targetIndex] <= 0d) {
-                magnitude += percents[targetIndex]; // restore unallocated offset
-                percents[targetIndex] = 0d; // set to limit
+            if (percents[index] <= 0d) {
+                magnitude += percents[index]; // restore unallocated offset
+                percents[index] = 0d; // set to limit
             }
 
             int excluded = 1; // prevent further allocation after maxing out all elements
@@ -51,7 +51,7 @@ public final class Calibrater {
             while (Math.abs(magnitude) >= Math.abs(error) && excluded <= percents.length) { // offset expended or exclusions maxed
                 double allocation = (magnitude / (percents.length - excluded)); // factor in exclusions on iterations
                 for (int i = 0; i < percents.length; i++) {
-                    if (i != targetIndex && (percents[i] != 0d || magnitude > 0d)) { // ignore adjusted and exclude only once
+                    if (i != index && (percents[i] != 0d || magnitude > 0d)) { // ignore adjusted and exclude only once
                         percents[i] += allocation;
                         magnitude -= allocation; // expend allocated for recalculating offset on iterations
                         if (percents[i] + error  < limit * -1) { // below limit within margin of error
@@ -74,7 +74,7 @@ public final class Calibrater {
      * @param percents {@code double} array elements to be reset if not equivalent
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole
-     * @return true if array was reset and false otherwise
+     * @return true if values were adjusted; false otherwise
      */
     public static boolean resetRatings(double[] percents, boolean forceReset, Integer precision) {
         double sum = 0d;
@@ -93,6 +93,7 @@ public final class Calibrater {
      * The whole is then equally distributed among the remaining elements.
      * @param percents {@code double} array elements to be calibrated if not proportionate
      * @param index to be removed
+     * @return true if values were adjusted; false otherwise
      */
     public static boolean removeRating(double[] percents, int index) {
 
@@ -112,11 +113,12 @@ public final class Calibrater {
     }
 
     /**
-     * Reads {@code double} array and equally distributes to each array element the difference
-     * between the whole and the sum of all array elements.
+     * Equally distributes to each {@code double} array element the difference between
+     * the whole and the sum of all array elements.
      * @param percents {@code double} array to be calibrated closer to the whole
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole
+     * @return true if values were adjusted; false otherwise
      */
     public static boolean recalibrateRatings(double[] percents, boolean forceReset, Integer precision) {
         double sum = 0d;
