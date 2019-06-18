@@ -72,7 +72,8 @@ public final class Calibrater {
     /**
      * Reads {@code double} array and assigns equivalent percents to each {@code double} array element.
      * @param percents {@code double} array elements to be reset if not equivalent
-     * @param precision number of decimal places to move the allowed error from the whole
+     * @param forceReset applies reset even if sum of array elements is as precise as specified
+     * @param precision number of decimal places to move the permitted error from the whole
      * @return true if array was reset and false otherwise
      */
     public static boolean resetRatings(double[] percents, boolean forceReset, Integer precision) {
@@ -86,8 +87,12 @@ public final class Calibrater {
     }
 
     /**
-     * Reads {@code double} array and assigns equivalent percents to each {@code double} array element.
+     * As copying the primitive array creates a new reference that breaks the link to the bound values,
+     * a negative value, which outscopes the index from calibration as negatives are not considered,
+     * is assigned to the removed index which is moved to the last index of the parameter array reference.
+     * The whole is then equally distributed among the remaining elements.
      * @param percents {@code double} array elements to be calibrated if not proportionate
+     * @param index to be removed
      */
     public static boolean removeRating(double[] percents, int index) {
 
@@ -99,7 +104,7 @@ public final class Calibrater {
         if (lastIndex != -1 && index > lastIndex) return false;
 
         System.arraycopy(percents, index + 1, percents, index, percents.length - index - 1 );
-        percents[percents.length - 1] = -1d;
+        percents[percents.length - 1] = -1;
 
         for (int i = 0; i < lastIndex; i++) percents[i] = 1d / (lastIndex + 1);
 
@@ -110,6 +115,8 @@ public final class Calibrater {
      * Reads {@code double} array and equally distributes to each array element the difference
      * between the whole and the sum of all array elements.
      * @param percents {@code double} array to be calibrated closer to the whole
+     * @param forceReset applies reset even if sum of array elements is as precise as specified
+     * @param precision number of decimal places to move the permitted error from the whole
      */
     public static boolean recalibrateRatings(double[] percents, boolean forceReset, Integer precision) {
         double sum = 0d;
