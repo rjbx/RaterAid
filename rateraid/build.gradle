@@ -51,5 +51,3 @@ dependencies {
 
 apply from: rootProject.file('gradle-install')
 apply from: rootProject.file('gradle-bintray')
-
-apply plugin: 'java'
