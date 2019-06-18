@@ -12,7 +12,7 @@ public final class Calibrater {
      * Increments or decrements a {@code double} array element by the specified magnitude while calibrating
      * other {@code double} array elements to maintain proportionality.
      * @param percents {@code double} array elements to be adjusted if not proportionate
-     * @param index index of the array element to be adjusted
+     * @param index location of the value to be adjusted
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if percent was adjusted and false otherwise
@@ -92,7 +92,7 @@ public final class Calibrater {
      * is assigned to the removed index which is moved to the last index of the parameter array reference.
      * The whole is then equally distributed among the remaining elements.
      * @param percents {@code double} array elements to be calibrated if not proportionate
-     * @param index to be removed
+     * @param index location of the value to be removed
      * @return true if values were adjusted; false otherwise
      */
     public static boolean removeRating(double[] percents, int index) {
