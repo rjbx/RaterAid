@@ -1,8 +1,6 @@
 package com.github.rjbx.rateraid;
 
 import android.content.DialogInterface;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +15,14 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
+/**
+ * Builder class for specifying adjustments to the values of,
+ * as well as behaviors for the views affecting, a percent series.
+ * Users can bind predefined as well as custom behaviors to their adjusting views
+ * to increment and decrement, as well as optionally remove or text edit the values of
+ * a percent series. The values remain synchronized throughout adjustments to the extent of
+ * the user-defined precision which articulates the acceptable {@link Calibrater} response.
+ */
 public class Rateraid {
 
     public interface Rateable<T> {
