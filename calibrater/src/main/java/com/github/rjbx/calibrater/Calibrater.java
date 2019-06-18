@@ -13,7 +13,7 @@ public final class Calibrater {
      * other {@code double} array elements to maintain proportionality.
      * @param percents {@code double} array elements to be adjusted if not proportionate
      * @param index index of the array element to be adjusted
-     * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
+     * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if percent was adjusted and false otherwise
      */

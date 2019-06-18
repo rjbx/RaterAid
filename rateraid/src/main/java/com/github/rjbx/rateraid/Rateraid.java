@@ -16,7 +16,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 /**
- * Builder class for specifying adjustments to the values of,
+ * Classes for specifying adjustments to the values of,
  * as well as behaviors for the views affecting, a percent series.
  * Users can bind predefined as well as custom behaviors to their adjusting views
  * to increment and decrement, as well as optionally remove or text edit the values of
@@ -68,22 +68,52 @@ public class Rateraid {
     public Float[] getPercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercents); }
 
 
+    /**
+     * Initialize the {@code double) array percent series, attributes and behavior
+     * associated with all view binding method calls.
+     * @param percents {@code double} array elements
+     * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
+     * @param precision number of decimal places to move the permitted error from the whole
+     * @param clickListener behavior to be applied on click of relevant views
+     * @return {@link PercentSeries} from which to chain view binding method calls
+     */
     public static PercentSeries with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new PercentSeries(percents, magnitude, precision,  clickListener);
     }
 
-    public static <T extends Rateable> RateableSeries with(List<T> rateables, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-        return new RateableSeries(rateables, magnitude, precision,  clickListener);
+    /**
+     * Initialize the {@link Rateable} {@code ArrayList} percent series, attributes and behavior
+     * associated with all view binding method calls.
+     * @param objects {@link Rateable} {@code ArrayList} elements
+     * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
+     * @param precision number of decimal places to move the permitted error from the whole
+     * @param clickListener behavior to be applied on click of relevant views
+     * @return {@link RateableSeries} from which to chain view binding method calls
+     */
+    public static <T extends Rateable> RateableSeries with(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        return new RateableSeries(objects, magnitude, precision,  clickListener);
     }
 
+    /**
+     * Class for chaining method calls for defining behaviors of views
+     * associated with a {@link double} array percent series
+     */
     public static class PercentSeries {
 
+        // Instance fields of this class
         private Rateraid mRateraid;
         private double[] mPercents;
         private double mMagnitude;
         private int mPrecision;
         private View.OnClickListener mClickListener;
 
+        /**
+         * Initialize the instance fields of this class from the parent class accessor
+         * @param percents 
+         * @param magnitude
+         * @param precision
+         * @param clickListener
+         */
         private PercentSeries(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
@@ -92,6 +122,13 @@ public class Rateraid {
             Calibrater.recalibrateRatings(mPercents, false, precision);
         }
 
+        /**
+         * Define the controllers by which the value of the percent series is incremented and decremented
+         * @param incrementButton view that, when clicked, should increment the targeted value
+         * @param decrementButton view that, when clicked, should decrement the targeted value
+         * @param index location of the value to be adjusted
+         * @return {@link PercentSeries} from which to chain view binding method calls
+         */
         public PercentSeries addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 Calibrater.shiftRatings(mPercents, index, mMagnitude, mPrecision);
@@ -104,6 +141,16 @@ public class Rateraid {
             return this;
         }
 
+        /**
+         * Define the controller by which an element of the percent series is removed.
+         * @param removeButton view that, when clicked, should invalidate the targeted element
+         *                     from further adjustment. The element cannot be outright removed as
+         *                     copying a primitive array with fewer elements disassociates the 
+         *                     array reference from the previous reference.
+         * @param index location of the value to be invalidated
+         * @param dialog removal message to be dismissed 
+         * @return {@link PercentSeries} from which to chain view binding method calls
+         */
         public PercentSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 Calibrater.removeRating(mPercents, index);
@@ -113,6 +160,13 @@ public class Rateraid {
             }); return this;
         }
 
+        /**
+         * Define the controller by which the value of the percent series is replaced by text entry.
+         * @param valueEditor editor that, when receiving entry, should replace the targeted value 
+         * @param index location of the value to be replaced
+         * @param imm input manager to be dismissed 
+         * @return {@link PercentSeries} from which to chain view binding method calls
+         */
         public PercentSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
@@ -143,6 +197,10 @@ public class Rateraid {
             }); return this;
         }
 
+        /**
+         * Retrieve a new reference to a {@link PercentSeries} with values initialized.
+         * @return new reference to a {@link PercentSeries}
+         */
         public Rateraid instance() {
             mRateraid = new Rateraid();
             mRateraid.setPercents(mPercents);
