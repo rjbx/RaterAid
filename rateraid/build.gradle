@@ -53,8 +53,3 @@ apply from: rootProject.file('gradle-install')
 apply from: rootProject.file('gradle-bintray')
 
 apply plugin: 'java'
-
-javadoc {
-    source = sourceSets.main.allJava
-    classpath = configurations.compile
-}
