@@ -16,6 +16,10 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test methods for the {@link Rateraid} class.
+ * Equals assertions are more precise as delta parameter approaches zero.
+ */
 @androidx.test.filters.LargeTest
 @RunWith(AndroidJUnit4.class)
 public class RateraidInstrumentedTest {
@@ -24,25 +28,33 @@ public class RateraidInstrumentedTest {
     private Button mDecrementButton;
     private Context mContext;
     private long mCount;
-    private Rateraid.PercentSeries mRatePercentSeries;
-    private Rateraid.RateableSeries mRateRateableSeries;
+    private Rateraid.PercentSeries mPercentSeries;
+    private Rateraid.RateableSeries mRateableSeries;
 
     private static int PRECISION = Calibrater.STANDARD_PRECISION;
 
+    /**
+     * Initializes controllers to be tested from the instrumentation context
+     */
     @Before public final void setUp() {
         mContext = InstrumentationRegistry.getInstrumentation().getContext();
         mIncrementButton = new Button(mContext);
         mDecrementButton = new Button(mContext);
     }
 
-    @Test public final void testArraysAddButtonSetClickListenerCallback() {
+    /**
+     * Asserts whether adding, then incrementing and decrementing from, controllers through the
+     * range of possible values assigns the expected value to each array element associated with the
+     * {@link com.github.rjbx.rateraid.Rateraid.PercentSeries}.
+     */
+    @Test public final void testPercentSeriesAddButtonSetClickListenerCallback() {
         double[] percents = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRatePercentSeries = Rateraid.with(percents, magnitude, PRECISION, null);
+            mPercentSeries = Rateraid.with(percents, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
 
-                mRatePercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
-                mRatePercentSeries.instance();
+                mPercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mPercentSeries.instance();
                 double sum;
 
                 mIncrementButton.performClick();
@@ -107,13 +119,18 @@ public class RateraidInstrumentedTest {
         }
     }
 
-    @Test public final void testArraysSetClickListenerUserDefinedCallback() {
+    /**
+     * Asserts whether a user-defined behavior of incrementing on each controller interaction through
+     * the range of possible values assigns the expected value to each array element associated with the
+     * {@link com.github.rjbx.rateraid.Rateraid.PercentSeries}.
+     */
+    @Test public final void testPercentSeriesClickListenerUserDefinedCallback() {
         double[] percents = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRatePercentSeries = Rateraid.with(percents, magnitude, PRECISION, clickedView -> mCount++);
+            mPercentSeries = Rateraid.with(percents, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
-                mRatePercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mPercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
@@ -139,17 +156,22 @@ public class RateraidInstrumentedTest {
         assertEquals(2872, mCount);
     }
 
-    @Test public final void testObjectsAddButtonSetClickListenerCallback() {
-        List<Rateraid.Rateable<Rateable>> rateables = new ArrayList<>(4);
-        Rateable rateable = new Rateable();
+    /**
+     * Asserts whether adding, then incrementing and decrementing from, controllers through the
+     * range of possible values assigns the expected value to each array element associated with the
+     * {@link com.github.rjbx.rateraid.Rateraid.RateableSeries}.
+     */
+    @Test public final void testRateableSeriessAddButtonSetClickListenerCallback() {
+        List<Rateraid.Rateable<ClonableRateable>> rateables = new ArrayList<>(4);
+        ClonableRateable rateable = new ClonableRateable();
         rateable.setPercent(.25d);
         for (int i = 0; i < 4; i++) rateables.add(rateable.clone());
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRateRateableSeries = Rateraid.with(rateables, magnitude, PRECISION, null);
+            mRateableSeries = Rateraid.with(rateables, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
 
-                mRateRateableSeries.addShifters(mIncrementButton, mDecrementButton, index);
-                mRateRateableSeries.instance();
+                mRateableSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mRateableSeries.instance();
                 double sum;
 
                 mIncrementButton.performClick();
@@ -214,15 +236,20 @@ public class RateraidInstrumentedTest {
         }
     }
 
-    @Test public final void testSetClickListenerUserDefinedCallback() {
-        List<Rateraid.Rateable<Rateable>> rateables = new ArrayList<>(4);
-        Rateable rateable = new Rateable();
+    /**
+     * Asserts whether a user-defined behavior of incrementing on each controller interaction through
+     * the range of possible values assigns the expected value to each array element associated with the
+     * {@link com.github.rjbx.rateraid.Rateraid.RateableSeries}.
+     */
+    @Test public final void testRateableSeriesClickListenerUserDefinedCallback() {
+        List<Rateraid.Rateable<ClonableRateable>> rateables = new ArrayList<>(4);
+        ClonableRateable rateable = new ClonableRateable();
         rateable.setPercent(.25d);
         for (int i = 0; i < 4; i++) rateables.add(rateable.clone());for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mRateRateableSeries = Rateraid.with(rateables, magnitude, PRECISION, clickedView -> mCount++);
+            mRateableSeries = Rateraid.with(rateables, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
-                mRateRateableSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mRateableSeries.addShifters(mIncrementButton, mDecrementButton, index);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
@@ -248,16 +275,21 @@ public class RateraidInstrumentedTest {
         assertEquals(2872, mCount);
     }
 
-    private class Rateable implements Rateraid.Rateable<Rateable>, Cloneable {
+    /**
+     * Implements {@link com.github.rjbx.rateraid.Rateraid.Rateable} and {@code Cloneable} interfaces
+     * for populating a {@link com.github.rjbx.rateraid.Rateraid.RateableSeries} with distinct references
+     * to identically composed objects.
+     */
+    private class ClonableRateable implements Rateraid.Rateable<ClonableRateable>, Cloneable {
         
         private double percent;
         
         @Override public void setPercent(double percent) { this.percent = percent; }
         @Override public double getPercent() { return percent; }
-        @Override public Rateable getObject() { return this; }
+        @Override public ClonableRateable getObject() { return this; }
 
-        @Override public Rateable clone() {
-            Rateable clone  = new Rateable();
+        @Override public ClonableRateable clone() {
+            ClonableRateable clone  = new ClonableRateable();
             clone.setPercent(this.percent);
             try { super.clone();
             } catch (CloneNotSupportedException e) {
