@@ -45,7 +45,7 @@ public class Rateraid {
      * Transfers the values from an adjusted {@link PercentSeries} to an
      * {@code ArrayList} of {@link Rateable} elements.
      * @param objects {@code ArrayList} of {@link Rateable} elements
-     * @return argument {@ArrayList} of {@link Rateable} elements with updated percents
+     * @return argument {@code ArrayList} of {@link Rateable} elements with updated percents
      */
     public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
         for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
@@ -70,7 +70,7 @@ public class Rateraid {
 
 
     /**
-     * Initialize the {@code double) array percent series, attributes and behavior
+     * Initialize the {@code double} array percent series, attributes and behavior
      * associated with all view binding method calls.
      * @param percents {@code double} array elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
