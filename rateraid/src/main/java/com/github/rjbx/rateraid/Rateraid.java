@@ -78,6 +78,7 @@ public class Rateraid {
      * @param clickListener behavior to be applied on click of relevant views
      * @return {@link ValueSeries} from which to chain view binding method calls
      */
+    // TODO: Convert from array to ArrayList
     public static ValueSeries with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new ValueSeries(percents, magnitude, precision,  clickListener);
     }
