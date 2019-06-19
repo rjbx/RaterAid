@@ -26,7 +26,7 @@ import androidx.annotation.Nullable;
 public class Rateraid {
 
     /**
-     * Wrapper interface for an object associated withRateables a percent value.
+     * Wrapper interface for an object associated withObjects a percent value.
      * @param <T> to specify the type of the implementing class for generating appropriately cast
      *            objects from {@link #getObject()}
      */
@@ -45,7 +45,7 @@ public class Rateraid {
      * Transfers the values from an adjusted {@link ValueSeries} to an
      * {@code ArrayList} of {@link Rateable} elements.
      * @param objects {@code ArrayList} of {@link Rateable} elements
-     * @return argument {@code ArrayList} of {@link Rateable} elements withRateables updated percents
+     * @return argument {@code ArrayList} of {@link Rateable} elements withObjects updated percents
      */
     public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
         for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
@@ -53,7 +53,7 @@ public class Rateraid {
     }
 
     /*
-     * Helper methods for setting the percent array field withRateables primitive and boxed double and float array types
+     * Helper methods for setting the percent array field withObjects primitive and boxed double and float array types
      */
     private void setPercents(double[] percents) { this.mPercents = percents; }
     private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
@@ -71,34 +71,34 @@ public class Rateraid {
 
     /**
      * Initialize the {@code double} array percent series, attributes and behavior
-     * associated withRateables all view binding method calls.
+     * associated withObjects all view binding method calls.
      * @param percents {@code double} array elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
      * @param clickListener behavior to be applied on click of relevant views
      * @return {@link ValueSeries} from which to chain view binding method calls
      */
-    // TODO: Convert from array to ArrayList
+    // TODO: Convert from array to List
     public static ValueSeries withValues(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new ValueSeries(percents, magnitude, precision,  clickListener);
     }
 
     /**
      * Initialize the {@link Rateable} {@code ArrayList} percent series, attributes and behavior
-     * associated withRateables all view binding method calls.
+     * associated withObjects all view binding method calls.
      * @param objects {@link Rateable} {@code ArrayList} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
      * @param clickListener behavior to be applied on click of relevant views
      * @return {@link ObjectSeries} from which to chain view binding method calls
      */
-    public static <T extends Rateable> ObjectSeries withRateables(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static <T extends Rateable> ObjectSeries withObjects(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new ObjectSeries(objects, magnitude, precision,  clickListener);
     }
 
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated withRateables a {@code double} array percent series
+     * associated withObjects a {@code double} array percent series
      */
     public static class ValueSeries {
 
@@ -147,7 +147,7 @@ public class Rateraid {
          * Define the controller by which an element of the percent series is invalidated.
          * @param removeButton view that, when clicked, should invalidate the targeted element
          *                     from further adjustment. The element cannot be outright removed as
-         *                     copying a primitive array withRateables fewer elements disassociates the
+         *                     copying a primitive array withObjects fewer elements disassociates the
          *                     array reference from the previous reference.
          * @param index location of the value to be invalidated
          * @param dialog removal message to be dismissed 
@@ -200,7 +200,7 @@ public class Rateraid {
         }
 
         /**
-         * Retrieve a new reference to a {@link ValueSeries} withRateables values initialized.
+         * Retrieve a new reference to a {@link ValueSeries} withObjects values initialized.
          * @return new reference to a {@link ValueSeries}
          */
         public Rateraid instance() {
@@ -212,7 +212,7 @@ public class Rateraid {
     
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated withRateables a {@link Rateable} {@code ArrayList} percent series
+     * associated withObjects a {@link Rateable} {@code ArrayList} percent series
      */
     public static class ObjectSeries<T extends Rateable> {
 
@@ -311,7 +311,7 @@ public class Rateraid {
         }
         
         /**
-         * Retrieve a new reference to a {@link ObjectSeries} withRateables values initialized.
+         * Retrieve a new reference to a {@link ObjectSeries} withObjects values initialized.
          * @return new reference to a {@link ObjectSeries}
          */
         public Rateraid instance() {

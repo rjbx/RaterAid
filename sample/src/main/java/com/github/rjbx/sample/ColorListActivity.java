@@ -70,7 +70,7 @@ public class ColorListActivity extends AppCompatActivity {
             mListAdapter.swapItems(new ArrayList<>(ColorData.getSavedItems().values()));
             Snackbar.make(
                     clickedView,
-                    "The list has been repopulated withRateables the original dataset.",
+                    "The list has been repopulated withObjects the original dataset.",
                     Snackbar.LENGTH_LONG
             ).setAction("Action", null).show();
         });
@@ -140,7 +140,7 @@ public class ColorListActivity extends AppCompatActivity {
             mTwoPane = twoPane;
             mMethodManager = (InputMethodManager)
                     mParentActivity.getSystemService(INPUT_METHOD_SERVICE);
-            mRateraid = Rateraid.withRateables(
+            mRateraid = Rateraid.withObjects(
                     mItems,
                     sMagnitude,
                     Calibrater.STANDARD_PRECISION,
@@ -179,7 +179,7 @@ public class ColorListActivity extends AppCompatActivity {
 
         private void swapItems(List<ColorItem> items) {
             mItems = items;
-            mRateraid = Rateraid.withRateables(
+            mRateraid = Rateraid.withObjects(
                     mItems,
                     sMagnitude,
                     Calibrater.STANDARD_PRECISION,
