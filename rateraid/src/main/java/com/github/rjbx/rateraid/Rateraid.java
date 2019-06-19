@@ -22,11 +22,37 @@ import androidx.annotation.Nullable;
  * to increment and decrement, as well as optionally remove or text edit the values of
  * a percent series. The values remain synchronized throughout adjustments to the extent of
  * the user-defined precision which articulates the acceptable {@link Calibrater} response.
+ *
+ * ListAdapter(List&ltT extends Rateable&gt rateables, double magnitude, double precision) {
+ *      mRateraid = Rateraid.with(
+ *      rateables,
+ *      magnitude,
+ *      precision,
+ *      clickedView -> notifyDataSetChanged());
+ *      }
+ *
+ *      – Or –
+ *
+ *      ListAdapter(double[] percents, double magnitude, double precision) {
+ *      mRateraid = Rateraid.with(
+    percents,
+    magnitude,
+    precision,
+    clickedView -> notifyDataSetChanged());
+ }
+
+ – Then –
+
+ @Override public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+  mRateraid.addShifters(holder.mIncrementButton, holder.mDecrementButton, position)
+    .addRemover(holder.mRemoveButton, position, null)
+    .addEditor(holder.mEditText, position, null);
+ }
  */
 public class Rateraid {
 
     /**
-     * Wrapper interface for objects associated with a percent value.
+     * Wrapper interface for an object associated with a percent value.
      * @param <T> to specify the type of the implementing class for generating appropriately cast
      *            objects from {@link #getObject()}
      */
