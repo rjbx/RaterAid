@@ -28,7 +28,7 @@ public class RateraidInstrumentedTest {
     private Button mDecrementButton;
     private Context mContext;
     private long mCount;
-    private Rateraid.PercentSeries mPercentSeries;
+    private Rateraid.ValueSeries mValueSeries;
     private Rateraid.RateableSeries mRateableSeries;
 
     private static int PRECISION = Calibrater.STANDARD_PRECISION;
@@ -45,16 +45,16 @@ public class RateraidInstrumentedTest {
     /**
      * Asserts whether adding, then incrementing and decrementing from, controllers through the
      * range of possible values assigns the expected value to each array element associated with the
-     * {@link com.github.rjbx.rateraid.Rateraid.PercentSeries}.
+     * {@link Rateraid.ValueSeries}.
      */
     @Test public final void testPercentSeriesAddButtonSetClickListenerCallback() {
         double[] percents = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mPercentSeries = Rateraid.with(percents, magnitude, PRECISION, null);
+            mValueSeries = Rateraid.with(percents, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
 
-                mPercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
-                mPercentSeries.instance();
+                mValueSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mValueSeries.instance();
                 double sum;
 
                 mIncrementButton.performClick();
@@ -122,15 +122,15 @@ public class RateraidInstrumentedTest {
     /**
      * Asserts whether a user-defined behavior of incrementing on each controller interaction through
      * the range of possible values assigns the expected value to each array element associated with the
-     * {@link com.github.rjbx.rateraid.Rateraid.PercentSeries}.
+     * {@link Rateraid.ValueSeries}.
      */
     @Test public final void testPercentSeriesClickListenerUserDefinedCallback() {
         double[] percents = { .25d, .25d, .25d, .25d };
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
-            mPercentSeries = Rateraid.with(percents, magnitude, PRECISION, clickedView -> mCount++);
+            mValueSeries = Rateraid.with(percents, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
 
-                mPercentSeries.addShifters(mIncrementButton, mDecrementButton, index);
+                mValueSeries.addShifters(mIncrementButton, mDecrementButton, index);
 
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();

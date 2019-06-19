@@ -42,7 +42,7 @@ public class Rateraid {
     private double[] mPercents;
 
     /**
-     * Transfers the values from an adjusted {@link PercentSeries} to an
+     * Transfers the values from an adjusted {@link ValueSeries} to an
      * {@code ArrayList} of {@link Rateable} elements.
      * @param objects {@code ArrayList} of {@link Rateable} elements
      * @return argument {@code ArrayList} of {@link Rateable} elements with updated percents
@@ -76,10 +76,10 @@ public class Rateraid {
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
      * @param clickListener behavior to be applied on click of relevant views
-     * @return {@link PercentSeries} from which to chain view binding method calls
+     * @return {@link ValueSeries} from which to chain view binding method calls
      */
-    public static PercentSeries with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-        return new PercentSeries(percents, magnitude, precision,  clickListener);
+    public static ValueSeries with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        return new ValueSeries(percents, magnitude, precision,  clickListener);
     }
 
     /**
@@ -99,7 +99,7 @@ public class Rateraid {
      * Class for chaining method calls for defining behaviors of views
      * associated with a {@code double} array percent series
      */
-    public static class PercentSeries {
+    public static class ValueSeries {
 
         // Instance fields of this class
         private Rateraid mRateraid;
@@ -115,7 +115,7 @@ public class Rateraid {
          * @param precision
          * @param clickListener
          */
-        private PercentSeries(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private ValueSeries(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -128,9 +128,9 @@ public class Rateraid {
          * @param incrementButton view that, when clicked, should increment the targeted value
          * @param decrementButton view that, when clicked, should decrement the targeted value
          * @param index location of the value to be adjusted
-         * @return {@link PercentSeries} from which to chain view binding method calls
+         * @return {@link ValueSeries} from which to chain view binding method calls
          */
-        public PercentSeries addShifters(View incrementButton, View decrementButton, int index) {
+        public ValueSeries addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 Calibrater.shiftRatings(mPercents, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
@@ -150,9 +150,9 @@ public class Rateraid {
          *                     array reference from the previous reference.
          * @param index location of the value to be invalidated
          * @param dialog removal message to be dismissed 
-         * @return {@link PercentSeries} from which to chain view binding method calls
+         * @return {@link ValueSeries} from which to chain view binding method calls
          */
-        public PercentSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
+        public ValueSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 Calibrater.removeRating(mPercents, index);
 
@@ -166,9 +166,9 @@ public class Rateraid {
          * @param valueEditor editor that, when receiving entry, should replace the targeted value 
          * @param index location of the value to be replaced
          * @param imm input manager to be dismissed 
-         * @return {@link PercentSeries} from which to chain view binding method calls
+         * @return {@link ValueSeries} from which to chain view binding method calls
          */
-        public PercentSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
+        public ValueSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -199,8 +199,8 @@ public class Rateraid {
         }
 
         /**
-         * Retrieve a new reference to a {@link PercentSeries} with values initialized.
-         * @return new reference to a {@link PercentSeries}
+         * Retrieve a new reference to a {@link ValueSeries} with values initialized.
+         * @return new reference to a {@link ValueSeries}
          */
         public Rateraid instance() {
             mRateraid = new Rateraid();
