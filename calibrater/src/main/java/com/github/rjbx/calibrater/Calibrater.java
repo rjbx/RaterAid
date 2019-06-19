@@ -1,5 +1,7 @@
 package com.github.rjbx.calibrater;
 
+import java.util.List;
+
 /**
  * Utility class for adjusting and calibrating percent arrays.
  */
@@ -17,51 +19,51 @@ public final class Calibrater {
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if percent was adjusted and false otherwise
      */
-    public static boolean shiftRatings(double[] percents, int index, double magnitude, int precision) {
+    public static boolean shiftRatings(List<Double> percents, int index, double magnitude, int precision) {
 
         if (precision > 16 || precision < 0 || magnitude > 1d || magnitude < -1d) {
             throw new IllegalArgumentException("Parameter value is out of bounds");
         }
 
-        if (magnitude == 0 || percents.length < 2) {
+        if (magnitude == 0 || percents.size() < 2) {
             return false; // nothing to adjust
         }
 
-        if ((percents[index] == 0d && magnitude < 0d)
-        || (percents[index] == 1d && magnitude > 0d)) {
+        if ((percents.get(index) == 0d && magnitude < 0d)
+        || (percents.get(index) == 1d && magnitude > 0d)) {
             return false; // percent outside adjustable limits
         }
 
-        percents[index] += magnitude;
-        if (percents[index] >= 1d) { // adjusted percent is whole so rest must be zero
-            percents[index] = 1d;
-            for (int i = 0; i < percents.length; i++) if (index != i) percents[i] = 0d;
+        percents.set(index, percents.get(index) + magnitude);
+        if (percents.get(index) >= 1d) { // adjusted percent is whole so rest must be zero
+            percents.set(index, 1d);
+            for (int i = 0; i < percents.size(); i++) if (index != i) percents.set(i, 0d);
         } else {
 
             magnitude *= -1;
-            if (percents[index] <= 0d) {
-                magnitude += percents[index]; // restore unallocated offset
-                percents[index] = 0d; // set to limit
+            if (percents.get(index) <= 0d) {
+                magnitude += percents.get(index); // restore unallocated offset
+                percents.set(index, 0d); // set to limit
             }
 
             int excluded = 1; // prevent further allocation after maxing out all elements
             double limit = magnitude < 0d ? 0d : 1d; // limit approached by offset percents
             double error = Math.pow(10, -precision);
 
-            while (Math.abs(magnitude) >= Math.abs(error) && excluded <= percents.length) { // offset expended or exclusions maxed
-                double allocation = (magnitude / (percents.length - excluded)); // factor in exclusions on iterations
-                for (int i = 0; i < percents.length; i++) {
-                    if (i != index && (percents[i] != 0d || magnitude > 0d)) { // ignore adjusted and exclude only once
-                        percents[i] += allocation;
+            while (Math.abs(magnitude) >= Math.abs(error) && excluded <= percents.size()) { // offset expended or exclusions maxed
+                double allocation = (magnitude / (percents.size() - excluded)); // factor in exclusions on iterations
+                for (int i = 0; i < percents.size(); i++) {
+                    if (i != index && (percents.get(i) != 0d || magnitude > 0d)) { // ignore adjusted and exclude only once
+                        percents.set(i, percents.get(i) + allocation);
                         magnitude -= allocation; // expend allocated for recalculating offset on iterations
-                        if (percents[i] + error  < limit * -1) { // below limit within margin of error
-                            if (percents[i] < 0d) magnitude += percents[i]; // restore unallocated offset
-                            percents[i] = limit; // set to limit
+                        if (percents.get(i) + error  < limit * -1) { // below limit within margin of error
+                            if (percents.get(i) < 0d) magnitude += percents.get(i); // restore unallocated offset
+                            percents.set(i, limit); // set to limit
                             excluded++; // decrease offset divisor for fewer allocations
                         }
-                    } else if (percents[i] < 0) {
-                        percents[i] = 0d;
-                        magnitude += percents[i];
+                    } else if (percents.get(i) < 0) {
+                        percents.set(i, 0d);
+                        magnitude += percents.get(i);
                     }
                 }
             }
@@ -76,12 +78,12 @@ public final class Calibrater {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static boolean resetRatings(double[] percents, boolean forceReset, Integer precision) {
+    public static boolean resetRatings(List<Double> percents, boolean forceReset, Integer precision) {
         double sum = 0d;
         for (double percent : percents) sum += percent;
         double error = precision != null ? Math.pow(10, -precision) : 0;
         if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
-            for (int i = 0; i < percents.length; i++) percents[i] = (1d / percents.length);
+            for (int i = 0; i < percents.size(); i++) percents.set(i, 1d / percents.size());
             return true;
         } else return false;
     }
@@ -95,21 +97,9 @@ public final class Calibrater {
      * @param index location of the value to be removed
      * @return true if values were adjusted; false otherwise
      */
-    public static boolean removeRating(double[] percents, int index) {
-
-        if (percents[index] == -1d) return false;
-
-        int lastIndex = -1;
-        for (int i = 0; i < percents.length; i++) if (percents[i] == -1d) lastIndex = i - 1;
-
-        if (lastIndex != -1 && index > lastIndex) return false;
-
-        System.arraycopy(percents, index + 1, percents, index, percents.length - index - 1 );
-        percents[percents.length - 1] = -1;
-
-        for (int i = 0; i < lastIndex; i++) percents[i] = 1d / (lastIndex + 1);
-
-        return true;
+    public static boolean removeRating(List<Double> percents, int index) {
+        percents.remove(index);
+        return recalibrateRatings(percents, false, STANDARD_PRECISION);
     }
 
     /**
@@ -120,16 +110,16 @@ public final class Calibrater {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static boolean recalibrateRatings(double[] percents, boolean forceReset, Integer precision) {
+    public static boolean recalibrateRatings(List<Double> percents, boolean forceReset, Integer precision) {
         double sum = 0d;
         for (double percent : percents) sum += percent;
-        double difference = (1d - sum) / percents.length;
+        double difference = (1d - sum) / percents.size();
         double error = precision != null ? Math.pow(10, -precision) : 0;
         if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
-            for (int i = 0; i < percents.length; i++) {
-                percents[i] += difference;
-                if (percents[i] > 1d) percents[i] = 1d;
-                else if (percents[i] < 0d) percents[i] = 0d;
+            for (int i = 0; i < percents.size(); i++) {
+                percents.set(i, percents.get(i) + difference);
+                if (percents.get(i) > 1d) percents.set(i, 1d);
+                else if (percents.get(i) < 0d) percents.set(i, 0d);
             }
             return true;
         } return false;
