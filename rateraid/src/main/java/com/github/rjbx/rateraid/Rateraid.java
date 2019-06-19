@@ -26,7 +26,7 @@ import androidx.annotation.Nullable;
 public class Rateraid {
 
     /**
-     * Wrapper interface for an object associated with a percent value.
+     * Wrapper interface for an object associated withRateables a percent value.
      * @param <T> to specify the type of the implementing class for generating appropriately cast
      *            objects from {@link #getObject()}
      */
@@ -45,7 +45,7 @@ public class Rateraid {
      * Transfers the values from an adjusted {@link ValueSeries} to an
      * {@code ArrayList} of {@link Rateable} elements.
      * @param objects {@code ArrayList} of {@link Rateable} elements
-     * @return argument {@code ArrayList} of {@link Rateable} elements with updated percents
+     * @return argument {@code ArrayList} of {@link Rateable} elements withRateables updated percents
      */
     public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
         for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
@@ -53,7 +53,7 @@ public class Rateraid {
     }
 
     /*
-     * Helper methods for setting the percent array field with primitive and boxed double and float array types
+     * Helper methods for setting the percent array field withRateables primitive and boxed double and float array types
      */
     private void setPercents(double[] percents) { this.mPercents = percents; }
     private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
@@ -71,7 +71,7 @@ public class Rateraid {
 
     /**
      * Initialize the {@code double} array percent series, attributes and behavior
-     * associated with all view binding method calls.
+     * associated withRateables all view binding method calls.
      * @param percents {@code double} array elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
@@ -79,26 +79,26 @@ public class Rateraid {
      * @return {@link ValueSeries} from which to chain view binding method calls
      */
     // TODO: Convert from array to ArrayList
-    public static ValueSeries with(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static ValueSeries withValues(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new ValueSeries(percents, magnitude, precision,  clickListener);
     }
 
     /**
      * Initialize the {@link Rateable} {@code ArrayList} percent series, attributes and behavior
-     * associated with all view binding method calls.
+     * associated withRateables all view binding method calls.
      * @param objects {@link Rateable} {@code ArrayList} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
      * @param clickListener behavior to be applied on click of relevant views
-     * @return {@link RateableSeries} from which to chain view binding method calls
+     * @return {@link ObjectSeries} from which to chain view binding method calls
      */
-    public static <T extends Rateable> RateableSeries with(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
-        return new RateableSeries(objects, magnitude, precision,  clickListener);
+    public static <T extends Rateable> ObjectSeries withRateables(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        return new ObjectSeries(objects, magnitude, precision,  clickListener);
     }
 
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated with a {@code double} array percent series
+     * associated withRateables a {@code double} array percent series
      */
     public static class ValueSeries {
 
@@ -147,7 +147,7 @@ public class Rateraid {
          * Define the controller by which an element of the percent series is invalidated.
          * @param removeButton view that, when clicked, should invalidate the targeted element
          *                     from further adjustment. The element cannot be outright removed as
-         *                     copying a primitive array with fewer elements disassociates the 
+         *                     copying a primitive array withRateables fewer elements disassociates the
          *                     array reference from the previous reference.
          * @param index location of the value to be invalidated
          * @param dialog removal message to be dismissed 
@@ -200,7 +200,7 @@ public class Rateraid {
         }
 
         /**
-         * Retrieve a new reference to a {@link ValueSeries} with values initialized.
+         * Retrieve a new reference to a {@link ValueSeries} withRateables values initialized.
          * @return new reference to a {@link ValueSeries}
          */
         public Rateraid instance() {
@@ -212,9 +212,9 @@ public class Rateraid {
     
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated with a {@link Rateable} {@code ArrayList} percent series
+     * associated withRateables a {@link Rateable} {@code ArrayList} percent series
      */
-    public static class RateableSeries<T extends Rateable> {
+    public static class ObjectSeries<T extends Rateable> {
 
         // Instance fields of this class
         private Rateraid mRateraid;
@@ -230,7 +230,7 @@ public class Rateraid {
          * @param precision
          * @param clickListener
          */
-        private RateableSeries(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private ObjectSeries(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -243,9 +243,9 @@ public class Rateraid {
          * @param incrementButton view that, when clicked, should increment the targeted value
          * @param decrementButton view that, when clicked, should decrement the targeted value
          * @param index location of the value to be adjusted
-         * @return {@link RateableSeries} from which to chain view binding method calls
+         * @return {@link ObjectSeries} from which to chain view binding method calls
          */
-        public RateableSeries addShifters(View incrementButton, View decrementButton, int index) {
+        public ObjectSeries addShifters(View incrementButton, View decrementButton, int index) {
             incrementButton.setOnClickListener(clickedView -> {
                 shiftRatings(mRateables, index, mMagnitude, mPrecision);
                 if (mClickListener != null) mClickListener.onClick(incrementButton);
@@ -262,9 +262,9 @@ public class Rateraid {
          * @param removeButton view that, when clicked, should remove the targeted element
          * @param index location of the value to be invalidated
          * @param dialog removal message to be dismissed 
-         * @return {@link RateableSeries} from which to chain view binding method calls
+         * @return {@link ObjectSeries} from which to chain view binding method calls
          */
-        public RateableSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
+        public ObjectSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index);
 
@@ -278,9 +278,9 @@ public class Rateraid {
          * @param valueEditor editor that, when receiving entry, should replace the targeted value 
          * @param index location of the value to be replaced
          * @param imm input manager to be dismissed 
-         * @return {@link RateableSeries} from which to chain view binding method calls
+         * @return {@link ObjectSeries} from which to chain view binding method calls
          */
-        public RateableSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
+        public ObjectSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -311,8 +311,8 @@ public class Rateraid {
         }
         
         /**
-         * Retrieve a new reference to a {@link RateableSeries} with values initialized.
-         * @return new reference to a {@link RateableSeries}
+         * Retrieve a new reference to a {@link ObjectSeries} withRateables values initialized.
+         * @return new reference to a {@link ObjectSeries}
          */
         public Rateraid instance() {
             mRateraid = new Rateraid();
