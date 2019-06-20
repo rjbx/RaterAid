@@ -373,7 +373,7 @@ public class Rateraid {
     }
 
     /**
-     * Equally distributes to each {@List} of {@link Rateable} element the difference between
+     * Equally distributes to each {@code List} of {@link Rateable} element the difference between
      * the whole and the sum of all array elements.
      * @param objects {@code List} of {@link Rateable} to be calibrated closer to the whole
      * @param forceReset applies reset even if sum of array elements is as precise as specified
