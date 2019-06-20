@@ -6,7 +6,7 @@ package com.github.rjbx.calibrater;
 public final class TypeConverters {
 
     /**
-     * Generates a primitive {@code List<Double>} from a primitive {@code float} array
+     * Generates a primitive {@code Double} {@code List} from a primitive {@code float} array
      */
     public static double[] arrayFloatToDouble(float[] floatArray) {
         double[] doubleArray = new double[floatArray.length];
@@ -15,7 +15,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a primitive {@code List<Double>} from a boxed {@code Float} array
+     * Generates a primitive {@code Double} {@code List} from a boxed {@code Float} array
      */
     public static double[] arrayFloatBoxedToDouble(Float[] floatBoxedArray) {
         double[] doubleArray = new double[floatBoxedArray.length];
@@ -24,7 +24,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a primitive {@code List<Double>} from a boxed {@code List<Double>} array
+     * Generates a primitive {@code Double} {@code List} from a boxed {@code Double} {@code List} array
      */
     public static double[] arrayBoxedToPrimitiveDouble(Double[] doubleBoxedArray) {
         double[] doubleArray = new double[doubleBoxedArray.length];
@@ -33,7 +33,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a primitive {@code float} array from a primitive {@code List<Double>}
+     * Generates a primitive {@code float} array from a primitive {@code Double} {@code List}
      */
     public static float[] arrayDoubleToFloat(double[] doubleArray) {
         float[] floatArray = new float[doubleArray.length];
@@ -42,7 +42,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a boxed {@code Float} array from a primitive {@code List<Double>}
+     * Generates a boxed {@code Float} array from a primitive {@code Double} {@code List}
      */
     public static Float[] arrayDoubleToFloatBoxed(double[] doubleArray) {
         Float[] floatBoxedArray = new Float[doubleArray.length];
@@ -51,7 +51,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a boxed {@code List<Double>} from a primitive {@code List<Double>}
+     * Generates a boxed {@code Double} {@code List} from a primitive {@code Double} {@code List}
      */
     public static Double[] arrayPrimitiveToBoxedDouble(double[] doubleArray) {
         Double[] doubleBoxedArray = new Double[doubleArray.length];

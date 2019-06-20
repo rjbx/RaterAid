@@ -22,7 +22,7 @@ public class CalibraterTest {
     private static double ERROR = Math.pow(10, -PRECISION);
 
     /**
-     * Asserts whether incrementing and decrementing a {@code List<Double>} element resets all element values.
+     * Asserts whether incrementing and decrementing a {@code Double} {@code List} element resets all element values.
      */
     @Test public final void testShiftDoubleArrayResetSingle() {
 
@@ -41,7 +41,7 @@ public class CalibraterTest {
 
     /**
      * Asserts whether incrementing and decrementing through the range of possible values for
-     * two adjacent {@code List<Double>}s assigns the expected value to each array element.
+     * two adjacent {@code Double} {@code List}s assigns the expected value to each array element.
      */
     @Test public final void testShiftDoubleArrayRepeatRange() {
 
@@ -84,7 +84,7 @@ public class CalibraterTest {
 
     /**
      * Asserts whether incrementing and decrementing through the range of possible values for
-     * two adjacent {@code List<Double>}s assigns the expected value to each array element.
+     * two adjacent {@code Double} {@code List}s assigns the expected value to each array element.
      */
     @Test public final void testShiftDoubleArrayResetSingleRepeatRange() {
 
@@ -138,7 +138,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Asserts whether shifting {@code List<Double>} elements to offset an element
+     * Asserts whether shifting {@code Double} {@code List} elements to offset an element
      * within a certain margin past the lower limit does not over allocate the unused offset.
      */
     @Test public final void testShiftDoubleArrayLimitAllocation() {
@@ -164,7 +164,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Asserts whether shifting a {@code List<Double>} with different magnitudes returns
+     * Asserts whether shifting a {@code Double} {@code List} with different magnitudes returns
      * the expected boolean value.
      */
     @Test public final void testShiftDoubleArrayReturnValue() {
@@ -187,7 +187,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Asserts whether resetting a {@code List<Double>} assigns the expected value to each array element
+     * Asserts whether resetting a {@code Double} {@code List} assigns the expected value to each array element
      * and results in the expected sum of all elements.
      */
     @Test public final void testResetDoubleArrayEqualDistribution() {
@@ -204,7 +204,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Asserts whether resetting {@code List<Double>}s with different element values returns
+     * Asserts whether resetting {@code Double} {@code List}s with different element values returns
      * the expected boolean value.
      */
     @Test public final void testResetDoubleArrayReturnValue() {
@@ -227,7 +227,7 @@ public class CalibraterTest {
     }
 
     /**
-     * Asserts whether shifting a {@code List<Double>} with invalid magnitudes and precisions throws
+     * Asserts whether shifting a {@code Double} {@code List} with invalid magnitudes and precisions throws
      * the expected exception.
      */
     @Test public final void testShiftWithIllegalArguments() {
