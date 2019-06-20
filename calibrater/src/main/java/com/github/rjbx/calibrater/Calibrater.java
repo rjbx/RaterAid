@@ -78,10 +78,10 @@ public final class Calibrater {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static boolean resetRatings(List<Double> percents, boolean forceReset, Integer precision) {
+    public static boolean resetRatings(List<Double> percents, boolean forceReset, int precision) {
         double sum = 0d;
         for (double percent : percents) sum += percent;
-        double error = precision != null ? Math.pow(10, -precision) : 0;
+        double error = Math.pow(10, -precision);
         if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
             for (int i = 0; i < percents.size(); i++) percents.set(i, 1d / percents.size());
             return true;
@@ -110,11 +110,11 @@ public final class Calibrater {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static boolean recalibrateRatings(List<Double> percents, boolean forceReset, Integer precision) {
+    public static boolean recalibrateRatings(List<Double> percents, boolean forceReset, int precision) {
         double sum = 0d;
         for (double percent : percents) sum += percent;
         double difference = (1d - sum) / percents.size();
-        double error = precision != null ? Math.pow(10, -precision) : 0;
+        double error = Math.pow(10, -precision);
         if (sum > 1d + error || sum < 1d - error || forceReset) { // elements are not proportionate
             for (int i = 0; i < percents.size(); i++) {
                 percents.set(i, percents.get(i) + difference);

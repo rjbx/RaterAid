@@ -350,7 +350,7 @@ public class Rateraid {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static <T extends Rateable> boolean resetRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
+    public static <T extends Rateable> boolean resetRatings(List<T> objects, boolean forceReset, int precision) {
         boolean result;
         List<Double> percents = new ArrayList<>();
         for (Rateable object : objects) percents.add(object.getPercent());
@@ -362,14 +362,14 @@ public class Rateraid {
     /**
      * Removes {@link Rateable} from {@code ArrayList} at the specified index.
      * The whole is then distributed among the remaining elements
-     * according to {@link #recalibrateRatings(List, boolean, Integer)}
+     * according to {@link #recalibrateRatings(List, boolean, int)}
      * @param objects {@link Rateable} {@code ArrayList} elements to be calibrated if not proportionate
      * @param index to be removed
      * @return true if values were adjusted; false otherwise
      */
     public static <T extends Rateable> boolean removeRating(List<T> objects, int index) {
         objects.remove(index);
-        return recalibrateRatings(objects, false, null);
+        return recalibrateRatings(objects, false, Calibrater.STANDARD_PRECISION);
     }
 
     /**
@@ -380,7 +380,7 @@ public class Rateraid {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static <T extends Rateable> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
+    public static <T extends Rateable> boolean recalibrateRatings(List<T> objects, boolean forceReset, int precision) {
         boolean result;
         List<Double> percents = new ArrayList<>();
         for (Rateable object : objects) percents.add(object.getPercent());
