@@ -17,8 +17,8 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 /**
- * Classes for specifying adjustments to values of, as well as behaviors for the views affecting,
- * a percent series. Users can bind predefined as well as custom behaviors to their adjusting views
+ * Library for specifying adjustments to the values of a percent series.
+ * Users can bind predefined as well as custom behaviors to the views controlling adjustments
  * to optionally increment and decrement, remove or text edit the values of a percent series.
  * Single element adjustments automatically update all values in the series as needed to maintain
  * that their sum remain proportionate to the whole within range of the specified precision.
