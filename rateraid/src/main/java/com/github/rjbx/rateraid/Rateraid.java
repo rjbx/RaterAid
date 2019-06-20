@@ -42,23 +42,13 @@ public class Rateraid {
      */
     private List<Double> mPercents;
 
-//    /**
-//     * Transfers the values from an adjusted {@link ValueSeries} to a {@code List} of {@link Rateable} elements.
-//     * @param objects {@code List} of {@link Rateable} elements
-//     * @return argument {@code List} of {@link Rateable} elements with updated percents
-//     */
-//    public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
-//        for (int i = 0; i < mPercents.size(); i++) objects.get(i).setPercent(mPercents.get(i));
-//        return objects;
-//    }
-
     /*
      * Helper methods for setting the percent array field with primitive and boxed double and float array types
      */
     private void setPercents(List<Double> percents) { this.mPercents = percents; }
     private void setPercentsFromFloatArray(float[] percents) { this.mPercents = TypeConverters.arrayFloatToListDouble(percents); }
-    private void setPercentsFromDoubleArray(double[] percents) {this.mPercents = TypeConverters.arrayDoubleToListDouble(percents); }
-    private void setPercentsFromFloatList(List<Float> percents) {this.mPercents = TypeConverters.listFloatToListDouble(percents); }
+    private void setPercentsFromDoubleArray(double[] percents) { this.mPercents = TypeConverters.arrayDoubleToListDouble(percents); }
+    private void setPercentsFromFloatList(List<Float> percents) { this.mPercents = TypeConverters.listFloatToListDouble(percents); }
 
     /*
      * Helper methods for getting the percent array field as primitive and boxed double and float array types
@@ -67,7 +57,6 @@ public class Rateraid {
     public float[] getPercentsAsFloatArray() { return TypeConverters.listDoubleToArrayFloat(mPercents); }
     public double[] getPercentsAsDoubleArray() { return TypeConverters.listDoubleToArrayDouble(mPercents); }
     public List<Float> getPercentsAsListFloat() { return TypeConverters.listDoubleToListFloat(mPercents); }
-
 
     /**
      * Initialize the percent series for a {@code List} of {@code Double}
