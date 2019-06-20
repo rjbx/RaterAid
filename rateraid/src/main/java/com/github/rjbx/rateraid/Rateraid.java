@@ -361,7 +361,7 @@ public class Rateraid {
     /**
      * Removes {@link Rateable} from {@code List} at the specified index.
      * The whole is then distributed among the remaining elements
-     * in accordance with {@link #recalibrateRatings(List, boolean, int)}
+     * in accordance with {@link Calibrater#recalibrateRatings(List, boolean, int)}.
      * @param objects {@code List} of {@link Rateable} elements from which to remove the specified element
      * @param index location of the object to be removed
      * @param precision number of decimal places to move the permitted error from the whole
@@ -373,8 +373,8 @@ public class Rateraid {
     }
 
     /**
-     * Reads {@code List} of {@link Rateable} and equally distributes to each array element
-     * the difference between the whole and the sum of all array elements.
+     * Equally distributes to each {@List} of {@link Rateable} element the difference between
+     * the whole and the sum of all array elements.
      * @param objects {@code List} of {@link Rateable} to be calibrated closer to the whole
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole

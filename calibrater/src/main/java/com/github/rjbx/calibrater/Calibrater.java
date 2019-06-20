@@ -72,7 +72,7 @@ public final class Calibrater {
     }
 
     /**
-     * Reads {@code List} of {@code Double} and assigns equivalent percents to each {@code List} of {@code Double} element.
+     * Assigns equivalent percents to each {@code List} of {@code Double} element.
      * @param percents {@code List} of {@code Double} elements to be reset if not equivalent
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole
@@ -89,12 +89,11 @@ public final class Calibrater {
     }
 
     /**
-     * As copying the primitive array creates a new reference that breaks the link to the bound values,
-     * a negative value, which outscopes the index from calibration as negatives are not considered,
-     * is assigned to the removed index which is moved to the last index of the parameter array reference.
-     * The whole is then equally distributed among the remaining elements.
-     * @param percents {@code List} of {@code Double} elements to be calibrated if not proportionate
-     * @param index location of the value to be removed
+     * Removes {@code Double} from {@code List} at the specified index.
+     * The whole is then distributed among the remaining elements
+     * in accordance with {@link #recalibrateRatings(List, boolean, int)}.
+     * @param percents {@code List} of {@code Double} elements from which to remove the specified element
+     * @param index location of the object to be removed
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
