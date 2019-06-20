@@ -79,7 +79,11 @@ public class Rateraid {
      * @return {@link ValueSeries} from which to chain view binding method calls
      */
     // TODO: Convert from array to List
-    public static ValueSeries withValues(List<Double> percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static ValueSeries withValues(
+            List<Double> percents,
+            double magnitude,
+            int precision,
+            @Nullable View.OnClickListener clickListener) {
         return new ValueSeries(percents, magnitude, precision,  clickListener);
     }
 
@@ -92,7 +96,11 @@ public class Rateraid {
      * @param clickListener additional behavior to be applied to all adjustments
      * @return {@link ObjectSeries} from which to chain view binding method calls
      */
-    public static <T extends Rateable> ObjectSeries withObjects(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static <T extends Rateable> ObjectSeries withObjects(
+            List<T> objects,
+            double magnitude,
+            int precision,
+            @Nullable View.OnClickListener clickListener) {
         return new ObjectSeries(objects, magnitude, precision,  clickListener);
     }
 
@@ -125,7 +133,8 @@ public class Rateraid {
         }
 
         /**
-         * Define the controllers by which the value of the percent series is incremented and decremented
+         * Define the controllers by which the specified value of the percent series
+         * is incremented and decremented.
          * @param incrementButton view that, when clicked, should increment the targeted value
          * @param decrementButton view that, when clicked, should decrement the targeted value
          * @param index location of the value to be adjusted
@@ -239,7 +248,8 @@ public class Rateraid {
         }
 
         /**
-         * Define the controllers by which the value of the percent series is incremented and decremented
+         * Define the controllers by which the specified value of the percent series
+         * is incremented and decremented
          * @param incrementButton view that, when clicked, should increment the targeted value
          * @param decrementButton view that, when clicked, should decrement the targeted value
          * @param index location of the value to be adjusted
