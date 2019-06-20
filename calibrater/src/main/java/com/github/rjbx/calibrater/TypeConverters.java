@@ -9,7 +9,8 @@ import java.util.List;
 public final class TypeConverters {
 
     /**
-     * Generates a primitive {@code List} of {@code Double} from a primitive {@code float} array
+     * Generates a {@code List} of {@code Double} from a {@code float} array.
+     *
      */
     public static List<Double> arrayFloatToDouble(float[] floatArray) {
         List<Double> doubleList = new ArrayList<>();
@@ -18,7 +19,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a primitive {@code List} of {@code Double} from a boxed {@code Float} array
+     * Generates a {@code List} of {@code Double} from a {@code List} of {@code Float}.
      */
     public static List<Double> arrayFloatBoxedToDouble(List<Float> floatList) {
         List<Double> doubleList = new ArrayList<>();
@@ -27,7 +28,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a primitive {@code List} of {@code Double} from a boxed {@code List} of {@code Double} array
+     * Generates a {@code List} of {@code Double} from a {@code double} array.
      */
     public static List<Double> arrayBoxedToPrimitiveDouble(double[] doubleArray) {
         List<Double> doubleList = new ArrayList<>();
@@ -36,7 +37,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a boxed {@code List} of {@code Double} from a primitive {@code List} of {@code Double}
+     * Generates a {@code float} array from a {@code List} of {@code Double}.
      */
     public static float[] listDoubleToArrayFloat(List<Double> doubleList) {
         Double[] doubleArray = doubleList.toArray(new Double[0]);
@@ -46,7 +47,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a boxed {@code List} of {@code Double} from a primitive {@code List} of {@code Double}
+     * Generates a {@code List} of {@code Float} from a {@code List} of {@code Double}.
      */
     public static List<Float> listDoubleToListFloat(List<Double> doubleList) {
         List<Float> floatList = new ArrayList<>();
@@ -55,7 +56,7 @@ public final class TypeConverters {
     }
 
     /**
-     * Generates a boxed {@code List} of {@code Double} from a primitive {@code List} of {@code Double}
+     * Generates a {@code List} of {@code double} from a {@code List} of {@code Double}.
      */
     public static double[] listDoubleToArrayDouble(List<Double> doubleList) {
         Double[] doubleBoxedArray = doubleList.toArray(new Double[0]);
