@@ -12,7 +12,7 @@ public final class TypeConverters {
      * Generates a {@code List} of {@code Double} from a {@code float} array.
      *
      */
-    public static List<Double> arrayFloatToDouble(float[] floatArray) {
+    public static List<Double> arrayFloatToListDouble(float[] floatArray) {
         List<Double> doubleList = new ArrayList<>();
         for (float f: floatArray) doubleList.add((double) f);
         return doubleList;
@@ -21,7 +21,7 @@ public final class TypeConverters {
     /**
      * Generates a {@code List} of {@code Double} from a {@code List} of {@code Float}.
      */
-    public static List<Double> arrayFloatBoxedToDouble(List<Float> floatList) {
+    public static List<Double> listFloatToListDouble(List<Float> floatList) {
         List<Double> doubleList = new ArrayList<>();
         for (Float f : floatList) doubleList.add(f.doubleValue());
         return doubleList;
@@ -30,7 +30,7 @@ public final class TypeConverters {
     /**
      * Generates a {@code List} of {@code Double} from a {@code double} array.
      */
-    public static List<Double> arrayBoxedToPrimitiveDouble(double[] doubleArray) {
+    public static List<Double> arrayDoubleToListDouble(double[] doubleArray) {
         List<Double> doubleList = new ArrayList<>();
         for (double d : doubleArray) doubleList.add(d);
         return doubleList;

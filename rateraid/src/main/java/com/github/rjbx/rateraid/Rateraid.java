@@ -56,9 +56,9 @@ public class Rateraid {
      * Helper methods for setting the percent array field with primitive and boxed double and float array types
      */
     private void setPercents(List<Double> percents) { this.mPercents = percents; }
-//    private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
-//    private void setPercents(Double[] percents) {this.mPercents = TypeConverters.arrayBoxedToPrimitiveDouble(percents); }
-//    private void setPercents(Float[] percents) {this.mPercents = TypeConverters.arrayFloatBoxedToDouble(percents); }
+//    private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToListDouble(percents); }
+//    private void setPercents(Double[] percents) {this.mPercents = TypeConverters.arrayDoubleToListDouble(percents); }
+//    private void setPercents(Float[] percents) {this.mPercents = TypeConverters.listFloatToListDouble(percents); }
 
     /*
      * Helper methods for getting the percent array field as primitive and boxed double and float array types
