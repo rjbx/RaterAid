@@ -156,7 +156,7 @@ public class Rateraid {
          */
         public ValueSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
-                Calibrater.removeRating(mPercents, index);
+                Calibrater.removeRating(mPercents, index, Calibrater.STANDARD_PRECISION);
 
                 if (dialog != null) dialog.dismiss();
                 if (mClickListener != null) mClickListener.onClick(removeButton);
@@ -267,7 +267,7 @@ public class Rateraid {
          */
         public ObjectSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
-                removeRating(mRateables, index);
+                removeRating(mRateables, index, Calibrater.STANDARD_PRECISION);
 
                 if (dialog != null) dialog.dismiss();
                 if (mClickListener != null) mClickListener.onClick(removeButton);
@@ -370,7 +370,7 @@ public class Rateraid {
      */
     public static <T extends Rateable> boolean removeRating(List<T> objects, int index, int precision) {
         objects.remove(index);
-        return recalibrateRatings(objects, false, );
+        return recalibrateRatings(objects, false, precision);
     }
 
     /**
