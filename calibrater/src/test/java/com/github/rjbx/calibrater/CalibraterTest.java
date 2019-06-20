@@ -194,7 +194,7 @@ public class CalibraterTest {
 
         for (int i = 1; i < 20; i++) {
             List<Double> percents = new ArrayList<>();
-            for (int j = 0; j < i; j++) percents.set(j, 0d);
+            for (int j = 0; j < i; j++) percents.add(0d);
             Calibrater.resetRatings(percents, false, PRECISION);
             assertEquals(1d / i, percents.get(i - 1), 0d);
             double sum = 0d;
