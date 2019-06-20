@@ -21,8 +21,8 @@ import androidx.annotation.Nullable;
  * as well as behaviors for the views affecting, a percent series.
  * Users can bind predefined as well as custom behaviors to their adjusting views
  * to increment and decrement, as well as optionally remove or text edit the values of
- * a percent series. The values remain synchronized throughout adjustments to the extent of
- * the user-defined precision which articulates the acceptable {@link Calibrater} response.
+ * a percent series. Adjustments automatically update values in order that their sum remain
+ * proportionate to the whole to the extend of the specified precision.
  */
 public class Rateraid {
 
@@ -337,7 +337,7 @@ public class Rateraid {
      * Increments or decrements an element of a {@code List} of {@link Rateable} by the specified
      * magnitude while calibrating other {@code List} of {@link Rateable} elements to maintain
      * proportionality to the whole within the range of the specified precision.
-     * @param objects {@link Rateable} {@code ArrayList }elements to be adjusted if not proportionate
+     * @param objects {@link Rateable} {@code List} elements to be adjusted if not proportionate
      * @param index index of the array element to be adjusted
      * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
      * @param precision number of decimal places to move the allowed error from the whole
