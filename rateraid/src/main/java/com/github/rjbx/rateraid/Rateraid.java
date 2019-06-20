@@ -27,7 +27,7 @@ import androidx.annotation.Nullable;
 public class Rateraid {
 
     /**
-     * Wrapper interface for an object associated withObjects a percent value.
+     * Wrapper interface for an object associated with a percent value.
      * @param <T> to specify the type of the implementing class for generating appropriately cast
      *            objects from {@link #getObject()}
      */
@@ -46,7 +46,7 @@ public class Rateraid {
      * Transfers the values from an adjusted {@link ValueSeries} to an
      * {@code ArrayList} of {@link Rateable} elements.
      * @param objects {@code ArrayList} of {@link Rateable} elements
-     * @return argument {@code ArrayList} of {@link Rateable} elements withObjects updated percents
+     * @return argument {@code ArrayList} of {@link Rateable} elements with updated percents
      */
     public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
         for (int i = 0; i < mPercents.size(); i++) objects.get(i).setPercent(mPercents.get(i));
@@ -54,7 +54,7 @@ public class Rateraid {
     }
 
     /*
-     * Helper methods for setting the percent array field withObjects primitive and boxed double and float array types
+     * Helper methods for setting the percent array field with primitive and boxed double and float array types
      */
     private void setPercents(List<Double> percents) { this.mPercents = percents; }
 //    private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
@@ -72,7 +72,7 @@ public class Rateraid {
 
     /**
      * Initialize the {@code List<Double>} percent series, attributes and behavior
-     * associated withObjects all view binding method calls.
+     * associated with all view binding method calls.
      * @param percents {@code List<Double>} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
@@ -86,7 +86,7 @@ public class Rateraid {
 
     /**
      * Initialize the {@link Rateable} {@code ArrayList} percent series, attributes and behavior
-     * associated withObjects all view binding method calls.
+     * associated with all view binding method calls.
      * @param objects {@link Rateable} {@code ArrayList} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
@@ -99,7 +99,7 @@ public class Rateraid {
 
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated withObjects a {@code List<Double>} percent series
+     * associated with a {@code List<Double>} percent series
      */
     public static class ValueSeries {
 
@@ -148,7 +148,7 @@ public class Rateraid {
          * Define the controller by which an element of the percent series is invalidated.
          * @param removeButton view that, when clicked, should invalidate the targeted element
          *                     from further adjustment. The element cannot be outright removed as
-         *                     copying a primitive array withObjects fewer elements disassociates the
+         *                     copying a primitive array with fewer elements disassociates the
          *                     array reference from the previous reference.
          * @param index location of the value to be invalidated
          * @param dialog removal message to be dismissed 
@@ -201,7 +201,7 @@ public class Rateraid {
         }
 
         /**
-         * Retrieve a new reference to a {@link ValueSeries} withObjects values initialized.
+         * Retrieve a new reference to a {@link ValueSeries} with values initialized.
          * @return new reference to a {@link ValueSeries}
          */
         public Rateraid instance() {
@@ -213,7 +213,7 @@ public class Rateraid {
     
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated withObjects a {@link Rateable} {@code ArrayList} percent series
+     * associated with a {@link Rateable} {@code ArrayList} percent series
      */
     public static class ObjectSeries<T extends Rateable> {
 
@@ -312,7 +312,7 @@ public class Rateraid {
         }
         
         /**
-         * Retrieve a new reference to a {@link ObjectSeries} withObjects values initialized.
+         * Retrieve a new reference to a {@link ObjectSeries} with values initialized.
          * @return new reference to a {@link ObjectSeries}
          */
         public Rateraid instance() {

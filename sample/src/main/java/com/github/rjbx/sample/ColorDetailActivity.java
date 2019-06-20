@@ -12,7 +12,7 @@ import android.view.MenuItem;
 /**
  * An activity representing a single ColorItem detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side withObjects a list of items
+ * item details are presented side-by-side with a list of items
  * in a {@link ColorListActivity}.
  */
 public class ColorDetailActivity extends AppCompatActivity {
@@ -27,7 +27,7 @@ public class ColorDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(clickedView ->
             Snackbar.make(
                     clickedView,
-                    "Replace withObjects your own detail action",
+                    "Replace with your own detail action",
                     Snackbar.LENGTH_LONG
             ).setAction("Action", null).show());
 

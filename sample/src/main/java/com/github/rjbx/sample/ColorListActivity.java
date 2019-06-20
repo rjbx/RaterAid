@@ -70,7 +70,7 @@ public class ColorListActivity extends AppCompatActivity {
             mListAdapter.swapItems(new ArrayList<>(ColorData.getSavedItems().values()));
             Snackbar.make(
                     clickedView,
-                    "The list has been repopulated withObjects the original dataset.",
+                    "The list has been repopulated with the original dataset.",
                     Snackbar.LENGTH_LONG
             ).setAction("Action", null).show();
         });

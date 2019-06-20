@@ -45,7 +45,7 @@ public class RateraidInstrumentedTest {
 
     /**
      * Asserts whether adding, then incrementing and decrementing from, controllers through the
-     * range of possible values assigns the expected value to each array element associated withObjects the
+     * range of possible values assigns the expected value to each array element associated with the
      * {@link Rateraid.ValueSeries}.
      */
     @Test public final void testPercentSeriesAddButtonSetClickListenerCallback() {
@@ -122,7 +122,7 @@ public class RateraidInstrumentedTest {
 
     /**
      * Asserts whether a user-defined behavior of incrementing on each controller interaction through
-     * the range of possible values assigns the expected value to each array element associated withObjects the
+     * the range of possible values assigns the expected value to each array element associated with the
      * {@link Rateraid.ValueSeries}.
      */
     @Test public final void testPercentSeriesClickListenerUserDefinedCallback() {
@@ -159,7 +159,7 @@ public class RateraidInstrumentedTest {
 
     /**
      * Asserts whether adding, then incrementing and decrementing from, controllers through the
-     * range of possible values assigns the expected value to each array element associated withObjects the
+     * range of possible values assigns the expected value to each array element associated with the
      * {@link Rateraid.ObjectSeries}.
      */
     @Test public final void testRateableSeriessAddButtonSetClickListenerCallback() {
@@ -239,7 +239,7 @@ public class RateraidInstrumentedTest {
 
     /**
      * Asserts whether a user-defined behavior of incrementing on each controller interaction through
-     * the range of possible values assigns the expected value to each array element associated withObjects the
+     * the range of possible values assigns the expected value to each array element associated with the
      * {@link Rateraid.ObjectSeries}.
      */
     @Test public final void testRateableSeriesClickListenerUserDefinedCallback() {
@@ -278,7 +278,7 @@ public class RateraidInstrumentedTest {
 
     /**
      * Implements {@link com.github.rjbx.rateraid.Rateraid.Rateable} and {@code Cloneable} interfaces
-     * for populating a {@link Rateraid.ObjectSeries} withObjects distinct references
+     * for populating a {@link Rateraid.ObjectSeries} with distinct references
      * to identically composed objects.
      */
     private class ClonableRateable implements Rateraid.Rateable<ClonableRateable>, Cloneable {
