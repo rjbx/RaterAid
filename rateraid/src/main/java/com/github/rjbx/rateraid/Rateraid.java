@@ -40,7 +40,7 @@ public class Rateraid {
     /*
      * Instance field updated from subclasses
      */
-    private double[] mPercents;
+    private List<Double> mPercents;
 
     /**
      * Transfers the values from an adjusted {@link ValueSeries} to an
@@ -49,25 +49,25 @@ public class Rateraid {
      * @return argument {@code ArrayList} of {@link Rateable} elements withObjects updated percents
      */
     public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
-        for (int i = 0; i < mPercents.length; i++) objects.get(i).setPercent(mPercents[i]);
+        for (int i = 0; i < mPercents.size(); i++) objects.get(i).setPercent(mPercents.get(i));
         return objects;
     }
 
     /*
      * Helper methods for setting the percent array field withObjects primitive and boxed double and float array types
      */
-    private void setPercents(double[] percents) { this.mPercents = percents; }
-    private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
-    private void setPercents(Double[] percents) {this.mPercents = TypeConverters.arrayBoxedToPrimitiveDouble(percents); }
-    private void setPercents(Float[] percents) {this.mPercents = TypeConverters.arrayFloatBoxedToDouble(percents); }
+    private void setPercents(List<Double> percents) { this.mPercents = percents; }
+//    private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToDouble(percents); }
+//    private void setPercents(Double[] percents) {this.mPercents = TypeConverters.arrayBoxedToPrimitiveDouble(percents); }
+//    private void setPercents(Float[] percents) {this.mPercents = TypeConverters.arrayFloatBoxedToDouble(percents); }
 
     /*
      * Helper methods for getting the percent array field as primitive and boxed double and float array types
      */
-    public double[] getPercents() { return mPercents; }
-    public float[] getPercentsBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mPercents); }
-    public Double[] getPercentsBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercents); }
-    public Float[] getPercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercents); }
+    public List<Double> getPercents() { return mPercents; }
+//    public float[] getPercentsBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mPercents); }
+//    public Double[] getPercentsBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercents); }
+//    public Float[] getPercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercents); }
 
 
     /**
@@ -80,7 +80,7 @@ public class Rateraid {
      * @return {@link ValueSeries} from which to chain view binding method calls
      */
     // TODO: Convert from array to List
-    public static ValueSeries withValues(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+    public static ValueSeries withValues(List<Double> percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
         return new ValueSeries(percents, magnitude, precision,  clickListener);
     }
 
@@ -105,7 +105,7 @@ public class Rateraid {
 
         // Instance fields of this class
         private Rateraid mRateraid;
-        private double[] mPercents;
+        private List<Double> mPercents;
         private double mMagnitude;
         private int mPrecision;
         private View.OnClickListener mClickListener;
@@ -117,7 +117,7 @@ public class Rateraid {
          * @param precision
          * @param clickListener
          */
-        private ValueSeries(double[] percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private ValueSeries(List<Double> percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -178,7 +178,7 @@ public class Rateraid {
                     case EditorInfo.IME_ACTION_DONE:
                         final NumberFormat percentFormatter = NumberFormat.getPercentInstance();
                         try {
-                            double percent = mPercents[index];
+                            double percent = mPercents.get(index);
                             String viewText = onEditorActionView.getText().toString();
                             if (viewText.contains("%")) percent = percentFormatter.parse(viewText).doubleValue();
                             else if (!viewText.isEmpty()) percent = Double.parseDouble(viewText);
@@ -187,7 +187,7 @@ public class Rateraid {
                                 return false;
                             }
                             if (percent < 0d || percent > 1d) return false;
-                            double magnitude = percent - mPercents[index];
+                            double magnitude = percent - mPercents.get(index);
                             Calibrater.shiftRatings(mPercents, index, magnitude, mPrecision);
                             if (imm != null) imm.toggleSoftInput(0, 0);
                             if (mClickListener != null) mClickListener.onClick(valueEditor);
@@ -317,8 +317,8 @@ public class Rateraid {
          */
         public Rateraid instance() {
             mRateraid = new Rateraid();
-            double percents[] = new double[mRateables.size()];
-            for (int i = 0; i < percents.length; i++) percents[i] = mRateables.get(i).getPercent();
+            List<Double> percents = new ArrayList<>();
+            for (Rateable object : mRateables) percents.add(object.getPercent());
             mRateraid.setPercents(percents);
             return mRateraid;
         }
@@ -336,10 +336,10 @@ public class Rateraid {
      */
     public static <T extends Rateable> boolean shiftRatings(List<T> objects, int index, double magnitude, int precision) {
         boolean result;
-        double percents[] = new double[objects.size()];
-        for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
+        List<Double> percents = new ArrayList<>();
+        for (Rateable object : objects) percents.add(object.getPercent());
         result = Calibrater.shiftRatings(percents, index, magnitude, precision);
-        for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+        for (int i = 0; i < percents.size(); i++) objects.get(i).setPercent(percents.get(i));
         return result;
     }
 
@@ -383,7 +383,7 @@ public class Rateraid {
     public static <T extends Rateable> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
         List<Double> percents = new ArrayList<>();
-        for (Rateable object : objects) percents.add(object.getPercent();
+        for (Rateable object : objects) percents.add(object.getPercent());
         result = Calibrater.recalibrateRatings(percents, false, precision);
         for (int i = 0; i < percents.size(); i++) objects.get(i).setPercent(percents.get(i));
         return result;
