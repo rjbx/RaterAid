@@ -36,11 +36,10 @@ public class Rateraid {
         T getObject();
     }
 
-    /**
+    /*
      * Percent values which are updated during adjustments
      */
     private List<Double> mPercents;
-
 
     /**
      * Update the percent values.

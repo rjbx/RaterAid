@@ -22,7 +22,7 @@ if (project.hasProperty("android")) { // Android libraries
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    classifier = 'javadoc -private'
     from javadoc.destinationDir
 }
 
