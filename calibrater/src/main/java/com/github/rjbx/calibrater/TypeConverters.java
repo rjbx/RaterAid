@@ -41,9 +41,9 @@ public final class TypeConverters {
      */
     public static float[] listDoubleToArrayFloat(List<Double> doubleList) {
         Double[] doubleArray = doubleList.toArray(new Double[0]);
-        float[] doublePrimativeArray = new float[doubleArray.length];
-        for (int i = 0; i < doubleArray.length; i++) doublePrimativeArray[i] = doubleArray[i].floatValue();
-        return doublePrimativeArray;
+        float[] floatArray = new float[doubleArray.length];
+        for (int i = 0; i < doubleArray.length; i++) floatArray[i] = doubleArray[i].floatValue();
+        return floatArray;
     }
 
     /**

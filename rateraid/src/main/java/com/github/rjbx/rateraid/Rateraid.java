@@ -56,17 +56,17 @@ public class Rateraid {
      * Helper methods for setting the percent array field with primitive and boxed double and float array types
      */
     private void setPercents(List<Double> percents) { this.mPercents = percents; }
-//    private void setPercents(float[] percents) { this.mPercents = TypeConverters.arrayFloatToListDouble(percents); }
-//    private void setPercents(Double[] percents) {this.mPercents = TypeConverters.arrayDoubleToListDouble(percents); }
-//    private void setPercents(Float[] percents) {this.mPercents = TypeConverters.listFloatToListDouble(percents); }
+    private void setPercentsFromFloatArray(float[] percents) { this.mPercents = TypeConverters.arrayFloatToListDouble(percents); }
+    private void setPercentsFromDoubleArray(double[] percents) {this.mPercents = TypeConverters.arrayDoubleToListDouble(percents); }
+    private void setPercentsFromFloatList(List<Float> percents) {this.mPercents = TypeConverters.listFloatToListDouble(percents); }
 
     /*
      * Helper methods for getting the percent array field as primitive and boxed double and float array types
      */
     public List<Double> getPercents() { return mPercents; }
-//    public float[] getPercentsBoxedFloat() { return TypeConverters.listDoubleToArrayFloat(mPercents); }
-//    public Double[] getPercentsBoxedDouble() { return TypeConverters.listDoubleToArrayDouble(mPercents); }
-//    public Float[] getPercentsFloat() { return TypeConverters.listDoubleToArrayDouble(mPercents); }
+    public float[] getPercentsAsFloatArray() { return TypeConverters.listDoubleToArrayFloat(mPercents); }
+    public double[] getPercentsAsDoubleArray() { return TypeConverters.listDoubleToArrayDouble(mPercents); }
+    public List<Float> getPercentsAsListFloat() { return TypeConverters.listDoubleToListFloat(mPercents); }
 
 
     /**
