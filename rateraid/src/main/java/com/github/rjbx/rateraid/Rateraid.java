@@ -64,9 +64,9 @@ public class Rateraid {
      * Helper methods for getting the percent array field as primitive and boxed double and float array types
      */
     public List<Double> getPercents() { return mPercents; }
-//    public float[] getPercentsBoxedFloat() { return TypeConverters.arrayDoubleToFloat(mPercents); }
-//    public Double[] getPercentsBoxedDouble() { return TypeConverters.arrayPrimitiveToBoxedDouble(mPercents); }
-//    public Float[] getPercentsFloat() { return TypeConverters.arrayDoubleToFloatBoxed(mPercents); }
+//    public float[] getPercentsBoxedFloat() { return TypeConverters.listDoubleToArrayFloat(mPercents); }
+//    public Double[] getPercentsBoxedDouble() { return TypeConverters.listDoubleToArrayDouble(mPercents); }
+//    public Float[] getPercentsFloat() { return TypeConverters.listDoubleToArrayDouble(mPercents); }
 
 
     /**
