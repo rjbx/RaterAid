@@ -11,6 +11,7 @@ import com.github.rjbx.calibrater.TypeConverters;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -351,10 +352,10 @@ public class Rateraid {
      */
     public static <T extends Rateable> boolean resetRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
-        double percents[] = new double[objects.size()];
-        for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
+        List<Double> percents = new ArrayList<>();
+        for (Rateable object : objects) percents.add(object.getPercent());
         result = Calibrater.resetRatings(percents, forceReset, precision);
-        for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+        for (int i = 0; i < percents.size(); i++) objects.get(i).setPercent(percents.get(i));
         return result;
     }
 
@@ -381,10 +382,10 @@ public class Rateraid {
      */
     public static <T extends Rateable> boolean recalibrateRatings(List<T> objects, boolean forceReset, @Nullable Integer precision) {
         boolean result;
-        double percents[] = new double[objects.size()];
-        for (int i = 0; i < percents.length; i++) percents[i] = objects.get(i).getPercent();
+        List<Double> percents = new ArrayList<>();
+        for (Rateable object : objects) percents.add(object.getPercent();
         result = Calibrater.recalibrateRatings(percents, false, precision);
-        for (int i = 0; i < percents.length; i++) objects.get(i).setPercent(percents[i]);
+        for (int i = 0; i < percents.size(); i++) objects.get(i).setPercent(percents.get(i));
         return result;
     }
 }
