@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,7 +49,7 @@ public class RateraidInstrumentedTest {
      * {@link Rateraid.ValueSeries}.
      */
     @Test public final void testPercentSeriesAddButtonSetClickListenerCallback() {
-        double[] percents = { .25d, .25d, .25d, .25d };
+        List<Double> percents = Arrays.asList(.25d, .25d, .25d, .25d);
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
             mValueSeries = Rateraid.withValues(percents, magnitude, PRECISION, null);
             for (int index = 0; index < 4; index++) {
@@ -61,18 +62,18 @@ public class RateraidInstrumentedTest {
                 mDecrementButton.performClick();
                 mDecrementButton.performClick();
                 mIncrementButton.performClick();
-                assertEquals(.25d, percents[index], magnitude);
+                assertEquals(.25d, percents.get(index), magnitude);
                 sum = 0;
-                for (int i = 0; i < percents.length; i++) {
-                    sum += percents[i];
-                    if (i == percents.length - 1) assertEquals(1d, sum, magnitude);
+                for (int i = 0; i < percents.size(); i++) {
+                    sum += percents.get(i);
+                    if (i == percents.size() - 1) assertEquals(1d, sum, magnitude);
                 }
-                while (percents[index] < 1d) {
+                while (percents.get(index) < 1d) {
                     mIncrementButton.performClick();
                     sum = 0;
-                    for (int i = 0; i < percents.length; i++) {
-                        sum += percents[i];
-                        if (i == percents.length - 1) assertEquals(1d, sum, magnitude);
+                    for (int i = 0; i < percents.size(); i++) {
+                        sum += percents.get(i);
+                        if (i == percents.size() - 1) assertEquals(1d, sum, magnitude);
                     }
                 }
 
@@ -80,18 +81,18 @@ public class RateraidInstrumentedTest {
                 mDecrementButton.performClick();
                 mIncrementButton.performClick();
                 mIncrementButton.performClick();
-                assertEquals(1d, percents[index], magnitude);
+                assertEquals(1d, percents.get(index), magnitude);
                 sum = 0;
-                for (int i = 0; i < percents.length; i++) {
-                    sum += percents[i];
-                    if (i == percents.length - 1) assertEquals(1d, sum, magnitude);
+                for (int i = 0; i < percents.size(); i++) {
+                    sum += percents.get(i);
+                    if (i == percents.size() - 1) assertEquals(1d, sum, magnitude);
                 }
-                while (percents[index] > 0d) {
+                while (percents.get(index) > 0d) {
                     mDecrementButton.performClick();
                     sum = 0;
-                    for (int i = 0; i < percents.length; i++) {
-                        sum += percents[i];
-                        if (i == percents.length - 1) assertEquals(1d, sum, magnitude);
+                    for (int i = 0; i < percents.size(); i++) {
+                        sum += percents.get(i);
+                        if (i == percents.size() - 1) assertEquals(1d, sum, magnitude);
                     }
                 }
 
@@ -99,18 +100,18 @@ public class RateraidInstrumentedTest {
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
                 mDecrementButton.performClick();
-                assertEquals(0d, percents[index], magnitude);
+                assertEquals(0d, percents.get(index), magnitude);
                 sum = 0;
-                for (int i = 0; i < percents.length; i++) {
-                    sum += percents[i];
-                    if (i == percents.length - 1) assertEquals(1d, sum, magnitude);
+                for (int i = 0; i < percents.size(); i++) {
+                    sum += percents.get(i);
+                    if (i == percents.size() - 1) assertEquals(1d, sum, magnitude);
                 }
-                while (percents[index] < .25d) {
+                while (percents.get(index) < .25d) {
                     mIncrementButton.performClick();
                     sum = 0;
-                    for (int i = 0; i < percents.length; i++) {
-                        sum += percents[i];
-                        if (i == percents.length - 1) assertEquals(1d, sum, magnitude);
+                    for (int i = 0; i < percents.size(); i++) {
+                        sum += percents.get(i);
+                        if (i == percents.size() - 1) assertEquals(1d, sum, magnitude);
                     }
                 }
 
@@ -125,7 +126,7 @@ public class RateraidInstrumentedTest {
      * {@link Rateraid.ValueSeries}.
      */
     @Test public final void testPercentSeriesClickListenerUserDefinedCallback() {
-        double[] percents = { .25d, .25d, .25d, .25d };
+        List<Double> percents = Arrays.asList(.25d, .25d, .25d, .25d);
         for (double magnitude = 0.01d; magnitude < 0.1d; magnitude += 0.01d) {
             mValueSeries = Rateraid.withValues(percents, magnitude, PRECISION, clickedView -> mCount++);
             for (int index = 0; index < 4; index++) {
@@ -136,19 +137,19 @@ public class RateraidInstrumentedTest {
                 mDecrementButton.performClick();
                 mDecrementButton.performClick();
                 mIncrementButton.performClick();
-                while (percents[index] < 1d) mIncrementButton.performClick();
+                while (percents.get(index) < 1d) mIncrementButton.performClick();
 
                 mDecrementButton.performClick();
                 mDecrementButton.performClick();
                 mIncrementButton.performClick();
                 mIncrementButton.performClick();
-                while (percents[index] > 0d) mDecrementButton.performClick();
+                while (percents.get(index) > 0d) mDecrementButton.performClick();
 
                 mIncrementButton.performClick();
                 mIncrementButton.performClick();
                 mDecrementButton.performClick();
                 mDecrementButton.performClick();
-                while (percents[index] < .25d) mIncrementButton.performClick();
+                while (percents.get(index) < .25d) mIncrementButton.performClick();
 
                 Calibrater.resetRatings(percents, true, PRECISION);
             }
