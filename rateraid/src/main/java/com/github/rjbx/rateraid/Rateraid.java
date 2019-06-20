@@ -42,15 +42,15 @@ public class Rateraid {
      */
     private List<Double> mPercents;
 
-    /**
-     * Transfers the values from an adjusted {@link ValueSeries} to a {@code List} of {@link Rateable} elements.
-     * @param objects {@code List} of {@link Rateable} elements
-     * @return argument {@code List} of {@link Rateable} elements with updated percents
-     */
-    public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
-        for (int i = 0; i < mPercents.size(); i++) objects.get(i).setPercent(mPercents.get(i));
-        return objects;
-    }
+//    /**
+//     * Transfers the values from an adjusted {@link ValueSeries} to a {@code List} of {@link Rateable} elements.
+//     * @param objects {@code List} of {@link Rateable} elements
+//     * @return argument {@code List} of {@link Rateable} elements with updated percents
+//     */
+//    public <T extends Rateable> List<T> updatedRateablesFromPercentSeries(List<T> objects) {
+//        for (int i = 0; i < mPercents.size(); i++) objects.get(i).setPercent(mPercents.get(i));
+//        return objects;
+//    }
 
     /*
      * Helper methods for setting the percent array field with primitive and boxed double and float array types
@@ -124,7 +124,11 @@ public class Rateraid {
          * @param precision number of decimal places to move the allowed error from the whole
          * @param clickListener additional behavior to be applied to all adjustments
          */
-        private ValueSeries(List<Double> percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private ValueSeries(
+                List<Double> percents,
+                double magnitude,
+                int precision,
+                @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -162,7 +166,8 @@ public class Rateraid {
          * @param dialog removal message to be dismissed 
          * @return {@link ValueSeries} from which to chain view binding method calls
          */
-        public ValueSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
+        public ValueSeries addRemover(
+                View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 Calibrater.removeRating(mPercents, index, mPrecision);
 
@@ -178,7 +183,8 @@ public class Rateraid {
          * @param imm input manager to be dismissed 
          * @return {@link ValueSeries} from which to chain view binding method calls
          */
-        public ValueSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
+        public ValueSeries addEditor(
+                EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -239,7 +245,11 @@ public class Rateraid {
          * @param precision number of decimal places to move the allowed error from the whole
          * @param clickListener additional behavior to be applied to all adjustments
          */
-        private ObjectSeries(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
+        private ObjectSeries(
+                List<T> objects,
+                double magnitude,
+                int precision,
+                @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
             mPrecision = precision;
             mClickListener = clickListener;
@@ -274,7 +284,8 @@ public class Rateraid {
          * @param dialog removal message to be dismissed 
          * @return {@link ObjectSeries} from which to chain view binding method calls
          */
-        public ObjectSeries addRemover(View removeButton, int index, @Nullable DialogInterface dialog) {
+        public ObjectSeries addRemover(
+                View removeButton, int index, @Nullable DialogInterface dialog) {
             removeButton.setOnClickListener(clickedView -> {
                 removeRating(mRateables, index, mPrecision);
 
@@ -290,7 +301,8 @@ public class Rateraid {
          * @param imm input manager to be dismissed 
          * @return {@link ObjectSeries} from which to chain view binding method calls
          */
-        public ObjectSeries addEditor(EditText valueEditor, int index, @Nullable InputMethodManager imm) {
+        public ObjectSeries addEditor(
+                EditText valueEditor, int index, @Nullable InputMethodManager imm) {
             valueEditor.setImeOptions(EditorInfo.IME_ACTION_DONE);
             valueEditor.setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             valueEditor.setOnEditorActionListener((onEditorActionView, onEditorActionId, onEditorActionEvent) -> {
@@ -343,7 +355,8 @@ public class Rateraid {
      * @param precision number of decimal places to move the allowed error from the whole
      * @return true if percent was adjusted and false otherwise
      */
-    public static <T extends Rateable> boolean shiftRatings(List<T> objects, int index, double magnitude, int precision) {
+    public static <T extends Rateable> boolean shiftRatings(
+            List<T> objects, int index, double magnitude, int precision) {
         boolean result;
         List<Double> percents = new ArrayList<>();
         for (Rateable object : objects) percents.add(object.getPercent());
@@ -359,7 +372,8 @@ public class Rateraid {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static <T extends Rateable> boolean resetRatings(List<T> objects, boolean forceReset, int precision) {
+    public static <T extends Rateable> boolean resetRatings(
+            List<T> objects, boolean forceReset, int precision) {
         boolean result;
         List<Double> percents = new ArrayList<>();
         for (Rateable object : objects) percents.add(object.getPercent());
@@ -377,7 +391,8 @@ public class Rateraid {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static <T extends Rateable> boolean removeRating(List<T> objects, int index, int precision) {
+    public static <T extends Rateable> boolean removeRating(
+            List<T> objects, int index, int precision) {
         objects.remove(index);
         return recalibrateRatings(objects, false, precision);
     }
@@ -390,7 +405,8 @@ public class Rateraid {
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static <T extends Rateable> boolean recalibrateRatings(List<T> objects, boolean forceReset, int precision) {
+    public static <T extends Rateable> boolean recalibrateRatings(
+            List<T> objects, boolean forceReset, int precision) {
         boolean result;
         List<Double> percents = new ArrayList<>();
         for (Rateable object : objects) percents.add(object.getPercent());
