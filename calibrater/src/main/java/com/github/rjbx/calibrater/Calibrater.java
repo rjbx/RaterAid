@@ -11,9 +11,9 @@ public final class Calibrater {
     public static final double STANDARD_MAGNITUDE = .01d;
     
     /**
-     * Increments or decrements a {@code Double} {@code List} element by the specified magnitude while calibrating
-     * other {@code Double} {@code List} elements to maintain proportionality.
-     * @param percents {@code Double} {@code List} elements to be adjusted if not proportionate
+     * Increments or decrements a {@code List} of {@code Double} element by the specified magnitude while calibrating
+     * other {@code List} of {@code Double} elements to maintain proportionality.
+     * @param percents {@code List} of {@code Double} elements to be adjusted if not proportionate
      * @param index location of the value to be adjusted
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the allowed error from the whole
@@ -72,8 +72,8 @@ public final class Calibrater {
     }
 
     /**
-     * Reads {@code Double} {@code List} and assigns equivalent percents to each {@code Double} {@code List} element.
-     * @param percents {@code Double} {@code List} elements to be reset if not equivalent
+     * Reads {@code List} of {@code Double} and assigns equivalent percents to each {@code List} of {@code Double} element.
+     * @param percents {@code List} of {@code Double} elements to be reset if not equivalent
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
@@ -93,7 +93,7 @@ public final class Calibrater {
      * a negative value, which outscopes the index from calibration as negatives are not considered,
      * is assigned to the removed index which is moved to the last index of the parameter array reference.
      * The whole is then equally distributed among the remaining elements.
-     * @param percents {@code Double} {@code List} elements to be calibrated if not proportionate
+     * @param percents {@code List} of {@code Double} elements to be calibrated if not proportionate
      * @param index location of the value to be removed
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
@@ -104,9 +104,9 @@ public final class Calibrater {
     }
 
     /**
-     * Equally distributes to each {@code Double} {@code List} element the difference between
+     * Equally distributes to each {@code List} of {@code Double} element the difference between
      * the whole and the sum of all array elements.
-     * @param percents {@code Double} {@code List} to be calibrated closer to the whole
+     * @param percents {@code List} of {@code Double} to be calibrated closer to the whole
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise

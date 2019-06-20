@@ -43,8 +43,7 @@ public class Rateraid {
     private List<Double> mPercents;
 
     /**
-     * Transfers the values from an adjusted {@link ValueSeries} to an
-     * {@code List} of {@link Rateable} elements.
+     * Transfers the values from an adjusted {@link ValueSeries} to a {@code List} of {@link Rateable} elements.
      * @param objects {@code List} of {@link Rateable} elements
      * @return argument {@code List} of {@link Rateable} elements with updated percents
      */
@@ -71,9 +70,9 @@ public class Rateraid {
 
 
     /**
-     * Initialize the {@code Double} {@code List} percent series, attributes and behavior
-     * associated with all view binding method calls.
-     * @param percents {@code Double} {@code List} elements
+     * Initialize the percent series for a {@code List} of {@code Double}
+     * and define the attributes and behavior to be applied to all adjustments.
+     * @param percents {@code List} of {@code Double} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
      * @param clickListener behavior to be applied on click of relevant views
@@ -85,9 +84,9 @@ public class Rateraid {
     }
 
     /**
-     * Initialize the {@link Rateable} {@code List} percent series, attributes and behavior
-     * associated with all view binding method calls.
-     * @param objects {@link Rateable} {@code List} elements
+     * Initialize the percent series for a {@code List} of {@link Rateable}
+     * and define the attributes and behavior to be applied to all adjustments.
+     * @param objects {@code List} of {@link Rateable} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
      * @param clickListener behavior to be applied on click of relevant views
@@ -99,7 +98,7 @@ public class Rateraid {
 
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated with a {@code Double} {@code List} percent series
+     * associated with this percent series for a {@code List} of {@code Double}.
      */
     public static class ValueSeries {
 
@@ -111,7 +110,7 @@ public class Rateraid {
         private View.OnClickListener mClickListener;
 
         /**
-         * Initialize the instance fields of this class from the parent class accessor
+         * Initialize the instance fields of this class from the parent class accessor.
          * @param percents 
          * @param magnitude
          * @param precision
@@ -213,7 +212,7 @@ public class Rateraid {
     
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated with a {@link Rateable} {@code List} percent series
+     * associated with this percent series for a {@code List} of {@link Rateable}.
      */
     public static class ObjectSeries<T extends Rateable> {
 
@@ -225,7 +224,7 @@ public class Rateraid {
         private View.OnClickListener mClickListener;
 
         /**
-         * Initialize the instance fields of this class from the parent class accessor
+         * Initialize the instance fields of this class from the parent class accessor.
          * @param objects
          * @param magnitude
          * @param precision
@@ -313,7 +312,7 @@ public class Rateraid {
         
         /**
          * Retrieve a new reference to a {@link ObjectSeries} with values initialized.
-         * @return new reference to a {@link ObjectSeries}
+         * @return new reference to an {@link ObjectSeries}
          */
         public Rateraid instance() {
             mRateraid = new Rateraid();
@@ -325,9 +324,9 @@ public class Rateraid {
     }
 
     /**
-     * Increments or decrements a {@link Rateable} {@code List} element by
-     * the specified magnitude while calibrating other {@link Rateable} {@code List} elements
-     * to maintain proportionality.
+     * Increments or decrements an element of a {@code List} of {@link Rateable} by the specified
+     * magnitude while calibrating other {@code List} of {@link Rateable} elements to maintain
+     * proportionality to the whole within the range of the specified precision.
      * @param objects {@link Rateable} {@code ArrayList }elements to be adjusted if not proportionate
      * @param index index of the array element to be adjusted
      * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
@@ -344,8 +343,8 @@ public class Rateraid {
     }
 
     /**
-     * Assigns equivalent percents to each {@link Rateable} {@code List} element.
-     * @param objects {@link Rateable} {@code List} elements to be reset if not equivalent
+     * Assigns equivalent percents to each {@code List} of {@link Rateable} element.
+     * @param objects {@code List} of {@link Rateable} elements to be reset if not equivalent
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
@@ -362,9 +361,9 @@ public class Rateraid {
     /**
      * Removes {@link Rateable} from {@code List} at the specified index.
      * The whole is then distributed among the remaining elements
-     * according to {@link #recalibrateRatings(List, boolean, int)}
-     * @param objects {@link Rateable} {@code List} elements to be calibrated if not proportionate
-     * @param index to be removed
+     * in accordance with {@link #recalibrateRatings(List, boolean, int)}
+     * @param objects {@code List} of {@link Rateable} elements from which to remove the specified element
+     * @param index location of the object to be removed
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
@@ -374,9 +373,9 @@ public class Rateraid {
     }
 
     /**
-     * Reads {@link Rateable} {@code List} and equally distributes to each array element
+     * Reads {@code List} of {@link Rateable} and equally distributes to each array element
      * the difference between the whole and the sum of all array elements.
-     * @param objects {@link Rateable} {@code List} to be calibrated closer to the whole
+     * @param objects {@code List} of {@link Rateable} to be calibrated closer to the whole
      * @param forceReset applies reset even if sum of array elements is as precise as specified
      * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
@@ -385,7 +384,7 @@ public class Rateraid {
         boolean result;
         List<Double> percents = new ArrayList<>();
         for (Rateable object : objects) percents.add(object.getPercent());
-        result = Calibrater.recalibrateRatings(percents, false, precision);
+        result = Calibrater.recalibrateRatings(percents, forceReset, precision);
         for (int i = 0; i < percents.size(); i++) objects.get(i).setPercent(percents.get(i));
         return result;
     }
