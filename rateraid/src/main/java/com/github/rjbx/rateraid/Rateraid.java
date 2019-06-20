@@ -71,9 +71,9 @@ public class Rateraid {
 
 
     /**
-     * Initialize the {@code double} array percent series, attributes and behavior
+     * Initialize the {@code List<Double>} percent series, attributes and behavior
      * associated withObjects all view binding method calls.
-     * @param percents {@code double} array elements
+     * @param percents {@code List<Double>} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
      * @param clickListener behavior to be applied on click of relevant views
@@ -99,7 +99,7 @@ public class Rateraid {
 
     /**
      * Class for chaining method calls for defining behaviors of views
-     * associated withObjects a {@code double} array percent series
+     * associated withObjects a {@code List<Double>} percent series
      */
     public static class ValueSeries {
 
