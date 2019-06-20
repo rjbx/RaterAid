@@ -36,25 +36,58 @@ public class Rateraid {
         T getObject();
     }
 
-    /*
-     * Instance field updated from subclasses
+    /**
+     * Percent values which are updated during adjustments
      */
     private List<Double> mPercents;
 
-    /*
-     * Helper methods for setting the percent array field with primitive and boxed double and float array types
+
+    /**
+     * Update the percent values.
+     * @param percents {@code List} of {@code Double}
      */
     private void setPercents(List<Double> percents) { this.mPercents = percents; }
+
+    /**
+     * Update the percent values from a {@code float} array.
+     * @param percents {@code float} array
+     */
     private void setPercentsFromFloatArray(float[] percents) { this.mPercents = TypeConverters.arrayFloatToListDouble(percents); }
+
+    /**
+     * Update the percent values from a {@code double} array.
+     * @param percents {@code double} array
+     */
     private void setPercentsFromDoubleArray(double[] percents) { this.mPercents = TypeConverters.arrayDoubleToListDouble(percents); }
+
+    /**
+     * Update the percent values from a {@code List} of {@code Float}.
+     * @param percents {@code List} of {@code Float}
+     */
     private void setPercentsFromFloatList(List<Float> percents) { this.mPercents = TypeConverters.listFloatToListDouble(percents); }
 
-    /*
-     * Helper methods for getting the percent array field as primitive and boxed double and float array types
+    /**
+     * Retrieve the percent values.
+     * @return {@code List} of {@code Double}
      */
     public List<Double> getPercents() { return mPercents; }
+
+    /**
+     * Retrieve the percent values as a {@code float} array.
+     * @return {@code float} array
+     */
     public float[] getPercentsAsFloatArray() { return TypeConverters.listDoubleToArrayFloat(mPercents); }
+
+    /**
+     * Retrieve the percent values as a {@code double} array.
+     * @return {@code double} array
+     */
     public double[] getPercentsAsDoubleArray() { return TypeConverters.listDoubleToArrayDouble(mPercents); }
+
+    /**
+     * Retrieve the percent values as a {@code List} of {@code Float}.
+     * @return {@code List} of {@code Float}
+     */
     public List<Float> getPercentsAsListFloat() { return TypeConverters.listDoubleToListFloat(mPercents); }
 
     /**
