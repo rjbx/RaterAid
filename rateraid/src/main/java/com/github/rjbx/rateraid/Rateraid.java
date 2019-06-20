@@ -75,7 +75,7 @@ public class Rateraid {
      * @param percents {@code List} of {@code Double} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
-     * @param clickListener behavior to be applied on click of relevant views
+     * @param clickListener additional behavior to be applied to all adjustments
      * @return {@link ValueSeries} from which to chain view binding method calls
      */
     // TODO: Convert from array to List
@@ -89,7 +89,7 @@ public class Rateraid {
      * @param objects {@code List} of {@link Rateable} elements
      * @param magnitude amount of the adjustment; non-zero value should be between 1 and -1
      * @param precision number of decimal places to move the permitted error from the whole
-     * @param clickListener behavior to be applied on click of relevant views
+     * @param clickListener additional behavior to be applied to all adjustments
      * @return {@link ObjectSeries} from which to chain view binding method calls
      */
     public static <T extends Rateable> ObjectSeries withObjects(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
@@ -111,10 +111,10 @@ public class Rateraid {
 
         /**
          * Initialize the instance fields of this class from the parent class accessor.
-         * @param percents 
-         * @param magnitude
-         * @param precision
-         * @param clickListener
+         * @param percents {@code List} of {@code Double} elements
+         * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
+         * @param precision number of decimal places to move the allowed error from the whole
+         * @param clickListener additional behavior to be applied to all adjustments
          */
         private ValueSeries(List<Double> percents, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
@@ -225,10 +225,10 @@ public class Rateraid {
 
         /**
          * Initialize the instance fields of this class from the parent class accessor.
-         * @param objects
-         * @param magnitude
-         * @param precision
-         * @param clickListener
+         * @param objects {@code List} of {@link Rateable} elements
+         * @param magnitude amount of the adjustment; non-zero value should be no more than 1 or -1
+         * @param precision number of decimal places to move the allowed error from the whole
+         * @param clickListener additional behavior to be applied to all adjustments
          */
         private ObjectSeries(List<T> objects, double magnitude, int precision, @Nullable View.OnClickListener clickListener) {
             mMagnitude = magnitude;
