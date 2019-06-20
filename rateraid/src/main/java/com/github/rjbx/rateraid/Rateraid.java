@@ -137,7 +137,7 @@ public class Rateraid {
         }
 
         /**
-         * Define the controllers by which the specified value of the percent series
+         * Define the controllers by which the specified element of the percent series
          * is incremented and decremented.
          * @param incrementButton view that, when clicked, should increment the targeted value
          * @param decrementButton view that, when clicked, should decrement the targeted value
@@ -157,14 +157,11 @@ public class Rateraid {
         }
 
         /**
-         * Define the controller by which an element of the percent series is invalidated.
-         * @param removeButton view that, when clicked, should invalidate the targeted element
-         *                     from further adjustment. The element cannot be outright removed as
-         *                     copying a primitive array with fewer elements disassociates the
-         *                     array reference from the previous reference.
+         * Define the controller by which the specified element of the percent series is invalidated.
+         * @param removeButton view that, when clicked, should remove the targeted element
          * @param index location of the value to be invalidated
-         * @param dialog removal message to be dismissed 
-         * @return {@link ValueSeries} from which to chain view binding method calls
+         * @param dialog removal message to be dismissed
+         * @return {@link ObjectSeries} from which to chain view binding method calls
          */
         public ValueSeries addRemover(
                 View removeButton, int index, @Nullable DialogInterface dialog) {
@@ -177,7 +174,8 @@ public class Rateraid {
         }
 
         /**
-         * Define the controller by which the value of the percent series is replaced by text entry.
+         * Define the controller by which the specified element of the percent series is
+         * replaced by text entry.
          * @param valueEditor editor that, when receiving entry, should replace the targeted value 
          * @param index location of the value to be replaced
          * @param imm input manager to be dismissed 
@@ -258,7 +256,7 @@ public class Rateraid {
         }
 
         /**
-         * Define the controllers by which the specified value of the percent series
+         * Define the controllers by which the specified element of the percent series
          * is incremented and decremented
          * @param incrementButton view that, when clicked, should increment the targeted value
          * @param decrementButton view that, when clicked, should decrement the targeted value
@@ -278,7 +276,7 @@ public class Rateraid {
         }
 
         /**
-         * Define the controller by which an element of the percent series is removed.
+         * Define the controller by which the specified element of the percent series is removed.
          * @param removeButton view that, when clicked, should remove the targeted element
          * @param index location of the value to be invalidated
          * @param dialog removal message to be dismissed 
@@ -295,7 +293,8 @@ public class Rateraid {
         }
 
         /**
-         * Define the controller by which the value of the percent series is replaced by text entry.
+         * Define the controller by which the specified element of the percent series is
+         * replaced by text entry.
          * @param valueEditor editor that, when receiving entry, should replace the targeted value 
          * @param index location of the value to be replaced
          * @param imm input manager to be dismissed 
