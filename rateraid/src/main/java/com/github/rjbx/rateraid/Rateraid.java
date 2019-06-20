@@ -365,11 +365,12 @@ public class Rateraid {
      * according to {@link #recalibrateRatings(List, boolean, int)}
      * @param objects {@link Rateable} {@code ArrayList} elements to be calibrated if not proportionate
      * @param index to be removed
+     * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static <T extends Rateable> boolean removeRating(List<T> objects, int index) {
+    public static <T extends Rateable> boolean removeRating(List<T> objects, int index, int precision) {
         objects.remove(index);
-        return recalibrateRatings(objects, false, Calibrater.STANDARD_PRECISION);
+        return recalibrateRatings(objects, false, );
     }
 
     /**

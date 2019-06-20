@@ -95,11 +95,12 @@ public final class Calibrater {
      * The whole is then equally distributed among the remaining elements.
      * @param percents {@code List<Double>} elements to be calibrated if not proportionate
      * @param index location of the value to be removed
+     * @param precision number of decimal places to move the permitted error from the whole
      * @return true if values were adjusted; false otherwise
      */
-    public static boolean removeRating(List<Double> percents, int index) {
+    public static boolean removeRating(List<Double> percents, int index, int precision) {
         percents.remove(index);
-        return recalibrateRatings(percents, false, STANDARD_PRECISION);
+        return recalibrateRatings(percents, false, precision);
     }
 
     /**
