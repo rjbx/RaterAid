@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-
+// TODO: Store field references to controller views and implement method to detach listeners by passing null to the attach method
 /**
  * Library for specifying adjustments to the values of a percent series.
  * Users can bind predefined as well as custom behaviors to the views controlling adjustments
