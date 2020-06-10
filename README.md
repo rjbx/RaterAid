@@ -6,4 +6,5 @@ Users can automatically calibrate as well as define behaviors for views controll
 
 ## Author
 
-**Robert (Bob) Basmaji**
+Robert John
+**bob@coded.art**
